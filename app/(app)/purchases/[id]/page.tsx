@@ -8,6 +8,7 @@ import { CATEGORY_COLORS } from "@/lib/categories";
 import { formatDate, formatMoney } from "@/lib/format";
 import { purchaseRewards } from "@/lib/rewards";
 import { getPurchase } from "../data";
+import { StarButton } from "../star-button";
 
 export async function generateMetadata({ params }: PageProps<"/purchases/[id]">): Promise<Metadata> {
   const purchase = await getPurchase((await params).id);
@@ -31,9 +32,12 @@ export default async function PurchasePage({ params }: PageProps<"/purchases/[id
           <IconChevronLeft className="size-6" />
           Purchases
         </Link>
-        <Link href={`/purchases/${purchase.id}/edit`} className="text-[17px] text-accent hover:opacity-70">
-          Edit
-        </Link>
+        <div className="flex items-center gap-2">
+          <StarButton purchaseId={purchase.id} starred={purchase.starred} merchant={purchase.merchant} size="lg" />
+          <Link href={`/purchases/${purchase.id}/edit`} className="text-[17px] text-accent hover:opacity-70">
+            Edit
+          </Link>
+        </div>
       </nav>
 
       {/* Like a transaction in Apple Wallet: the amount large, then who and when. */}

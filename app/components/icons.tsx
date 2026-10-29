@@ -145,3 +145,15 @@ export function IconSelector(props: IconProps) {
     </Svg>
   );
 }
+
+// Filled when starred, outlined when not.
+export function IconStar({ filled, ...props }: IconProps & { filled?: boolean }) {
+  return (
+    <Svg {...props}>
+      <path
+        d="m12 3.2 2.7 5.5 6 .9-4.35 4.25 1.03 6-5.38-2.83-5.38 2.83 1.03-6L3.3 9.6l6-.9L12 3.2Z"
+        fill={filled ? "currentColor" : "none"}
+      />
+    </Svg>
+  );
+}
