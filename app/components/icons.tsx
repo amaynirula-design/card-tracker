@@ -126,3 +126,22 @@ export function IconChevronLeft(props: IconProps) {
     </Svg>
   );
 }
+
+export function IconPerson(props: IconProps) {
+  return (
+    <Svg {...props}>
+      <circle cx="12" cy="12" r="9.5" />
+      <circle cx="12" cy="10" r="3.2" />
+      <path d="M6.2 18.6a6.6 6.6 0 0 1 11.6 0" />
+    </Svg>
+  );
+}
+
+// Up and down chevrons, for pickers that open a list of choices.
+export function IconSelector(props: IconProps) {
+  return (
+    <Svg {...props}>
+      <path d="m8 9 4-4 4 4M8 15l4 4 4-4" />
+    </Svg>
+  );
+}

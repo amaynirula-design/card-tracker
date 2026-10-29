@@ -1,55 +1,14 @@
-import { getCurrentUser, type CurrentUser } from "@/lib/auth";
-import { logOut } from "./(auth)/actions";
-import { getCards } from "./cards/data";
+import { redirect } from "next/navigation";
+import { isSignedIn } from "@/lib/auth";
 import { AppMark } from "./components/app-mark";
 import { ButtonLink } from "./components/button";
 import { GroupedSection, ListRow } from "./components/grouped-list";
-import { IconArrowDownCircle, IconCard, IconChart, IconLock, IconReceipt, IconTarget } from "./components/icons";
+import { IconArrowDownCircle, IconChart, IconLock, IconReceipt, IconTarget } from "./components/icons";
 
 export default async function Home() {
-  const user = await getCurrentUser();
-  if (!user) return <Welcome />;
-  const cards = await getCards();
-  return <SignedInHome user={user} cardCount={cards.filter((card) => card.isActive).length} />;
-}
-
-function SignedInHome({ user, cardCount }: { user: CurrentUser; cardCount: number }) {
-  const memberSince = user.createdAt
-    ? new Date(user.createdAt).toLocaleDateString("en-US", { month: "long", year: "numeric" })
-    : null;
-
-  return (
-    <main className="mx-auto w-full max-w-xl flex-1 px-4 pb-16 pt-10">
-      <h1 className="text-[34px] font-bold leading-tight tracking-tight">Welcome</h1>
-      <p className="mt-1 truncate text-[17px] text-label-secondary">{user.email}</p>
-
-      <div className="mt-8 space-y-8">
-        <GroupedSection>
-          <ListRow
-            href="/cards"
-            icon={<IconCard className="size-[18px]" />}
-            title="Cards"
-            trailing={cardCount > 0 ? cardCount : "Add your first"}
-          />
-        </GroupedSection>
-
-        <GroupedSection header="Account">
-          <ListRow title="Email" trailing={<span className="block max-w-[52vw] truncate sm:max-w-xs">{user.email}</span>} />
-          {memberSince && <ListRow title="Member since" trailing={memberSince} />}
-        </GroupedSection>
-
-        {/* Like "Sign Out" in iOS Settings: a red row on its own. */}
-        <form action={logOut}>
-          <button
-            type="submit"
-            className="h-12 w-full rounded-2xl bg-surface text-[17px] text-danger shadow-panel transition-opacity hover:opacity-80 active:opacity-60"
-          >
-            Log out
-          </button>
-        </form>
-      </div>
-    </main>
-  );
+  // Signed-in users go straight to their purchases.
+  if (await isSignedIn()) redirect("/purchases");
+  return <Welcome />;
 }
 
 function Welcome() {

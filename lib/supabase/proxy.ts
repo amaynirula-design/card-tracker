@@ -2,7 +2,7 @@ import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
 // Pages only signed-in users can open. Later features add their pages here.
-const SIGNED_IN_ONLY = ["/purchases", "/starred", "/dashboard", "/cards"];
+const SIGNED_IN_ONLY = ["/purchases", "/starred", "/dashboard", "/cards", "/account"];
 // Pages that make no sense once you're signed in.
 const SIGNED_OUT_ONLY = ["/login", "/signup"];
 

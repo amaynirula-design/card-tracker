@@ -6,10 +6,10 @@ import { createClient } from "@/lib/supabase/server";
 // Reading cards from the database. Row-level security means these only ever
 // return the logged-in user's own cards, so there's no user filter here.
 
-const CARD_COLUMNS =
+export const CARD_COLUMNS =
   "id, name, reward_type, point_value_cents, annual_fee, is_active, reward_rates (category, rate)";
 
-type CardRow = {
+export type CardRow = {
   id: number;
   name: string;
   reward_type: RewardType;
@@ -19,7 +19,7 @@ type CardRow = {
   reward_rates: { category: string; rate: number }[];
 };
 
-function toCard(row: CardRow): Card {
+export function toCard(row: CardRow): Card {
   const rates: Card["rates"] = {};
   for (const { category, rate } of row.reward_rates) {
     if (isCategory(category)) rates[category] = Number(rate);
