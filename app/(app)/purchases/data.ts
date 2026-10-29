@@ -1,5 +1,6 @@
 import "server-only";
 import { isCategory } from "@/lib/categories";
+import type { PurchaseFilters } from "@/lib/purchase-filters";
 import type { Purchase } from "@/lib/purchases";
 import { createClient } from "@/lib/supabase/server";
 import { CARD_COLUMNS, toCard, type CardRow } from "../cards/data";
@@ -35,14 +36,29 @@ function toPurchase(row: PurchaseRow): Purchase {
   };
 }
 
-// All purchases, newest first.
-export async function getPurchases(): Promise<Purchase[]> {
+// Your purchases, searched, filtered, and sorted (newest first by default).
+// The database does the work, so only matching purchases are sent.
+export async function getPurchases(filters: Partial<PurchaseFilters> = {}): Promise<Purchase[]> {
   const supabase = await createClient();
-  const { data, error } = await supabase
-    .from("purchases")
-    .select(PURCHASE_COLUMNS)
-    .order("purchase_date", { ascending: false })
-    .order("created_at", { ascending: false });
+  let query = supabase.from("purchases").select(PURCHASE_COLUMNS);
+
+  if (filters.q) {
+    // "ilike" = contains, ignoring upper/lower case. % and _ are wildcards
+    // there, so a search for "50%" has them escaped to mean themselves.
+    const escaped = filters.q.replace(/[\\%_]/g, (char) => `\\${char}`);
+    query = query.ilike("merchant", `%${escaped}%`);
+  }
+  if (filters.cardId) query = query.eq("card_id", filters.cardId);
+  if (filters.category) query = query.eq("category", filters.category);
+
+  if (filters.sort === "largest") {
+    query = query.order("amount", { ascending: false }).order("purchase_date", { ascending: false });
+  } else {
+    const ascending = filters.sort === "oldest";
+    query = query.order("purchase_date", { ascending }).order("created_at", { ascending });
+  }
+
+  const { data, error } = await query;
   if (error) throw error;
   return (data as unknown as PurchaseRow[]).map(toPurchase);
 }

@@ -7,8 +7,26 @@ import { StarButton } from "./star-button";
 
 // Pieces shared by the Purchases and Starred screens.
 
-// Purchases in grouped lists, one per month.
-export function PurchaseList({ purchases }: { purchases: Purchase[] }) {
+// Purchases in grouped lists, one per month, or one plain list when months
+// don't fit the order (like largest amount first).
+export function PurchaseList({
+  purchases,
+  byMonth = true,
+}: {
+  purchases: Purchase[];
+  byMonth?: boolean;
+}) {
+  if (!byMonth) {
+    return (
+      <div className="mt-6">
+        <GroupedSection>
+          {purchases.map((purchase) => (
+            <PurchaseRow key={purchase.id} purchase={purchase} />
+          ))}
+        </GroupedSection>
+      </div>
+    );
+  }
   return (
     <div className="mt-6 space-y-8">
       {groupByMonth(purchases).map(([month, items]) => (
