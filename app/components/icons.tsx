@@ -157,3 +157,30 @@ export function IconStar({ filled, ...props }: IconProps & { filled?: boolean })
     </Svg>
   );
 }
+
+export function IconSearch(props: IconProps) {
+  return (
+    <Svg {...props}>
+      <circle cx="10.5" cy="10.5" r="6.5" />
+      <path d="m15.5 15.5 5 5" />
+    </Svg>
+  );
+}
+
+// A filled circle with an × in it, like the clear button in iOS search fields.
+export function IconClear(props: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true" className={props.className ?? "size-5"}>
+      <circle cx="12" cy="12" r="10" fill="currentColor" />
+      <path d="m8.5 8.5 7 7m0-7-7 7" stroke="var(--surface)" strokeWidth={2} strokeLinecap="round" />
+    </svg>
+  );
+}
+
+export function IconChevronDown(props: IconProps) {
+  return (
+    <Svg {...props}>
+      <path d="m6 9 6 6 6-6" />
+    </Svg>
+  );
+}
