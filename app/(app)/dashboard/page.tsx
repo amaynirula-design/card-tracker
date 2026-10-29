@@ -3,6 +3,8 @@ import { ButtonLink } from "@/app/components/button";
 import { IconChart } from "@/app/components/icons";
 import { dashboardStats, formatPercent, inPeriod, type Period } from "@/lib/dashboard";
 import { formatMoney, formatMonth, todayInAppTimeZone } from "@/lib/format";
+import { missedSummary } from "@/lib/missed";
+import { getCards } from "../cards/data";
 import { getPurchases } from "../purchases/data";
 import { PeriodSwitch } from "./period-switch";
 import { RewardsChart } from "./rewards-chart";
@@ -12,8 +14,10 @@ export const metadata: Metadata = { title: "Dashboard · Card Tracker" };
 export default async function DashboardPage({ searchParams }: PageProps<"/dashboard">) {
   const period: Period = (await searchParams).period === "all" ? "all" : "month";
   const today = todayInAppTimeZone();
-  const purchases = await getPurchases();
-  const stats = dashboardStats(inPeriod(purchases, period, today));
+  const [purchases, cards] = await Promise.all([getPurchases(), getCards()]);
+  const inRange = inPeriod(purchases, period, today);
+  const stats = dashboardStats(inRange);
+  const missed = missedSummary(inRange, cards);
   const periodLabel = period === "month" ? formatMonth(today) : "All time";
 
   return (
@@ -52,6 +56,28 @@ export default async function DashboardPage({ searchParams }: PageProps<"/dashbo
             <p className="mt-2 text-[15px] text-label-secondary">
               on {formatMoney(stats.totalSpend)} of spending
             </p>
+          </Tile>
+
+          {/* Feature 9: what using the wrong card cost, and the one change that fixes most of it. */}
+          <Tile label={period === "month" ? "Missed this month" : "Missed rewards"}>
+            {missed.totalMissed > 0 ? (
+              <>
+                <p className="tabular text-[40px] font-bold leading-none tracking-tight">
+                  {formatMoney(missed.totalMissed)}
+                </p>
+                <p className="mt-2 text-[15px] text-label-secondary">
+                  left on the table on {missed.missedCount} {missed.missedCount === 1 ? "purchase" : "purchases"}
+                </p>
+                {missed.biggest && missed.biggest.bestCards.length > 0 && (
+                  <p className="mt-3 border-t border-separator pt-3 text-[15px]">
+                    Use <span className="font-semibold">{missed.biggest.bestCards.map((card) => card.name).join(" or ")}</span>{" "}
+                    for {missed.biggest.category} to save the most ({formatMoney(missed.biggest.missed)}).
+                  </p>
+                )}
+              </>
+            ) : (
+              <p className="text-[17px]">You used your best card every time. Nothing missed.</p>
+            )}
           </Tile>
 
           <div className="grid grid-cols-2 gap-4">
