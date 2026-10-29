@@ -15,7 +15,7 @@ import { getCard } from "../data";
 
 export async function generateMetadata({ params }: PageProps<"/cards/[id]">): Promise<Metadata> {
   const card = await getCard((await params).id);
-  return { title: `${card?.name ?? "Card"} · Card Tracker` };
+  return { title: `${card?.name ?? "Not found"} · Card Tracker` };
 }
 
 export default async function CardPage({ params }: PageProps<"/cards/[id]">) {

@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useActionState, useState } from "react";
+import { ConfirmDialog, type ConfirmState } from "@/app/components/confirm-dialog";
 import { SegmentedControl } from "@/app/components/segmented-control";
 import { REWARD_TYPE_LABELS, type Card, type RewardType } from "@/lib/cards";
 import { CATEGORIES, FALLBACK_CATEGORY } from "@/lib/categories";
@@ -15,10 +16,13 @@ const FORM_CATEGORIES = [FALLBACK_CATEGORY, ...CATEGORIES.filter((c) => c !== FA
 export function CardForm({
   card,
   action,
+  deleteAction,
   cancelHref,
 }: {
   card?: Card;
   action: (state: CardFormState, formData: FormData) => Promise<CardFormState>;
+  // Only on the edit screen.
+  deleteAction?: (state: ConfirmState) => Promise<ConfirmState>;
   cancelHref: string;
 }) {
   const [state, formAction, pending] = useActionState(action, {});
@@ -166,6 +170,16 @@ export function CardForm({
               />
             </label>
           </Section>
+        )}
+
+        {card && deleteAction && (
+          <ConfirmDialog
+            triggerLabel="Delete Card"
+            title={`Delete “${card.name}”?`}
+            message="This card and its rates will be removed. This can't be undone. To keep its history, turn off “Card is open” instead."
+            confirmLabel="Delete"
+            action={deleteAction}
+          />
         )}
       </div>
     </form>

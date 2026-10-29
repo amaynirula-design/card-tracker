@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { CATEGORIES, FALLBACK_CATEGORY, type Category } from "@/lib/categories";
+import type { ConfirmState } from "@/app/components/confirm-dialog";
 import type { RewardType } from "@/lib/cards";
 import { createClient } from "@/lib/supabase/server";
 
@@ -114,4 +115,15 @@ export async function saveCard(
 
   revalidatePath("/cards");
   redirect(`/cards/${id}`);
+}
+
+// Deletes a card for good, along with its rates (the database removes them).
+export async function deleteCard(cardId: number): Promise<ConfirmState> {
+  const supabase = await createClient();
+  // Row-level security makes this match nothing if the card isn't yours.
+  const { error } = await supabase.from("cards").delete().eq("id", cardId);
+  if (error) return { error: "We couldn't delete this card. Please try again." };
+
+  revalidatePath("/cards");
+  redirect("/cards");
 }

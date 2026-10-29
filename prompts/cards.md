@@ -38,7 +38,33 @@
 - Kept going: lint and a production build passed, and it checked the add-card form in the browser at phone size in dark and light mode. Switching to Points, the errors for a blank form, and keeping typed values after an error all worked.
 - Didn't open the PR yet, because the new tables aren't in Supabase yet. Saving a card and the list and detail pages still need a real test once I've run the SQL.
 
+## Prompt 4 (me, the next morning)
+
+> Done, test it
+
+(I had run the cards SQL in Supabase and logged in on the browser pane.)
+
+## What Claude Code did
+
+- Confirmed both tables exist and that someone who isn't logged in gets nothing back from them.
+- Before saving anything to my real account, it pointed out that PLAN.md has no way to delete a card (only "mark as closed"), so a test card would stay on my account forever. It asked me how to handle that.
+
+## Decision (me)
+
+I chose: **Add a Delete card button.** This is a small change to the plan: a red "Delete Card" button at the bottom of the edit screen. It opens an iPhone-style "are you sure?" alert with Cancel and Delete, and the alert says that turning off "Card is open" keeps the card's history instead.
+
+## What Claude Code did
+
+- Built the "are you sure?" alert as a reusable piece (`app/components/confirm-dialog.tsx`), so deleting a purchase in feature 3 can use the same one.
+- Tested the whole flow on my account in the browser at phone size:
+  - Added a points card (1.25¢ a point, $95 fee, 4× Dining, 3× Groceries, 1× Everything Else). The detail page showed "About 5% back" for Dining, which is correct: 4 × 1.25¢.
+  - Edited it: cleared Groceries (it correctly fell back to 1×) and turned off "Card is open". The card moved to a "Closed" section.
+  - Opened a card id that doesn't exist (/cards/999), which showed "Not found".
+  - Tested Delete: Cancel closed the alert and kept the card, and Delete removed it and its rates. Its page then showed "Not found". My account is back to no cards.
+- Small fix: the browser tab of a missing card now says "Not found" instead of "Card".
+
 ## What went wrong / caught along the way
 
 - I said "Merged, go on" before the merge had actually gone through on GitHub. Claude Code noticed and built on the feature 1 branch in the meantime, so no time was lost.
 - The browser pane was logged out, and Claude Code doesn't type my real password. To check how the add-card form looked, it briefly let that one page load without logging in on my laptop only, then put the guard back and confirmed that page sends logged-out visitors to Log in again. That change was never committed.
+- The browser console shows a development-only React warning about the small theme script in the page `<head>` (from the setup PR). It doesn't affect the live site, and the theme still loads without a flash. Left for a separate fix rather than mixing it into this feature.

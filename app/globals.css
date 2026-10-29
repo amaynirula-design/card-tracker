@@ -121,6 +121,18 @@ body {
   animation: sheet-in 0.4s cubic-bezier(0.32, 0.72, 0, 1);
 }
 
+/* "Are you sure?" alerts pop in slightly, like iOS alerts. */
+@keyframes alert-in {
+  from {
+    opacity: 0;
+    transform: scale(1.1);
+  }
+}
+
+.alert-in {
+  animation: alert-in 0.25s cubic-bezier(0.32, 0.72, 0, 1);
+}
+
 /* Turn off motion when the device's "reduce motion" setting is on. */
 @media (prefers-reduced-motion: reduce) {
   *,
