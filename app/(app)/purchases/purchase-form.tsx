@@ -1,13 +1,14 @@
 "use client";
 
 import Link from "next/link";
-import { useActionState } from "react";
+import { useActionState, useEffect, useRef } from "react";
 import { ConfirmDialog, type ConfirmState } from "@/app/components/confirm-dialog";
 import { Affix, Field, FormSection, inputClasses, numberClasses } from "@/app/components/form";
 import { IconSelector } from "@/app/components/icons";
 import type { Card } from "@/lib/cards";
 import { CATEGORIES } from "@/lib/categories";
 import { todayISO } from "@/lib/format";
+import { MAX_MERCHANT_LENGTH, MAX_NOTES_LENGTH } from "@/lib/purchase-validation";
 import type { Purchase } from "@/lib/purchases";
 import type { PurchaseFormState } from "./actions";
 
@@ -29,16 +30,24 @@ export function PurchaseForm({
 }) {
   const [state, formAction, pending] = useActionState(action, {});
   const values = state.values;
+  const errors = state.errors ?? {};
+
+  // After a failed save, put the cursor in the first field with a problem.
+  const formRef = useRef<HTMLFormElement>(null);
+  useEffect(() => {
+    formRef.current?.querySelector<HTMLElement>('[aria-invalid="true"]')?.focus();
+  }, [state]);
 
   // What was typed before a failed save, else the purchase's saved value.
+  // (A dropdown left on "Choose" isn't sent at all, so missing means blank.)
   const initial = (field: string, saved: string | number | null | undefined) =>
-    values?.[field] ?? (saved === undefined || saved === null ? "" : String(saved));
+    values ? (values[field] ?? "") : saved === undefined || saved === null ? "" : String(saved);
 
   // With only one card, there's nothing to choose.
   const defaultCard = purchase?.card.id ?? (cards.length === 1 ? cards[0].id : "");
 
   return (
-    <form action={formAction} noValidate className="sheet-in mx-auto w-full max-w-xl flex-1 px-4 pb-16">
+    <form ref={formRef} action={formAction} noValidate className="sheet-in mx-auto w-full max-w-xl flex-1 px-4 pb-16">
       <div className="sticky top-14 z-30 -mx-4 grid grid-cols-[1fr_auto_1fr] items-center bg-background/80 px-4 py-3 backdrop-blur-xl">
         <Link href={cancelHref} className="justify-self-start text-[17px] text-accent hover:opacity-70">
           Cancel
@@ -60,43 +69,50 @@ export function PurchaseForm({
       )}
 
       <div className="mt-4 space-y-8">
-        <FormSection>
-          <Field label="Merchant">
+        <FormSection error={[errors.merchant, errors.amount, errors.purchase_date]}>
+          <Field label="Merchant" invalid={Boolean(errors.merchant)}>
             <input
               name="merchant"
               defaultValue={initial("merchant", purchase?.merchant)}
               placeholder="Trader Joe’s"
-              maxLength={80}
+              maxLength={MAX_MERCHANT_LENGTH}
               autoComplete="off"
+              aria-invalid={Boolean(errors.merchant)}
               className={inputClasses}
             />
           </Field>
-          <Field label="Amount">
+          <Field label="Amount" invalid={Boolean(errors.amount)}>
             <Affix before="$">
               <input
                 name="amount"
                 inputMode="decimal"
                 defaultValue={initial("amount", purchase?.amount.toFixed(2))}
                 placeholder="0.00"
+                aria-invalid={Boolean(errors.amount)}
                 className={numberClasses}
               />
             </Affix>
           </Field>
-          <Field label="Date">
+          <Field label="Date" invalid={Boolean(errors.purchase_date)}>
             <input
               name="purchase_date"
               type="date"
               defaultValue={initial("purchase_date", purchase?.date ?? todayISO())}
               // The server's "today" can differ from the browser's.
               suppressHydrationWarning
+              aria-invalid={Boolean(errors.purchase_date)}
               className={`${inputClasses} [&::-webkit-date-and-time-value]:text-right`}
             />
           </Field>
         </FormSection>
 
-        <FormSection>
-          <Field label="Category">
-            <Select name="category" defaultValue={initial("category", purchase?.category)}>
+        <FormSection error={[errors.category, errors.card_id]}>
+          <Field label="Category" invalid={Boolean(errors.category)}>
+            <Select
+              name="category"
+              defaultValue={initial("category", purchase?.category)}
+              invalid={Boolean(errors.category)}
+            >
               {CATEGORIES.map((category) => (
                 <option key={category} value={category}>
                   {category}
@@ -104,8 +120,12 @@ export function PurchaseForm({
               ))}
             </Select>
           </Field>
-          <Field label="Card">
-            <Select name="card_id" defaultValue={initial("card_id", defaultCard)}>
+          <Field label="Card" invalid={Boolean(errors.card_id)}>
+            <Select
+              name="card_id"
+              defaultValue={initial("card_id", defaultCard)}
+              invalid={Boolean(errors.card_id)}
+            >
               {cards.map((card) => (
                 <option key={card.id} value={card.id}>
                   {card.name}
@@ -116,13 +136,14 @@ export function PurchaseForm({
           </Field>
         </FormSection>
 
-        <FormSection header="Notes">
+        <FormSection header="Notes" error={errors.notes}>
           <textarea
             name="notes"
             defaultValue={initial("notes", purchase?.notes)}
             placeholder="Optional, like “return by Nov 15”"
             rows={3}
-            maxLength={500}
+            maxLength={MAX_NOTES_LENGTH}
+            aria-invalid={Boolean(errors.notes)}
             className="block w-full resize-none bg-transparent px-4 py-3 text-[17px] outline-none placeholder:text-label-tertiary"
           />
         </FormSection>
@@ -146,17 +167,24 @@ export function PurchaseForm({
 function Select({
   name,
   defaultValue,
+  invalid,
   children,
 }: {
   name: string;
   defaultValue: string;
+  invalid?: boolean;
   children: React.ReactNode;
 }) {
   return (
     <span className="relative flex min-w-0 items-center justify-end gap-1 text-label-secondary">
       <select
+        // React only applies defaultValue to a dropdown when it first appears, and
+        // it clears the form after each save. A new key rebuilds the dropdown with
+        // what was picked, so a failed save doesn't reset it to "Choose".
+        key={defaultValue}
         name={name}
         defaultValue={defaultValue}
+        aria-invalid={invalid}
         className="h-11 min-w-0 cursor-pointer appearance-none truncate bg-transparent pr-1 text-right text-[17px] text-label outline-none [&:has(option[value='']:checked)]:text-label-tertiary"
       >
         <option value="" disabled>

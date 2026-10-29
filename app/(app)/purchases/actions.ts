@@ -3,22 +3,16 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import type { ConfirmState } from "@/app/components/confirm-dialog";
+import { validatePurchase, type PurchaseErrors } from "@/lib/purchase-validation";
 import { createClient } from "@/lib/supabase/server";
 
-// What the purchase form shows after a failed save, plus what was typed so
-// nothing is lost.
+// What the purchase form shows after a failed save: a friendly message per
+// field, or one for the whole form, plus what was typed so nothing is lost.
 export type PurchaseFormState = {
+  errors?: PurchaseErrors;
   error?: string;
   values?: Record<string, string>;
 };
-
-// "$1,234.50" → 1234.5; anything else that isn't a number → null.
-function parseAmount(raw: string): number | null {
-  const cleaned = raw.replace(/[$,\s]/g, "");
-  if (cleaned === "") return null;
-  const value = Number(cleaned);
-  return Number.isFinite(value) ? Math.round(value * 100) / 100 : null;
-}
 
 // Saves a new purchase (purchaseId null) or changes an existing one.
 export async function savePurchase(
@@ -30,19 +24,13 @@ export async function savePurchase(
     [...formData.entries()].map(([key, value]) => [key, String(value)]),
   );
 
-  const purchase = {
-    merchant: (values.merchant ?? "").trim(),
-    amount: parseAmount(values.amount ?? ""),
-    purchase_date: values.purchase_date || null,
-    category: values.category || null,
-    card_id: values.card_id ? Number(values.card_id) : null,
-    notes: (values.notes ?? "").trim() || null,
-  };
+  // Friendly checks first (blank fields, an amount of $0 or less...).
+  const { purchase, errors } = validatePurchase(values);
+  if (errors) return { errors, values };
 
-  // The database turns away anything incomplete (blank merchant, an amount of
-  // zero, someone else's card...). Friendly messages per field are feature 4.
+  // The database still checks everything, including that the card is yours.
   const supabase = await createClient();
-  const failed = { error: "We couldn't save this purchase. Check that every field is filled in.", values };
+  const failed = { error: "We couldn't save this purchase. Please try again.", values };
 
   let id = purchaseId;
   if (id === null) {

@@ -17,9 +17,11 @@ export function FormSection({
 }: {
   header?: string;
   footer?: string;
-  error?: string;
+  // One message, or several (one per field with a problem).
+  error?: string | (string | undefined)[];
   children: React.ReactNode;
 }) {
+  const errors = (Array.isArray(error) ? error : [error]).filter(Boolean);
   return (
     <section className="space-y-1.5">
       {header && (
@@ -28,10 +30,12 @@ export function FormSection({
       <div className="overflow-hidden rounded-2xl bg-surface shadow-panel [&>*+*]:border-t [&>*+*]:border-separator">
         {children}
       </div>
-      {error && (
-        <p role="alert" className="px-4 text-[13px] leading-snug text-danger">
-          {error}
-        </p>
+      {errors.length > 0 && (
+        <div role="alert" className="space-y-0.5 px-4 text-[13px] leading-snug text-danger">
+          {errors.map((message) => (
+            <p key={message}>{message}</p>
+          ))}
+        </div>
       )}
       {footer && <p className="px-4 text-[13px] leading-snug text-label-secondary">{footer}</p>}
     </section>
@@ -39,10 +43,19 @@ export function FormSection({
 }
 
 // A form row: label on the left, input on the right, like iOS Settings.
-export function Field({ label, children }: { label: string; children: React.ReactNode }) {
+// A row with a problem gets a red label.
+export function Field({
+  label,
+  invalid,
+  children,
+}: {
+  label: string;
+  invalid?: boolean;
+  children: React.ReactNode;
+}) {
   return (
     <label className="flex items-center gap-3 px-4">
-      <span className="shrink-0 text-[17px]">{label}</span>
+      <span className={["shrink-0 text-[17px]", invalid ? "text-danger" : ""].join(" ")}>{label}</span>
       <span className="flex min-w-0 flex-1 justify-end">{children}</span>
     </label>
   );
