@@ -18,3 +18,27 @@
   - Screen readers hear "Star Trader Joe's" / "Unstar Trader Joe's".
 - Built the **Starred** tab (between Purchases and Cards, in PLAN.md's order): your starred purchases grouped by month, with a friendly empty state explaining what stars are for.
 - Moved the purchase rows into one shared list, so Purchases and Starred look identical.
+
+## Prompt 2 (me)
+
+> Done, test it
+
+(I had run the stars SQL in Supabase.) The browser pane had logged me out in the meantime, so Claude Code asked me to log in rather than typing my password, and I replied:
+
+> Logged in
+
+## What Claude Code did
+
+Tested on my account at phone size, with a temporary test card and two purchases ("Test dinner" $100 Dining, "Test return" $40 Online Shopping):
+
+- **Starred tab, empty:** showed "No starred purchases" and what stars are for.
+- **Star from the list:** tapping the star on "Test return" filled it teal instantly, and the tap didn't open the purchase. "Test return" then appeared in the Starred tab.
+- **Star from the detail page:** starred "Test dinner" from its page. Both purchases then showed in Starred.
+- **Unstar:** the star emptied straight away and stayed empty after a reload, and the purchase left Starred.
+- **Delete a starred purchase:** deleted "Test dinner" while it was starred, and the Starred tab was empty again. The database removes the star with the purchase.
+- Deleted the remaining test purchase and the test card, so my account is back to no cards and no purchases.
+
+## What went wrong / caught along the way
+
+- **Seen once, couldn't reproduce:** the first time Claude Code starred "Test dinner" from its detail page (clicking right as the page finished loading), a screenshot two seconds later showed the star empty. But the purchase *was* starred in the database, it was in the Starred tab, and the star was filled after a reload. Claude Code tried four more times, including clicking the instant the page loaded, and the star showed correctly every time. Logged here in case it shows up again during the stranger test.
+- The dev server had stopped between sessions, so Claude Code restarted it before testing.
