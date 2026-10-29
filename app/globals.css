@@ -1,0 +1,120 @@
+@import "tailwindcss";
+
+/*
+  Design tokens (PLAN.md section 6).
+  Colors follow Apple's iOS system palette. Components use these names
+  (bg-surface, text-label, ...) instead of raw colors, so light and dark
+  mode only have to be defined here.
+
+  Theme choice: no data-theme attribute = follow the device ("System").
+  data-theme="light" or "dark" on <html> = the user picked one.
+*/
+
+:root {
+  color-scheme: light;
+  --background: #f2f2f7;
+  --surface: #ffffff;
+  --surface-raised: #ffffff;
+  --segment: #ffffff;
+  --label: #000000;
+  --label-secondary: rgb(60 60 67 / 0.6);
+  --label-tertiary: rgb(60 60 67 / 0.3);
+  --separator: rgb(60 60 67 / 0.18);
+  --fill: rgb(118 118 128 / 0.12);
+  --fill-strong: rgb(118 118 128 / 0.2);
+  --accent: #007c77;
+  --accent-soft: rgb(0 124 119 / 0.12);
+  --on-accent: #ffffff;
+  --danger: #d70015;
+  --shadow: 0 1px 2px rgb(0 0 0 / 0.04), 0 8px 24px rgb(0 0 0 / 0.06);
+}
+
+/* Dark tokens, used when the device is dark (and the user didn't force light)... */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --background: #000000;
+    --surface: #1c1c1e;
+    --surface-raised: #2c2c2e;
+    --segment: #636366;
+    --label: #ffffff;
+    --label-secondary: rgb(235 235 245 / 0.6);
+    --label-tertiary: rgb(235 235 245 / 0.3);
+    --separator: rgb(84 84 88 / 0.55);
+    --fill: rgb(118 118 128 / 0.24);
+    --fill-strong: rgb(118 118 128 / 0.36);
+    --accent: #00a19c;
+    --accent-soft: rgb(0 161 156 / 0.18);
+    --on-accent: #ffffff;
+    --danger: #ff6961;
+    --shadow: none;
+  }
+}
+
+/* ...and when the user picked Dark. Same values as above. */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --background: #000000;
+  --surface: #1c1c1e;
+  --surface-raised: #2c2c2e;
+  --segment: #636366;
+  --label: #ffffff;
+  --label-secondary: rgb(235 235 245 / 0.6);
+  --label-tertiary: rgb(235 235 245 / 0.3);
+  --separator: rgb(84 84 88 / 0.55);
+  --fill: rgb(118 118 128 / 0.24);
+  --fill-strong: rgb(118 118 128 / 0.36);
+  --accent: #00a19c;
+  --accent-soft: rgb(0 161 156 / 0.18);
+  --on-accent: #ffffff;
+  --danger: #ff6961;
+  --shadow: none;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-surface-raised: var(--surface-raised);
+  --color-segment: var(--segment);
+  --color-label: var(--label);
+  --color-label-secondary: var(--label-secondary);
+  --color-label-tertiary: var(--label-tertiary);
+  --color-separator: var(--separator);
+  --color-fill: var(--fill);
+  --color-fill-strong: var(--fill-strong);
+  --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
+  --color-on-accent: var(--on-accent);
+  --color-danger: var(--danger);
+  --shadow-panel: var(--shadow);
+
+  /* Apple's system font (San Francisco), then each device's own system font. */
+  --font-sans:
+    -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display",
+    "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+}
+
+body {
+  background: var(--background);
+  color: var(--label);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Evenly spaced digits so dollar amounts line up in columns. */
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Turn off motion when the device's "reduce motion" setting is on. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
