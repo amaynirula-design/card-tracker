@@ -31,3 +31,13 @@ export function todayISO(): string {
   const pad = (n: number) => String(n).padStart(2, "0");
   return `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}`;
 }
+
+// The app's home time zone. The server runs on UTC, which would start a new
+// month 7 or 8 hours early for someone in California.
+export const APP_TIME_ZONE = "America/Los_Angeles";
+
+// Today in the app's time zone, as "2026-10-29" (for "this month" on the server).
+export function todayInAppTimeZone(): string {
+  // The "en-CA" format happens to be year-month-day.
+  return new Date().toLocaleDateString("en-CA", { timeZone: APP_TIME_ZONE });
+}

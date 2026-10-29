@@ -15,18 +15,21 @@ export function SegmentedControl<T extends string>({
   onChange,
   ariaLabel,
   size = "md",
+  stretch = false,
 }: {
   options: Option<T>[];
   value: T;
   onChange: (value: T) => void;
   ariaLabel: string;
   size?: "sm" | "md";
+  // Fill the whole row, with equal-width options.
+  stretch?: boolean;
 }) {
   return (
     <div
       role="radiogroup"
       aria-label={ariaLabel}
-      className="inline-flex rounded-[9px] bg-fill p-0.5"
+      className={[stretch ? "flex w-full" : "inline-flex", "rounded-[9px] bg-fill p-0.5"].join(" ")}
     >
       {options.map((option) => {
         const selected = option.value === value;
@@ -40,7 +43,8 @@ export function SegmentedControl<T extends string>({
             title={option.title}
             onClick={() => onChange(option.value)}
             className={[
-              "flex items-center justify-center rounded-[7px] font-medium transition-[background-color,color,box-shadow] duration-200",
+              "flex items-center justify-center whitespace-nowrap rounded-[7px] font-medium transition-[background-color,color,box-shadow] duration-200",
+              stretch ? "flex-1" : "",
               size === "sm" ? "h-7 min-w-9 px-2 text-[13px]" : "h-8 min-w-16 px-3 text-sm",
               selected
                 ? "bg-segment text-label shadow-[0_1px_3px_rgb(0_0_0/0.12),0_1px_1px_rgb(0_0_0/0.04)]"
