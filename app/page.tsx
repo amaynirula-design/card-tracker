@@ -1,8 +1,46 @@
+import { getCurrentUser, type CurrentUser } from "@/lib/auth";
+import { logOut } from "./(auth)/actions";
 import { AppMark } from "./components/app-mark";
+import { ButtonLink } from "./components/button";
 import { GroupedSection, ListRow } from "./components/grouped-list";
 import { IconArrowDownCircle, IconChart, IconLock, IconReceipt, IconTarget } from "./components/icons";
 
-export default function Home() {
+export default async function Home() {
+  const user = await getCurrentUser();
+  return user ? <SignedInHome user={user} /> : <Welcome />;
+}
+
+function SignedInHome({ user }: { user: CurrentUser }) {
+  const memberSince = user.createdAt
+    ? new Date(user.createdAt).toLocaleDateString("en-US", { month: "long", year: "numeric" })
+    : null;
+
+  return (
+    <main className="mx-auto w-full max-w-xl flex-1 px-4 pb-16 pt-10">
+      <h1 className="text-[34px] font-bold leading-tight tracking-tight">Welcome</h1>
+      <p className="mt-1 truncate text-[17px] text-label-secondary">{user.email}</p>
+
+      <div className="mt-8 space-y-8">
+        <GroupedSection header="Account">
+          <ListRow title="Email" trailing={<span className="block max-w-[52vw] truncate sm:max-w-xs">{user.email}</span>} />
+          {memberSince && <ListRow title="Member since" trailing={memberSince} />}
+        </GroupedSection>
+
+        {/* Like "Sign Out" in iOS Settings: a red row on its own. */}
+        <form action={logOut}>
+          <button
+            type="submit"
+            className="h-12 w-full rounded-2xl bg-surface text-[17px] text-danger shadow-panel transition-opacity hover:opacity-80 active:opacity-60"
+          >
+            Log out
+          </button>
+        </form>
+      </div>
+    </main>
+  );
+}
+
+function Welcome() {
   return (
     <main className="mx-auto w-full max-w-xl flex-1 px-4 pb-16 pt-14 sm:pt-20">
       <div className="flex flex-col items-center text-center">
@@ -13,6 +51,14 @@ export default function Home() {
         <p className="mt-3 max-w-sm text-[17px] leading-relaxed text-label-secondary">
           Use the right credit card for every purchase, and see what your cards actually earn you.
         </p>
+        <div className="mt-8 flex w-full max-w-xs flex-col gap-2">
+          <ButtonLink href="/signup" size="lg">
+            Create account
+          </ButtonLink>
+          <ButtonLink href="/login" variant="plain" size="lg">
+            Log in
+          </ButtonLink>
+        </div>
       </div>
 
       <div className="mt-12 space-y-8">
