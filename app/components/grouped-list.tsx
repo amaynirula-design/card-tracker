@@ -29,19 +29,22 @@ export function GroupedSection({
 }
 
 // A row in a GroupedSection. With an href, the whole row is a link and gets a
-// chevron on the right, like iOS rows that open another screen.
+// chevron on the right, like iOS rows that open another screen. "leading" is a
+// button on the left (like a star) that sits beside the link, not inside it.
 export function ListRow({
   icon,
   title,
   subtitle,
   trailing,
   href,
+  leading,
 }: {
   icon?: React.ReactNode;
   title: React.ReactNode;
   subtitle?: React.ReactNode;
   trailing?: React.ReactNode;
   href?: string;
+  leading?: React.ReactNode;
 }) {
   const content = (
     <RowContent
@@ -61,14 +64,19 @@ export function ListRow({
     />
   );
 
+  const padding = leading ? "pl-0" : "pl-4";
   return (
-    <li className="group">
+    <li className="group flex items-stretch">
+      {leading && <div className="flex shrink-0 items-center pl-1.5">{leading}</div>}
       {href ? (
-        <Link href={href} className="flex items-center gap-3.5 pl-4 transition-colors hover:bg-fill active:bg-fill-strong">
+        <Link
+          href={href}
+          className={`flex min-w-0 flex-1 items-center gap-3.5 ${padding} transition-colors hover:bg-fill active:bg-fill-strong`}
+        >
           {content}
         </Link>
       ) : (
-        <div className="flex items-center gap-3.5 pl-4">{content}</div>
+        <div className={`flex min-w-0 flex-1 items-center gap-3.5 ${padding}`}>{content}</div>
       )}
     </li>
   );

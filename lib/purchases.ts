@@ -10,4 +10,6 @@ export type Purchase = {
   date: string;
   notes: string | null;
   card: Card;
+  // Whether the logged-in user has starred it.
+  starred: boolean;
 };

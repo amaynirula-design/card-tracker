@@ -2,11 +2,12 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { IconCard, IconReceipt } from "./icons";
+import { IconCard, IconReceipt, IconStar } from "./icons";
 
-// The app's main sections. Later features add Starred and Dashboard here.
+// The app's main sections, in PLAN.md order. Dashboard is added with feature 7.
 const TABS = [
   { href: "/purchases", label: "Purchases", Icon: IconReceipt },
+  { href: "/starred", label: "Starred", Icon: IconStar },
   { href: "/cards", label: "Cards", Icon: IconCard },
 ];
 

@@ -7,8 +7,9 @@ import { CARD_COLUMNS, toCard, type CardRow } from "../cards/data";
 // Reading purchases from the database. Row-level security means these only
 // ever return the logged-in user's own purchases.
 
-// Each purchase comes with its card (and the card's rates), for rewards.
-const PURCHASE_COLUMNS = `id, merchant, amount, category, purchase_date, notes, card:cards (${CARD_COLUMNS})`;
+// Each purchase comes with its card (and the card's rates), for rewards, and
+// your star on it if you starred it.
+const PURCHASE_COLUMNS = `id, merchant, amount, category, purchase_date, notes, card:cards (${CARD_COLUMNS}), stars (id)`;
 
 type PurchaseRow = {
   id: number;
@@ -18,6 +19,7 @@ type PurchaseRow = {
   purchase_date: string;
   notes: string | null;
   card: CardRow;
+  stars: { id: number }[];
 };
 
 function toPurchase(row: PurchaseRow): Purchase {
@@ -29,6 +31,7 @@ function toPurchase(row: PurchaseRow): Purchase {
     date: row.purchase_date,
     notes: row.notes,
     card: toCard(row.card),
+    starred: row.stars.length > 0,
   };
 }
 
@@ -38,6 +41,19 @@ export async function getPurchases(): Promise<Purchase[]> {
   const { data, error } = await supabase
     .from("purchases")
     .select(PURCHASE_COLUMNS)
+    .order("purchase_date", { ascending: false })
+    .order("created_at", { ascending: false });
+  if (error) throw error;
+  return (data as unknown as PurchaseRow[]).map(toPurchase);
+}
+
+// Only starred purchases, newest first. "!inner" keeps just the purchases that
+// have a matching row in the stars table.
+export async function getStarredPurchases(): Promise<Purchase[]> {
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from("purchases")
+    .select(PURCHASE_COLUMNS.replace("stars (id)", "stars!inner (id)"))
     .order("purchase_date", { ascending: false })
     .order("created_at", { ascending: false });
   if (error) throw error;
