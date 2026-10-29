@@ -102,3 +102,27 @@ export function IconLock(props: IconProps) {
     </Svg>
   );
 }
+
+export function IconPlus(props: IconProps) {
+  return (
+    <Svg {...props}>
+      <path d="M12 5v14M5 12h14" />
+    </Svg>
+  );
+}
+
+export function IconChevronRight(props: IconProps) {
+  return (
+    <Svg {...props}>
+      <path d="m9 5 7 7-7 7" />
+    </Svg>
+  );
+}
+
+export function IconChevronLeft(props: IconProps) {
+  return (
+    <Svg {...props}>
+      <path d="m15 5-7 7 7 7" />
+    </Svg>
+  );
+}

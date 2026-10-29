@@ -1,0 +1,71 @@
+import type { Metadata } from "next";
+import { ButtonLink } from "@/app/components/button";
+import { GroupedSection, ListRow } from "@/app/components/grouped-list";
+import { IconCard, IconPlus } from "@/app/components/icons";
+import { REWARD_TYPE_LABELS, rateSummary, type Card } from "@/lib/cards";
+import { getCards } from "./data";
+
+export const metadata: Metadata = { title: "Cards · Card Tracker" };
+
+export default async function CardsPage() {
+  const cards = await getCards();
+  const open = cards.filter((card) => card.isActive);
+  const closed = cards.filter((card) => !card.isActive);
+
+  return (
+    <main className="mx-auto w-full max-w-xl flex-1 px-4 pb-16 pt-10">
+      <div className="flex items-center justify-between gap-4">
+        <h1 className="text-[34px] font-bold leading-tight tracking-tight">Cards</h1>
+        {cards.length > 0 && (
+          <ButtonLink href="/cards/new" variant="tinted" className="h-9 rounded-full px-4">
+            <IconPlus className="size-4" />
+            Add
+          </ButtonLink>
+        )}
+      </div>
+
+      {cards.length === 0 ? (
+        <EmptyState />
+      ) : (
+        <div className="mt-6 space-y-8">
+          <CardSection cards={open} header={closed.length > 0 ? "Open" : undefined} />
+          {closed.length > 0 && <CardSection cards={closed} header="Closed" />}
+        </div>
+      )}
+    </main>
+  );
+}
+
+function CardSection({ cards, header }: { cards: Card[]; header?: string }) {
+  if (cards.length === 0) return null;
+  return (
+    <GroupedSection header={header}>
+      {cards.map((card) => (
+        <ListRow
+          key={card.id}
+          href={`/cards/${card.id}`}
+          icon={<IconCard className="size-[18px]" />}
+          title={card.name}
+          subtitle={`${REWARD_TYPE_LABELS[card.rewardType]} · ${rateSummary(card)}`}
+        />
+      ))}
+    </GroupedSection>
+  );
+}
+
+function EmptyState() {
+  return (
+    <div className="mt-16 flex flex-col items-center text-center">
+      <span className="flex size-16 items-center justify-center rounded-2xl bg-accent-soft text-accent">
+        <IconCard className="size-8" />
+      </span>
+      <h2 className="mt-5 text-[22px] font-semibold tracking-tight">Add your first card</h2>
+      <p className="mt-2 max-w-xs text-[15px] leading-relaxed text-label-secondary">
+        Tell Card Tracker what each of your cards earns, and it can work out your rewards.
+      </p>
+      <ButtonLink href="/cards/new" size="lg" className="mt-6 w-full max-w-xs">
+        Add a card
+      </ButtonLink>
+    </div>
+  );
+}
