@@ -26,6 +26,26 @@
 - Moved the form building blocks into one shared file, so card and purchase forms look the same.
 - Kept per-field "friendly messages" out of this PR because they're feature 4. For now, the database refuses incomplete purchases and the form shows one general message.
 
+## Prompt 2 (me)
+
+> Done, test it
+
+(I had run the purchases SQL in Supabase.)
+
+## What Claude Code did
+
+Tested the whole feature on my account in the browser, mostly at phone size, using a temporary test card that earns 3% on Dining and 1% on everything else:
+
+- **Empty states:** with no cards, Purchases says to add a card first. With a card but no purchases, it says "Log your first purchase".
+- **Add:** the date defaulted to today, and my only card was already picked.
+  - A $100 Dining purchase showed **$3.00 earned** (3%).
+  - A "$50" Groceries purchase, typed with the dollar sign, showed **$0.50** (it fell back to the 1% Everything Else rate).
+- **List:** both purchases appeared under "October 2026", newest first, each with its category dot, card, amount, and date.
+- **Edit:** changed one purchase to $25 of Dining with a note. It showed **$0.75** earned and the note.
+- **Blank form:** refused, with the general message "We couldn't save this purchase. Check that every field is filled in." (Friendly per-field messages come in feature 4.)
+- **Card ownership:** trying to delete the test card while it still had purchases was refused, with "This card has purchases, so it can't be deleted. Turn off “Card is open” instead."
+- **Delete:** deleted both purchases through the "are you sure?" alert. A deleted purchase's page then said "Not found". Then it deleted the test card, so my account is back to no cards and no purchases.
+
 ## What went wrong / caught along the way
 
 - After moving the signed-in pages into a new folder, the build failed on a garbled file that the running dev server writes automatically (a list of the app's pages). It wasn't our code. Claude Code stopped the dev server, deleted that generated folder, rebuilt, and restarted. The build then passed.
