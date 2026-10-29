@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useActionState, useState } from "react";
 import { ConfirmDialog, type ConfirmState } from "@/app/components/confirm-dialog";
+import { Affix, Field, FormSection, inputClasses, numberClasses } from "@/app/components/form";
 import { SegmentedControl } from "@/app/components/segmented-control";
 import { REWARD_TYPE_LABELS, type Card, type RewardType } from "@/lib/cards";
 import { CATEGORIES, FALLBACK_CATEGORY } from "@/lib/categories";
@@ -64,7 +65,7 @@ export function CardForm({
       )}
 
       <div className="mt-4 space-y-8">
-        <Section error={errors.name ?? errors.annualFee}>
+        <FormSection error={errors.name ?? errors.annualFee}>
           <Field label="Name">
             <input
               name="name"
@@ -88,9 +89,9 @@ export function CardForm({
               />
             </Affix>
           </Field>
-        </Section>
+        </FormSection>
 
-        <Section
+        <FormSection
           header="Rewards"
           error={errors.pointValue}
           footer={
@@ -129,9 +130,9 @@ export function CardForm({
               </Affix>
             </Field>
           )}
-        </Section>
+        </FormSection>
 
-        <Section
+        <FormSection
           header={rewardType === "cashback" ? "Cash back by category" : "Points per dollar by category"}
           error={errors.rates}
           footer="Leave a category blank to use the Everything Else rate."
@@ -155,10 +156,10 @@ export function CardForm({
               </Field>
             );
           })}
-        </Section>
+        </FormSection>
 
         {card && (
-          <Section footer="Turn this off when you close the card. Its past purchases stay, but it won't be offered for new ones.">
+          <FormSection footer="Turn this off when you close the card. Its past purchases stay, but it won't be offered for new ones.">
             <label className="flex cursor-pointer items-center justify-between gap-3 px-4 py-2.5">
               <span className="text-[17px]">Card is open</span>
               <input
@@ -169,7 +170,7 @@ export function CardForm({
                 className="switch"
               />
             </label>
-          </Section>
+          </FormSection>
         )}
 
         {card && deleteAction && (
@@ -183,71 +184,5 @@ export function CardForm({
         )}
       </div>
     </form>
-  );
-}
-
-const inputClasses =
-  "h-11 w-full min-w-0 bg-transparent text-right text-[17px] tabular outline-none placeholder:text-label-tertiary";
-
-// Number inputs next to a unit grow with what's typed, so "$" or "%" sits right
-// beside the number.
-const numberClasses =
-  "h-11 min-w-[2ch] max-w-full bg-transparent text-right text-[17px] text-label tabular outline-none placeholder:text-label-tertiary [field-sizing:content]";
-
-function Section({
-  header,
-  footer,
-  error,
-  children,
-}: {
-  header?: string;
-  footer?: string;
-  error?: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <section className="space-y-1.5">
-      {header && (
-        <h2 className="px-4 text-[13px] uppercase tracking-wide text-label-secondary">{header}</h2>
-      )}
-      <div className="overflow-hidden rounded-2xl bg-surface shadow-panel [&>*+*]:border-t [&>*+*]:border-separator">
-        {children}
-      </div>
-      {error && (
-        <p role="alert" className="px-4 text-[13px] leading-snug text-danger">
-          {error}
-        </p>
-      )}
-      {footer && <p className="px-4 text-[13px] leading-snug text-label-secondary">{footer}</p>}
-    </section>
-  );
-}
-
-// A form row: label on the left, input on the right, like iOS Settings.
-function Field({ label, children }: { label: string; children: React.ReactNode }) {
-  return (
-    <label className="flex items-center gap-3 px-4">
-      <span className="shrink-0 text-[17px]">{label}</span>
-      <span className="flex min-w-0 flex-1 justify-end">{children}</span>
-    </label>
-  );
-}
-
-// A small unit before or after the number, like "$" or "%".
-function Affix({
-  before,
-  after,
-  children,
-}: {
-  before?: string;
-  after?: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <span className="flex w-full max-w-48 items-center justify-end gap-1 text-[17px] text-label-secondary">
-      {before}
-      {children}
-      {after && <span className="shrink-0">{after}</span>}
-    </span>
   );
 }

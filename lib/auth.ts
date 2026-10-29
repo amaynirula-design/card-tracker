@@ -28,3 +28,10 @@ export async function getCurrentUser(): Promise<CurrentUser | null> {
     createdAt: row?.created_at ?? null,
   };
 }
+
+// Just "is anyone logged in?", without reading the users table.
+export async function isSignedIn(): Promise<boolean> {
+  const supabase = await createClient();
+  const { data } = await supabase.auth.getClaims();
+  return Boolean(data?.claims);
+}

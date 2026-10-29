@@ -122,6 +122,10 @@ export async function deleteCard(cardId: number): Promise<ConfirmState> {
   const supabase = await createClient();
   // Row-level security makes this match nothing if the card isn't yours.
   const { error } = await supabase.from("cards").delete().eq("id", cardId);
+  // 23503: purchases still point at this card, so the database keeps it.
+  if (error?.code === "23503") {
+    return { error: "This card has purchases, so it can't be deleted. Turn off “Card is open” instead." };
+  }
   if (error) return { error: "We couldn't delete this card. Please try again." };
 
   revalidatePath("/cards");
