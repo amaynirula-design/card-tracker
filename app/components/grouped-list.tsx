@@ -1,3 +1,6 @@
+import Link from "next/link";
+import { IconChevronRight } from "./icons";
+
 // Rounded, grouped lists like iOS Settings: a section holds rows separated by
 // thin dividers, with optional small text above (header) and below (footer).
 
@@ -25,7 +28,53 @@ export function GroupedSection({
   );
 }
 
+// A row in a GroupedSection. With an href, the whole row is a link and gets a
+// chevron on the right, like iOS rows that open another screen.
 export function ListRow({
+  icon,
+  title,
+  subtitle,
+  trailing,
+  href,
+}: {
+  icon?: React.ReactNode;
+  title: React.ReactNode;
+  subtitle?: React.ReactNode;
+  trailing?: React.ReactNode;
+  href?: string;
+}) {
+  const content = (
+    <RowContent
+      icon={icon}
+      title={title}
+      subtitle={subtitle}
+      trailing={
+        href ? (
+          <span className="flex items-center gap-1.5">
+            {trailing}
+            <IconChevronRight className="size-4 text-label-tertiary" />
+          </span>
+        ) : (
+          trailing
+        )
+      }
+    />
+  );
+
+  return (
+    <li className="group">
+      {href ? (
+        <Link href={href} className="flex items-center gap-3.5 pl-4 transition-colors hover:bg-fill active:bg-fill-strong">
+          {content}
+        </Link>
+      ) : (
+        <div className="flex items-center gap-3.5 pl-4">{content}</div>
+      )}
+    </li>
+  );
+}
+
+function RowContent({
   icon,
   title,
   subtitle,
@@ -37,7 +86,7 @@ export function ListRow({
   trailing?: React.ReactNode;
 }) {
   return (
-    <li className="group flex items-center gap-3.5 pl-4">
+    <>
       {icon && (
         <span className="flex size-[30px] shrink-0 items-center justify-center rounded-[8px] bg-accent-soft text-accent">
           {icon}
@@ -53,6 +102,6 @@ export function ListRow({
         </div>
         {trailing && <div className="shrink-0 text-[17px] text-label-secondary">{trailing}</div>}
       </div>
-    </li>
+    </>
   );
 }
