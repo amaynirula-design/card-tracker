@@ -6,7 +6,9 @@ import { IconChevronLeft } from "@/app/components/icons";
 import { formatNumber, formatRate, rateFor } from "@/lib/cards";
 import { CATEGORY_COLORS } from "@/lib/categories";
 import { formatDate, formatMoney } from "@/lib/format";
+import { missedFor } from "@/lib/missed";
 import { purchaseRewards } from "@/lib/rewards";
+import { getCards } from "../../cards/data";
 import { getPurchase } from "../data";
 import { StarButton } from "../star-button";
 
@@ -17,10 +19,12 @@ export async function generateMetadata({ params }: PageProps<"/purchases/[id]">)
 
 export default async function PurchasePage({ params }: PageProps<"/purchases/[id]">) {
   const { id } = await params;
-  const purchase = await getPurchase(id);
+  const [purchase, cards] = await Promise.all([getPurchase(id), getCards()]);
   if (!purchase) notFound();
 
   const { card } = purchase;
+  const missed = missedFor(purchase, cards);
+  const bestNames = missed.bestCards.map((best) => best.name).join(" or ");
   const rewards = purchaseRewards(purchase.amount, card, purchase.category);
   const rate = formatRate(card, rateFor(card, purchase.category));
   const points = purchase.amount * rateFor(card, purchase.category);
@@ -78,6 +82,18 @@ export default async function PurchasePage({ params }: PageProps<"/purchases/[id
             subtitle={`${rate} on ${purchase.category}`}
             trailing={<span className="tabular font-semibold text-accent">{formatMoney(rewards)}</span>}
           />
+          {/* Feature 9: what the best card for this category would have earned. */}
+          {missed.missed > 0 ? (
+            <ListRow
+              title="Missed"
+              subtitle={`${bestNames} would have earned ${formatMoney(missed.bestRewards)}`}
+              trailing={<span className="tabular font-semibold text-label">{formatMoney(missed.missed)}</span>}
+            />
+          ) : (
+            missed.bestCards.length > 0 && (
+              <ListRow title="Best card" subtitle={`Nothing missed on ${purchase.category}`} trailing="✓" />
+            )
+          )}
         </GroupedSection>
 
         {purchase.notes && (

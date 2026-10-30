@@ -29,3 +29,12 @@ Claude Code offered to prepare the test while I was in class, so it would be rea
 ## What went wrong / caught along the way
 
 - The first run printed a yellow warning about the config file's format. Claude Code renamed `vitest.config.ts` to `vitest.config.mts` so the output (and my screenshots) are clean.
+
+## The red-then-green run
+
+Later, with time for screenshots, I ran `npm test` myself:
+
+- Before the run, Claude Code brought this branch up to date with main, so the test ran against the finished app (all 10 features).
+- **Red:** Claude Code made the same temporary change to `lib/cards.ts`. I ran the test and took a screenshot (`docs/screenshots/test-2-red.png`): 2 failed, Expected "$3.50", Received "$3.00".
+- **Green:** Claude Code undid the change with `git checkout`, I ran it again and took a screenshot (`docs/screenshots/test-2-green.png`): 2 passed. The broken version was never committed.
+- A small mix-up: I clicked "Ran it, check it" from the step before, so Claude Code read my terminal, saw only the earlier passing run, and told me the failing run hadn't happened yet instead of assuming it had.
