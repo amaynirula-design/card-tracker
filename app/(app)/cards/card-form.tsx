@@ -16,11 +16,18 @@ const FORM_CATEGORIES = [FALLBACK_CATEGORY, ...CATEGORIES.filter((c) => c !== FA
 // the title in the middle, and the save button on the right.
 export function CardForm({
   card,
+  defaults,
+  note,
   action,
   deleteAction,
   cancelHref,
 }: {
+  // The saved card, on the edit screen.
   card?: Card;
+  // Starting values for a new card, e.g. from a preset (feature 10).
+  defaults?: Omit<Card, "id" | "isActive">;
+  // Shown under the form, e.g. what a preset's fixed rates leave out.
+  note?: string;
   action: (state: CardFormState, formData: FormData) => Promise<CardFormState>;
   // Only on the edit screen.
   deleteAction?: (state: ConfirmState) => Promise<ConfirmState>;
@@ -29,12 +36,14 @@ export function CardForm({
   const [state, formAction, pending] = useActionState(action, {});
   const values = state.values;
   const errors = state.errors ?? {};
+  // Where unedited fields start from: the saved card, or the preset.
+  const start = card ?? defaults;
 
   const [rewardType, setRewardType] = useState<RewardType>(
-    (values?.reward_type as RewardType) ?? card?.rewardType ?? "cashback",
+    (values?.reward_type as RewardType) ?? start?.rewardType ?? "cashback",
   );
   const [baseRate, setBaseRate] = useState(
-    values?.[`rate:${FALLBACK_CATEGORY}`] ?? card?.rates[FALLBACK_CATEGORY]?.toString() ?? "",
+    values?.[`rate:${FALLBACK_CATEGORY}`] ?? start?.rates[FALLBACK_CATEGORY]?.toString() ?? "",
   );
   const unit = rewardType === "cashback" ? "%" : "×";
 
@@ -69,7 +78,7 @@ export function CardForm({
           <Field label="Name">
             <input
               name="name"
-              defaultValue={initial("name", card?.name)}
+              defaultValue={initial("name", start?.name)}
               placeholder="Sapphire Preferred"
               maxLength={60}
               autoComplete="off"
@@ -82,7 +91,7 @@ export function CardForm({
               <input
                 name="annual_fee"
                 inputMode="decimal"
-                defaultValue={initial("annual_fee", card?.annualFee || undefined)}
+                defaultValue={initial("annual_fee", start?.annualFee || undefined)}
                 placeholder="0"
                 aria-invalid={Boolean(errors.annualFee)}
                 className={numberClasses}
@@ -121,7 +130,7 @@ export function CardForm({
                   inputMode="decimal"
                   defaultValue={initial(
                     "point_value_cents",
-                    card?.rewardType === "points" ? card.pointValueCents : undefined,
+                    start?.rewardType === "points" ? start.pointValueCents : undefined,
                   )}
                   placeholder="1.25"
                   aria-invalid={Boolean(errors.pointValue)}
@@ -145,7 +154,7 @@ export function CardForm({
                   <input
                     name={`rate:${category}`}
                     inputMode="decimal"
-                    defaultValue={initial(`rate:${category}`, card?.rates[category])}
+                    defaultValue={initial(`rate:${category}`, start?.rates[category])}
                     placeholder={isBase ? "Required" : baseRate || "–"}
                     onChange={isBase ? (event) => setBaseRate(event.target.value) : undefined}
                     aria-label={`${category} rate`}
@@ -172,6 +181,8 @@ export function CardForm({
             </label>
           </FormSection>
         )}
+
+        {note && <p className="px-4 text-[13px] leading-snug text-label-secondary">{note}</p>}
 
         {card && deleteAction && (
           <ConfirmDialog
