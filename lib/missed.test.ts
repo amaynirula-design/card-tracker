@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import type { Card } from "./cards";
-import { missedFor, missedSummary } from "./missed";
+import { earnedShare, missedFor, missedSummary } from "./missed";
 
 // Feature 9: how much more the best card would have earned.
 
@@ -50,5 +50,19 @@ describe("missed rewards", () => {
     expect(summary.missedCount).toBe(2);
     expect(summary.biggest?.category).toBe("Dining");
     expect(summary.biggest?.bestCards).toEqual([diningCard]);
+  });
+});
+
+describe("the dashboard ring", () => {
+  it("is the share of possible rewards you earned", () => {
+    expect(earnedShare(3, 1)).toBe(75);
+  });
+
+  it("is full when nothing was missed", () => {
+    expect(earnedShare(3.5, 0)).toBe(100);
+  });
+
+  it("is empty when nothing could have been earned", () => {
+    expect(earnedShare(0, 0)).toBe(0);
   });
 });

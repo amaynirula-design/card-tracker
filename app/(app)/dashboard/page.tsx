@@ -9,6 +9,7 @@ import { getCards } from "../cards/data";
 import { getPurchases } from "../purchases/data";
 import { PeriodSwitch } from "./period-switch";
 import { RewardsChart } from "./rewards-chart";
+import { RewardsRing } from "./rewards-ring";
 
 export const metadata: Metadata = { title: "Dashboard · Card Tracker" };
 
@@ -51,21 +52,16 @@ export default async function DashboardPage({ searchParams }: PageProps<"/dashbo
         </div>
       ) : (
         <div className="mt-6 space-y-4">
-          <MissedHero period={period} missed={missed} />
+          <MissedHero period={period} earned={stats.totalRewards} missed={missed} />
 
           <div className="grid grid-cols-[repeat(auto-fit,minmax(9rem,1fr))] gap-4">
-            <Tile label="Rewards Earned">
-              <Stat>{formatMoney(stats.totalRewards)}</Stat>
-            </Tile>
             <Tile label="Total Spend">
               <Stat>{formatMoney(stats.totalSpend)}</Stat>
             </Tile>
-            <div className="[grid-column:1/-1]">
-              <Tile label="Effective Rate">
-                <Stat>{formatPercent(stats.effectiveRate)}</Stat>
-                <p className="mt-1.5 text-footnote text-label-secondary">back on every dollar</p>
-              </Tile>
-            </div>
+            <Tile label="Effective Rate">
+              <Stat>{formatPercent(stats.effectiveRate)}</Stat>
+              <p className="mt-1.5 text-footnote text-label-secondary">back on every dollar</p>
+            </Tile>
           </div>
 
           <Tile label="Rewards by Card">
@@ -82,19 +78,28 @@ export default async function DashboardPage({ searchParams }: PageProps<"/dashbo
   );
 }
 
-// The app's one bold moment (feature 9): what using the wrong card cost, in a
-// single large sentence, and the one change that fixes most of it.
-function MissedHero({ period, missed }: { period: Period; missed: MissedSummary }) {
+// The app's signature (feature 9): the ring, then what using the wrong card cost
+// in one sentence, and the one change that fixes most of it.
+function MissedHero({
+  period,
+  earned,
+  missed,
+}: {
+  period: Period;
+  earned: number;
+  missed: MissedSummary;
+}) {
   const biggest = missed.biggest;
   return (
-    <section aria-label="Missed rewards" className="px-1 pb-3 pt-2">
+    <section aria-label="Missed rewards" className="px-1 pb-3 pt-2 text-center">
+      <RewardsRing earned={earned} missed={missed.totalMissed} />
       {missed.totalMissed > 0 ? (
         <>
-          <p className="text-large-title font-bold leading-tight tracking-tight text-label-secondary">
-            You left <span className="tabular text-label">{formatMoney(missed.totalMissed)}</span> on the table{" "}
+          <p className="mt-5 text-title2 font-bold leading-tight tracking-tight">
+            You left <span className="tabular text-danger">{formatMoney(missed.totalMissed)}</span> on the table{" "}
             {period === "month" ? "this month" : "so far"}.
           </p>
-          <p className="mt-3 text-subhead text-label-secondary">
+          <p className="mt-2 text-subhead text-label-secondary">
             Across {missed.missedCount} {missed.missedCount === 1 ? "purchase" : "purchases"}.
             {biggest && biggest.bestCards.length > 0 && (
               <>
@@ -106,8 +111,8 @@ function MissedHero({ period, missed }: { period: Period; missed: MissedSummary 
           </p>
         </>
       ) : (
-        <p className="text-large-title font-bold leading-tight tracking-tight text-label-secondary">
-          You used your <span className="text-label">best card</span> every time.
+        <p className="mt-5 text-title2 font-bold leading-tight tracking-tight">
+          You used your best card every time.
         </p>
       )}
     </section>

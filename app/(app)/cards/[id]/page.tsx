@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { CardFace } from "@/app/components/card-face";
 import { GroupedSection, ListRow } from "@/app/components/grouped-list";
 import { IconChevronLeft } from "@/app/components/icons";
 import {
-  REWARD_TYPE_LABELS,
   formatNumber,
   formatRate,
   rateFor,
@@ -25,7 +25,6 @@ export default async function CardPage({ params }: PageProps<"/cards/[id]">) {
 
   const base = rateFor(card, FALLBACK_CATEGORY);
   const details = [
-    REWARD_TYPE_LABELS[card.rewardType],
     card.rewardType === "points" && `${formatNumber(card.pointValueCents)}¢ per point`,
     card.annualFee > 0 ? `$${formatNumber(card.annualFee)} annual fee` : "No annual fee",
   ].filter(Boolean);
@@ -42,8 +41,10 @@ export default async function CardPage({ params }: PageProps<"/cards/[id]">) {
         </Link>
       </nav>
 
-      <h1 className="mt-4 text-large-title font-bold leading-tight tracking-tight">{card.name}</h1>
-      <p className="mt-1 text-body text-label-secondary">
+      <div className="mt-3">
+        <CardFace card={card} heading />
+      </div>
+      <p className="mt-3 px-1 text-subhead text-label-secondary">
         {details.join(" · ")}
         {!card.isActive && " · Closed"}
       </p>
