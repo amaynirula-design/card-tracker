@@ -61,6 +61,10 @@ You need [Node.js](https://nodejs.org) 20 or newer and a free [Supabase](https:/
 
 5. **Run the tests**
 
+   The rewards and dashboard tests need no setup. The data-isolation test checks the real privacy rules, so it needs a second, separate Supabase project. Never point it at your real one, because every run signs up two new test accounts.
+
+   Create the test project and set it up as in step 2: run the migrations and turn off email confirmation. Then create a file named `.env.test.local` with its URL and publishable key, using the names shown at the bottom of `.env.example`. `.env.test.local` is never committed.
+
    ```bash
    npm test
    ```
@@ -75,4 +79,5 @@ You need [Node.js](https://nodejs.org) 20 or newer and a free [Supabase](https:/
 | `lib/` | Plain functions with no database: rewards math, dashboard stats, best card, missed rewards, card presets, validation |
 | `lib/supabase/`, `proxy.ts` | Connecting to Supabase and keeping signed-out visitors out of private pages |
 | `supabase/migrations/` | The SQL for every table and privacy rule |
+| `supabase/data-isolation.test.ts`, `lib/*.test.ts` | The tests. Screenshots of each required test failing, then passing, are in `docs/screenshots/` |
 | `prompts/` | The prompt log for each pull request |
