@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ButtonLink } from "@/app/components/button";
+import { CardFace } from "@/app/components/card-face";
 import { GroupedSection, ListRow } from "@/app/components/grouped-list";
 import { IconChevronLeft, IconTarget } from "@/app/components/icons";
 import { bestCardFor } from "@/lib/best-card";
@@ -54,8 +55,8 @@ export default async function BestCardPage({ searchParams }: PageProps<"/cards/b
               <ul className="mt-2 space-y-3">
                 {best.cards.map((card) => (
                   <li key={card.id}>
-                    <p className="text-title1 font-bold leading-tight tracking-tight">{card.name}</p>
-                    <p className="mt-0.5 text-subhead text-label-secondary">{earningsLine(card, category)}</p>
+                    <CardFace card={card} />
+                    <p className="mt-2 text-subhead text-label-secondary">{earningsLine(card, category)}</p>
                   </li>
                 ))}
               </ul>

@@ -68,3 +68,10 @@ export function missedSummary(
 
   return { totalMissed, missedCount, biggest };
 }
+
+// How much of the rewards you could have earned you did, as a percent for the
+// dashboard ring. 0 when nothing could have been earned.
+export function earnedShare(earned: number, missed: number): number {
+  const possible = earned + missed;
+  return possible > 0 ? (earned / possible) * 100 : 0;
+}

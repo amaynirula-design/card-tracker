@@ -142,6 +142,17 @@ body {
   animation: sheet-in 0.4s cubic-bezier(0.32, 0.72, 0, 1);
 }
 
+/* The dashboard ring fills in once when the page opens. */
+@keyframes ring-in {
+  from {
+    stroke-dasharray: 0 100;
+  }
+}
+
+.ring-in {
+  animation: ring-in 0.9s cubic-bezier(0.32, 0.72, 0, 1);
+}
+
 /* "Are you sure?" alerts pop in slightly, like iOS alerts. */
 @keyframes alert-in {
   from {

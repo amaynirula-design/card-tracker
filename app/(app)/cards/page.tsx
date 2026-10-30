@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { ButtonLink } from "@/app/components/button";
+import { CardFace } from "@/app/components/card-face";
 import { GroupedSection, ListRow } from "@/app/components/grouped-list";
 import { IconCard, IconPlus, IconTarget } from "@/app/components/icons";
 import { LargeTitle } from "@/app/components/large-title";
-import { REWARD_TYPE_LABELS, rateSummary, type Card } from "@/lib/cards";
+import type { Card } from "@/lib/cards";
 import { getCards } from "./data";
 
 export const metadata: Metadata = { title: "Cards · Card Tracker" };
@@ -50,19 +52,26 @@ export default async function CardsPage() {
   );
 }
 
+// Cards stacked like Apple Wallet: each one overlaps the last, leaving its name
+// showing. The strip left showing is tall enough to tap.
 function CardSection({ cards, header }: { cards: Card[]; header?: string }) {
   if (cards.length === 0) return null;
   return (
-    <GroupedSection header={header}>
-      {cards.map((card) => (
-        <ListRow
-          key={card.id}
-          href={`/cards/${card.id}`}
-          title={card.name}
-          subtitle={`${REWARD_TYPE_LABELS[card.rewardType]} · ${rateSummary(card)}`}
-        />
-      ))}
-    </GroupedSection>
+    <section className="space-y-1.5">
+      {header && <h2 className="px-4 text-footnote uppercase tracking-wide text-label-secondary">{header}</h2>}
+      <ul>
+        {cards.map((card, index) => (
+          <li key={card.id} className={`relative ${index > 0 ? "-mt-30" : ""}`}>
+            <Link
+              href={`/cards/${card.id}`}
+              className="block rounded-2xl transition-transform duration-200 hover:-translate-y-1 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+            >
+              <CardFace card={card} />
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </section>
   );
 }
 
