@@ -2,6 +2,8 @@
 // They draw with currentColor, so they take the text color of their parent.
 
 type IconProps = { className?: string };
+// The tab bar's icons fill in when their tab is selected.
+type TabIconProps = IconProps & { filled?: boolean };
 
 function Svg({
   className = "size-5",
@@ -23,37 +25,11 @@ function Svg({
   );
 }
 
-export function IconSun(props: IconProps) {
+export function IconCard({ filled, ...props }: TabIconProps) {
   return (
     <Svg {...props}>
-      <circle cx="12" cy="12" r="4" />
-      <path d="M12 2.5v2M12 19.5v2M4.6 4.6l1.4 1.4M18 18l1.4 1.4M2.5 12h2M19.5 12h2M4.6 19.4 6 18M18 6l1.4-1.4" />
-    </Svg>
-  );
-}
-
-export function IconMoon(props: IconProps) {
-  return (
-    <Svg {...props}>
-      <path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z" />
-    </Svg>
-  );
-}
-
-export function IconDevice(props: IconProps) {
-  return (
-    <Svg {...props}>
-      <rect x="3" y="4" width="18" height="12" rx="2" />
-      <path d="M8 20h8M12 16v4" />
-    </Svg>
-  );
-}
-
-export function IconCard(props: IconProps) {
-  return (
-    <Svg {...props}>
-      <rect x="2.5" y="5" width="19" height="14" rx="2.5" />
-      <path d="M2.5 9.5h19M6 15h4" />
+      <rect x="2.5" y="5" width="19" height="14" rx="2.5" fill={filled ? "currentColor" : "none"} />
+      <path d="M2.5 9.5h19M6 15h4" stroke={filled ? "var(--background)" : "currentColor"} />
     </Svg>
   );
 }
@@ -68,19 +44,19 @@ export function IconTarget(props: IconProps) {
   );
 }
 
-export function IconReceipt(props: IconProps) {
+export function IconReceipt({ filled, ...props }: TabIconProps) {
   return (
     <Svg {...props}>
-      <path d="M6 3h12v18l-3-2-3 2-3-2-3 2V3Z" />
-      <path d="M9 8h6M9 12h6" />
+      <path d="M6 3h12v18l-3-2-3 2-3-2-3 2V3Z" fill={filled ? "currentColor" : "none"} />
+      <path d="M9 8h6M9 12h6" stroke={filled ? "var(--background)" : "currentColor"} />
     </Svg>
   );
 }
 
-export function IconChart(props: IconProps) {
+export function IconChart({ filled, ...props }: TabIconProps) {
   return (
     <Svg {...props}>
-      <path d="M4 20V10M10 20V4M16 20v-7M22 20H2" />
+      <path d="M4 20V10M10 20V4M16 20v-7M22 20H2" strokeWidth={filled ? 3.2 : undefined} />
     </Svg>
   );
 }

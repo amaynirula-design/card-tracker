@@ -4,7 +4,7 @@ import { getCards } from "../../cards/data";
 import { savePurchase } from "../actions";
 import { PurchaseForm } from "../purchase-form";
 
-export const metadata: Metadata = { title: "New purchase · Card Tracker" };
+export const metadata: Metadata = { title: "New Purchase · Card Tracker" };
 
 export default async function NewPurchasePage() {
   const cards = (await getCards()).filter((card) => card.isActive);

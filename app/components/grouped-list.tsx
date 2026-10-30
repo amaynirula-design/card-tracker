@@ -16,14 +16,14 @@ export function GroupedSection({
   return (
     <section className="space-y-1.5">
       {header && (
-        <h2 className="px-4 text-[13px] font-normal uppercase tracking-wide text-label-secondary">
+        <h2 className="px-4 text-footnote font-normal uppercase tracking-wide text-label-secondary">
           {header}
         </h2>
       )}
       <div className="overflow-hidden rounded-2xl bg-surface shadow-panel">
         <ul>{children}</ul>
       </div>
-      {footer && <p className="px-4 text-[13px] leading-snug text-label-secondary">{footer}</p>}
+      {footer && <p className="px-4 text-footnote leading-snug text-label-secondary">{footer}</p>}
     </section>
   );
 }
@@ -49,6 +49,7 @@ export function ListRow({
   const content = (
     <RowContent
       icon={icon}
+      iconTappable={Boolean(href)}
       title={title}
       subtitle={subtitle}
       trailing={
@@ -84,11 +85,13 @@ export function ListRow({
 
 function RowContent({
   icon,
+  iconTappable,
   title,
   subtitle,
   trailing,
 }: {
   icon?: React.ReactNode;
+  iconTappable: boolean;
   title: React.ReactNode;
   subtitle?: React.ReactNode;
   trailing?: React.ReactNode;
@@ -96,19 +99,25 @@ function RowContent({
   return (
     <>
       {icon && (
-        <span className="flex size-[30px] shrink-0 items-center justify-center rounded-[8px] bg-accent-soft text-accent">
+        <span
+          className={[
+            "flex size-[30px] shrink-0 items-center justify-center rounded-[8px]",
+            iconTappable ? "bg-accent-soft text-accent" : "bg-fill text-label-secondary",
+          ].join(" ")}
+        >
           {icon}
         </span>
       )}
       {/* The divider sits on this part only, so it starts after the icon, like iOS. */}
-      <div className="flex min-w-0 flex-1 items-center gap-3 border-t border-separator py-3 pr-4 group-first:border-t-0">
-        <div className="min-w-0 flex-1">
-          <p className="text-[17px] leading-snug text-label">{title}</p>
+      {/* At large text sizes, the trailing value wraps under the title. */}
+      <div className="flex min-w-0 flex-1 flex-wrap items-center gap-x-3 border-t border-separator py-3 pr-4 group-first:border-t-0">
+        <div className="min-w-0 flex-[1_1_9rem]">
+          <p className="text-body leading-snug text-label">{title}</p>
           {subtitle && (
-            <p className="mt-0.5 text-[15px] leading-snug text-label-secondary">{subtitle}</p>
+            <p className="mt-0.5 text-subhead leading-snug text-label-secondary">{subtitle}</p>
           )}
         </div>
-        {trailing && <div className="shrink-0 text-[17px] text-label-secondary">{trailing}</div>}
+        {trailing && <div className="ml-auto min-w-0 text-body text-label-secondary">{trailing}</div>}
       </div>
     </>
   );

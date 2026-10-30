@@ -35,8 +35,7 @@ export function StarButton({
       aria-label={shown ? `Unstar ${merchant}` : `Star ${merchant}`}
       title={shown ? "Unstar" : "Star"}
       className={[
-        "flex items-center justify-center rounded-full transition-[color,transform] duration-150 active:scale-90",
-        size === "lg" ? "size-11" : "size-10",
+        "flex size-11 items-center justify-center rounded-full transition-[color,transform] duration-150 active:scale-90",
         shown ? "text-accent" : "text-label-tertiary hover:text-label-secondary",
       ].join(" ")}
     >

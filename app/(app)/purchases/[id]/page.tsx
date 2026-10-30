@@ -32,13 +32,13 @@ export default async function PurchasePage({ params }: PageProps<"/purchases/[id
   return (
     <main className="mx-auto w-full max-w-xl flex-1 px-4 pb-16 pt-4">
       <nav className="-ml-1.5 flex items-center justify-between">
-        <Link href="/purchases" className="flex items-center text-[17px] text-accent hover:opacity-70">
+        <Link href="/purchases" className="flex min-h-11 items-center text-body text-accent hover:opacity-70">
           <IconChevronLeft className="size-6" />
           Purchases
         </Link>
         <div className="flex items-center gap-2">
           <StarButton purchaseId={purchase.id} starred={purchase.starred} merchant={purchase.merchant} size="lg" />
-          <Link href={`/purchases/${purchase.id}/edit`} className="text-[17px] text-accent hover:opacity-70">
+          <Link href={`/purchases/${purchase.id}/edit`} className="flex min-h-11 items-center text-body text-accent hover:opacity-70">
             Edit
           </Link>
         </div>
@@ -46,9 +46,9 @@ export default async function PurchasePage({ params }: PageProps<"/purchases/[id
 
       {/* Like a transaction in Apple Wallet: the amount large, then who and when. */}
       <div className="mt-8 flex flex-col items-center text-center">
-        <p className="tabular text-[48px] font-bold leading-none tracking-tight">{formatMoney(purchase.amount)}</p>
-        <h1 className="mt-3 text-[22px] font-semibold tracking-tight">{purchase.merchant}</h1>
-        <p className="mt-1 text-[15px] text-label-secondary">{formatDate(purchase.date)}</p>
+        <p className="tabular text-display font-bold leading-none tracking-tight">{formatMoney(purchase.amount)}</p>
+        <h1 className="mt-3 text-title2 font-semibold tracking-tight">{purchase.merchant}</h1>
+        <p className="mt-1 text-subhead text-label-secondary">{formatDate(purchase.date)}</p>
       </div>
 
       <div className="mt-8 space-y-8">
@@ -80,7 +80,7 @@ export default async function PurchasePage({ params }: PageProps<"/purchases/[id
           <ListRow
             title="Earned"
             subtitle={`${rate} on ${purchase.category}`}
-            trailing={<span className="tabular font-semibold text-accent">{formatMoney(rewards)}</span>}
+            trailing={<span className="tabular font-semibold text-label">{formatMoney(rewards)}</span>}
           />
           {/* Feature 9: what the best card for this category would have earned. */}
           {missed.missed > 0 ? (
@@ -91,14 +91,14 @@ export default async function PurchasePage({ params }: PageProps<"/purchases/[id
             />
           ) : (
             missed.bestCards.length > 0 && (
-              <ListRow title="Best card" subtitle={`Nothing missed on ${purchase.category}`} trailing="✓" />
+              <ListRow title="Best Card" subtitle={`Nothing missed on ${purchase.category}`} trailing="✓" />
             )
           )}
         </GroupedSection>
 
         {purchase.notes && (
           <GroupedSection header="Notes">
-            <li className="whitespace-pre-wrap px-4 py-3 text-[17px] leading-snug">{purchase.notes}</li>
+            <li className="whitespace-pre-wrap px-4 py-3 text-body leading-snug">{purchase.notes}</li>
           </GroupedSection>
         )}
       </div>

@@ -5,7 +5,7 @@ import { deletePurchase, savePurchase } from "../../actions";
 import { getPurchase } from "../../data";
 import { PurchaseForm } from "../../purchase-form";
 
-export const metadata: Metadata = { title: "Edit purchase · Card Tracker" };
+export const metadata: Metadata = { title: "Edit Purchase · Card Tracker" };
 
 export default async function EditPurchasePage({ params }: PageProps<"/purchases/[id]/edit">) {
   const { id } = await params;

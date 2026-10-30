@@ -16,11 +16,13 @@ const TABS = [
 // On wider screens: a sidebar on the left, like iPad and Mac apps.
 export function TabBar() {
   const pathname = usePathname();
+  // Add and edit screens are sheets: on phones they cover the tab bar.
+  const inSheet = /\/(new|edit)$/.test(pathname);
 
   return (
     <nav
       aria-label="Sections"
-      className="fixed inset-x-0 bottom-0 z-40 border-t border-separator bg-background/80 pb-[env(safe-area-inset-bottom)] backdrop-blur-xl backdrop-saturate-150 md:sticky md:top-14 md:h-[calc(100dvh-3.5rem)] md:w-56 md:shrink-0 md:border-t-0 md:bg-transparent md:p-0 md:backdrop-blur-none"
+      className={`frosted ${inSheet ? "max-md:hidden" : ""} fixed inset-x-0 bottom-0 z-40 border-t border-separator bg-background/80 pb-[env(safe-area-inset-bottom)] backdrop-blur-xl backdrop-saturate-150 md:sticky md:top-14 md:h-[calc(100dvh-3.5rem)] md:w-56 md:shrink-0 md:border-t-0 md:bg-transparent md:p-0 md:backdrop-blur-none`}
     >
       <ul className="flex justify-around md:flex-col md:justify-start md:gap-0.5 md:px-3 md:pt-8">
         {TABS.map(({ href, label, Icon }) => {
@@ -31,14 +33,14 @@ export function TabBar() {
                 href={href}
                 aria-current={active ? "page" : undefined}
                 className={[
-                  "flex flex-col items-center gap-0.5 pb-1 pt-2 text-[10px] font-medium transition-colors",
-                  "md:flex-row md:gap-3 md:rounded-[10px] md:px-3 md:py-2 md:text-[15px]",
+                  "flex flex-col items-center gap-0.5 pb-1 pt-2 text-caption font-medium transition-colors",
+                  "md:flex-row md:gap-3 md:rounded-[10px] md:px-3 md:py-2 md:text-subhead",
                   active
                     ? "text-accent md:bg-fill md:text-label"
                     : "text-label-secondary hover:text-label md:hover:bg-fill",
                 ].join(" ")}
               >
-                <Icon className={["size-6 md:size-5", active ? "md:text-accent" : ""].join(" ")} />
+                <Icon filled={active} className={["size-6 md:size-5", active ? "md:text-accent" : ""].join(" ")} />
                 {label}
               </Link>
             </li>

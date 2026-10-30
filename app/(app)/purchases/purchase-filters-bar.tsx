@@ -66,7 +66,7 @@ export function PurchaseFiltersBar({
           aria-label="Search purchases by merchant"
           enterKeyHint="search"
           autoComplete="off"
-          className="h-full min-w-0 flex-1 bg-transparent text-[17px] text-label outline-none placeholder:text-label-secondary [&::-webkit-search-cancel-button]:hidden"
+          className="h-full min-w-0 flex-1 bg-transparent text-body text-label outline-none placeholder:text-label-secondary [&::-webkit-search-cancel-button]:hidden"
         />
         {query && (
           <button
@@ -80,7 +80,8 @@ export function PurchaseFiltersBar({
         )}
       </div>
 
-      <div className="-mx-4 flex gap-2 overflow-x-auto px-4 pb-0.5 [scrollbar-width:none]">
+      {/* The fade at the end hints that the row scrolls. */}
+      <div className="-mx-4 -my-1.5 flex gap-2 overflow-x-auto py-1.5 pl-4 pr-10 [mask-image:linear-gradient(to_left,transparent,black_2.5rem)] [scrollbar-width:none]">
         <FilterMenu
           label="Card"
           display={cardName ?? "All cards"}
@@ -125,7 +126,7 @@ export function PurchaseFiltersBar({
       </div>
 
       {isFiltering(filters) && (
-        <div className="flex items-center justify-between px-1 text-[15px]">
+        <div className="flex items-center justify-between px-1 text-subhead">
           <span className="text-label-secondary" aria-live="polite">
             {pending ? "Searching…" : `${resultCount} ${resultCount === 1 ? "purchase" : "purchases"}`}
           </span>
@@ -158,7 +159,7 @@ function FilterMenu({
   return (
     <label
       className={[
-        "relative flex h-8 shrink-0 cursor-pointer items-center gap-1 rounded-full pl-3.5 pr-2.5 text-[15px] font-medium transition-colors focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-accent",
+        "relative flex h-8 shrink-0 cursor-pointer items-center gap-1 rounded-full pl-3.5 pr-2.5 text-subhead font-medium transition-colors focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-accent",
         active ? "bg-accent-soft text-accent" : "bg-fill text-label",
       ].join(" ")}
     >
@@ -168,7 +169,7 @@ function FilterMenu({
         value={value}
         onChange={(event) => onChange(event.target.value)}
         aria-label={label}
-        className="absolute inset-0 cursor-pointer appearance-none opacity-0"
+        className="absolute -inset-y-1.5 inset-x-0 cursor-pointer appearance-none opacity-0"
       >
         {children}
       </select>

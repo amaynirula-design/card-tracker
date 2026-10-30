@@ -1,10 +1,10 @@
 "use client";
 
-import Link from "next/link";
 import { useActionState, useState } from "react";
 import { ConfirmDialog, type ConfirmState } from "@/app/components/confirm-dialog";
 import { Affix, Field, FormSection, inputClasses, numberClasses } from "@/app/components/form";
 import { SegmentedControl } from "@/app/components/segmented-control";
+import { SheetBar } from "@/app/components/sheet-bar";
 import { REWARD_TYPE_LABELS, type Card, type RewardType } from "@/lib/cards";
 import { CATEGORIES, FALLBACK_CATEGORY } from "@/lib/categories";
 import type { CardFormState } from "./actions";
@@ -53,22 +53,16 @@ export function CardForm({
 
   return (
     <form action={formAction} noValidate className="sheet-in mx-auto w-full max-w-xl flex-1 px-4 pb-16">
-      <div className="sticky top-14 z-30 -mx-4 grid grid-cols-[1fr_auto_1fr] items-center bg-background/80 px-4 py-3 backdrop-blur-xl">
-        <Link href={cancelHref} className="justify-self-start text-[17px] text-accent hover:opacity-70">
-          Cancel
-        </Link>
-        <h1 className="text-[17px] font-semibold">{card ? "Edit Card" : "New Card"}</h1>
-        <button
-          type="submit"
-          disabled={pending}
-          className="justify-self-end text-[17px] font-semibold text-accent hover:opacity-70 disabled:opacity-40"
-        >
-          {pending ? "Saving…" : card ? "Done" : "Add"}
-        </button>
-      </div>
+      <SheetBar
+        title={card ? "Edit Card" : "New Card"}
+        cancelHref={cancelHref}
+        submitLabel={card ? "Done" : "Add"}
+        pending={pending}
+        changed={rewardType !== (start?.rewardType ?? "cashback")}
+      />
 
       {errors.form && (
-        <p role="alert" className="mt-2 px-4 text-[15px] text-danger">
+        <p role="alert" className="mt-2 px-4 text-subhead text-danger">
           {errors.form}
         </p>
       )}
@@ -86,7 +80,7 @@ export function CardForm({
               className={inputClasses}
             />
           </Field>
-          <Field label="Annual fee">
+          <Field label="Annual Fee">
             <Affix before="$">
               <input
                 name="annual_fee"
@@ -110,7 +104,7 @@ export function CardForm({
           }
         >
           <div className="flex items-center justify-between gap-3 px-4 py-2.5">
-            <span className="text-[17px]">Type</span>
+            <span className="text-body">Type</span>
             <SegmentedControl
               ariaLabel="Reward type"
               value={rewardType}
@@ -123,7 +117,7 @@ export function CardForm({
             <input type="hidden" name="reward_type" value={rewardType} />
           </div>
           {rewardType === "points" && (
-            <Field label="Point value">
+            <Field label="Point Value">
               <Affix after="¢ per point">
                 <input
                   name="point_value_cents"
@@ -170,7 +164,7 @@ export function CardForm({
         {card && (
           <FormSection footer="Turn this off when you close the card. Its past purchases stay, but it won't be offered for new ones.">
             <label className="flex cursor-pointer items-center justify-between gap-3 px-4 py-2.5">
-              <span className="text-[17px]">Card is open</span>
+              <span className="text-body">Card Is Open</span>
               <input
                 type="checkbox"
                 name="is_active"
@@ -182,7 +176,7 @@ export function CardForm({
           </FormSection>
         )}
 
-        {note && <p className="px-4 text-[13px] leading-snug text-label-secondary">{note}</p>}
+        {note && <p className="px-4 text-footnote leading-snug text-label-secondary">{note}</p>}
 
         {card && deleteAction && (
           <ConfirmDialog

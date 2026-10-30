@@ -1,10 +1,10 @@
 "use client";
 
-import Link from "next/link";
 import { useActionState, useEffect, useRef } from "react";
 import { ConfirmDialog, type ConfirmState } from "@/app/components/confirm-dialog";
 import { Affix, Field, FormSection, inputClasses, numberClasses } from "@/app/components/form";
 import { IconSelector } from "@/app/components/icons";
+import { SheetBar } from "@/app/components/sheet-bar";
 import type { Card } from "@/lib/cards";
 import { CATEGORIES } from "@/lib/categories";
 import { todayISO } from "@/lib/format";
@@ -48,22 +48,15 @@ export function PurchaseForm({
 
   return (
     <form ref={formRef} action={formAction} noValidate className="sheet-in mx-auto w-full max-w-xl flex-1 px-4 pb-16">
-      <div className="sticky top-14 z-30 -mx-4 grid grid-cols-[1fr_auto_1fr] items-center bg-background/80 px-4 py-3 backdrop-blur-xl">
-        <Link href={cancelHref} className="justify-self-start text-[17px] text-accent hover:opacity-70">
-          Cancel
-        </Link>
-        <h1 className="text-[17px] font-semibold">{purchase ? "Edit Purchase" : "New Purchase"}</h1>
-        <button
-          type="submit"
-          disabled={pending}
-          className="justify-self-end text-[17px] font-semibold text-accent hover:opacity-70 disabled:opacity-40"
-        >
-          {pending ? "Saving…" : purchase ? "Done" : "Add"}
-        </button>
-      </div>
+      <SheetBar
+        title={purchase ? "Edit Purchase" : "New Purchase"}
+        cancelHref={cancelHref}
+        submitLabel={purchase ? "Done" : "Add"}
+        pending={pending}
+      />
 
       {state.error && (
-        <p role="alert" className="mt-2 px-4 text-[15px] text-danger">
+        <p role="alert" className="mt-2 px-4 text-subhead text-danger">
           {state.error}
         </p>
       )}
@@ -144,14 +137,14 @@ export function PurchaseForm({
             rows={3}
             maxLength={MAX_NOTES_LENGTH}
             aria-invalid={Boolean(errors.notes)}
-            className="block w-full resize-none bg-transparent px-4 py-3 text-[17px] outline-none placeholder:text-label-tertiary"
+            className="block w-full resize-none bg-transparent px-4 py-3 text-body outline-none placeholder:text-label-tertiary"
           />
         </FormSection>
 
         {purchase && deleteAction && (
           <ConfirmDialog
             triggerLabel="Delete Purchase"
-            title="Delete this purchase?"
+            title="Delete This Purchase?"
             message={`${purchase.merchant} will be removed from your purchases. This can't be undone.`}
             confirmLabel="Delete"
             action={deleteAction}
@@ -185,7 +178,7 @@ function Select({
         name={name}
         defaultValue={defaultValue}
         aria-invalid={invalid}
-        className="h-11 min-w-0 cursor-pointer appearance-none truncate bg-transparent pr-1 text-right text-[17px] text-label outline-none [&:has(option[value='']:checked)]:text-label-tertiary"
+        className="h-11 min-w-0 cursor-pointer appearance-none truncate bg-transparent pr-1 text-right text-body text-label outline-none [&:has(option[value='']:checked)]:text-label-tertiary"
       >
         <option value="" disabled>
           Choose
