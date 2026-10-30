@@ -71,7 +71,7 @@ function PurchaseRow({ purchase }: { purchase: Purchase }) {
       trailing={
         <span className="flex flex-col items-end">
           <span className="tabular text-label">{formatMoney(purchase.amount)}</span>
-          <span className="text-[13px]">{formatDate(purchase.date)}</span>
+          <span className="text-footnote">{formatDate(purchase.date)}</span>
         </span>
       }
     />
@@ -94,11 +94,11 @@ export function EmptyState({
 }) {
   return (
     <div className="mt-16 flex flex-col items-center text-center">
-      <span className="flex size-16 items-center justify-center rounded-2xl bg-accent-soft text-accent">
+      <span className="flex size-16 items-center justify-center rounded-2xl bg-fill text-label-secondary">
         {icon}
       </span>
-      <h2 className="mt-5 text-[22px] font-semibold tracking-tight">{title}</h2>
-      <p className="mt-2 max-w-xs text-[15px] leading-relaxed text-label-secondary">{text}</p>
+      <h2 className="mt-5 text-title2 font-semibold tracking-tight">{title}</h2>
+      <p className="mt-2 max-w-xs text-subhead leading-relaxed text-label-secondary">{text}</p>
       {href && action && (
         <ButtonLink href={href} size="lg" className="mt-6 w-full max-w-xs">
           {action}

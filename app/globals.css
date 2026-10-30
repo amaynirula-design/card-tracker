@@ -17,13 +17,17 @@
   --surface-raised: #ffffff;
   --segment: #ffffff;
   --label: #000000;
-  --label-secondary: rgb(60 60 67 / 0.6);
+  --label-secondary: rgb(60 60 67 / 0.75);
   --label-tertiary: rgb(60 60 67 / 0.3);
   --separator: rgb(60 60 67 / 0.18);
   --fill: rgb(118 118 128 / 0.12);
   --fill-strong: rgb(118 118 128 / 0.2);
-  --accent: #007c77;
-  --accent-soft: rgb(0 124 119 / 0.12);
+  --accent: #00716c;
+  /* Teal text on raised panels, like an alert's Cancel. */
+  --accent-raised: #00716c;
+  --accent-soft: rgb(0 113 108 / 0.12);
+  /* Filled buttons: white text passes contrast on this teal in both modes. */
+  --accent-fill: #007c77;
   --on-accent: #ffffff;
   --danger: #d70015;
   --shadow: 0 1px 2px rgb(0 0 0 / 0.04), 0 8px 24px rgb(0 0 0 / 0.06);
@@ -44,7 +48,9 @@
     --fill: rgb(118 118 128 / 0.24);
     --fill-strong: rgb(118 118 128 / 0.36);
     --accent: #00a19c;
+    --accent-raised: #00b0aa;
     --accent-soft: rgb(0 161 156 / 0.18);
+    --accent-fill: #007c77;
     --on-accent: #ffffff;
     --danger: #ff6961;
     --shadow: none;
@@ -65,7 +71,9 @@
   --fill: rgb(118 118 128 / 0.24);
   --fill-strong: rgb(118 118 128 / 0.36);
   --accent: #00a19c;
+  --accent-raised: #00b0aa;
   --accent-soft: rgb(0 161 156 / 0.18);
+  --accent-fill: #007c77;
   --on-accent: #ffffff;
   --danger: #ff6961;
   --shadow: none;
@@ -83,10 +91,23 @@
   --color-fill: var(--fill);
   --color-fill-strong: var(--fill-strong);
   --color-accent: var(--accent);
+  --color-accent-raised: var(--accent-raised);
   --color-accent-soft: var(--accent-soft);
+  --color-accent-fill: var(--accent-fill);
   --color-on-accent: var(--on-accent);
   --color-danger: var(--danger);
   --shadow-panel: var(--shadow);
+
+  /* Apple's text styles, in rem so they grow with the reader's text size. */
+  --text-caption: 0.6875rem;
+  --text-footnote: 0.8125rem;
+  --text-subhead: 0.9375rem;
+  --text-body: 1.0625rem;
+  --text-title2: 1.375rem;
+  --text-title1: 1.75rem;
+  --text-large-title: 2.125rem;
+  --text-hero: 2.5rem;
+  --text-display: 3rem;
 
   /* Apple's system font (San Francisco), then each device's own system font. */
   --font-sans:
@@ -131,6 +152,22 @@ body {
 
 .alert-in {
   animation: alert-in 0.25s cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+/* On phones the same dialog is an action sheet, so it slides up instead. */
+@media (width < 48rem) {
+  .alert-in {
+    animation-name: sheet-in;
+    animation-duration: 0.4s;
+  }
+}
+
+/* Solid bars when the device's "reduce transparency" setting is on. */
+@media (prefers-reduced-transparency: reduce) {
+  .frosted {
+    background: var(--background);
+    backdrop-filter: none;
+  }
 }
 
 /* Turn off motion when the device's "reduce motion" setting is on. */

@@ -9,14 +9,14 @@ const base =
   "inline-flex items-center justify-center gap-2 rounded-xl font-semibold transition-[opacity,transform] duration-150 active:scale-[0.98] disabled:pointer-events-none disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent";
 
 const variants: Record<Variant, string> = {
-  filled: "bg-accent text-on-accent hover:opacity-90",
+  filled: "bg-accent-fill text-on-accent hover:opacity-90",
   tinted: "bg-accent-soft text-accent hover:opacity-80",
   plain: "text-accent hover:opacity-70",
 };
 
 const sizes: Record<Size, string> = {
-  md: "h-11 px-5 text-[15px]",
-  lg: "h-[50px] px-6 text-[17px]",
+  md: "h-11 px-5 text-subhead",
+  lg: "h-[50px] px-6 text-body",
 };
 
 export function buttonClasses(variant: Variant = "filled", size: Size = "md", className = "") {

@@ -2,7 +2,6 @@
 
 import { useLayoutEffect, useSyncExternalStore } from "react";
 import { SegmentedControl } from "./segmented-control";
-import { IconDevice, IconMoon, IconSun } from "./icons";
 
 // The user's choice is saved in this browser under "theme": "light" or "dark".
 // Nothing saved means "system": follow the device's light/dark setting.
@@ -37,12 +36,16 @@ function subscribe(onChange: () => void) {
 // Runs in <head> before the page is drawn, so a saved theme never flashes.
 export const themeScript = `(function(){try{var t=localStorage.getItem("${STORAGE_KEY}");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t)}catch(e){}})()`;
 
+// In development React resets <html> attributes once on load; this puts the
+// theme back before paint, on every page.
+export function ThemeRestorer() {
+  useLayoutEffect(() => applyTheme(readTheme()), []);
+  return null;
+}
+
 export function ThemeSwitch() {
   // The server can't see localStorage, so it renders "system"; the browser then shows the real choice.
   const theme = useSyncExternalStore(subscribe, readTheme, () => "system" as Theme);
-
-  // In development React resets <html> attributes once on load; put the theme back before paint.
-  useLayoutEffect(() => applyTheme(readTheme()), []);
 
   function choose(next: Theme) {
     try {
@@ -58,13 +61,13 @@ export function ThemeSwitch() {
   return (
     <SegmentedControl<Theme>
       ariaLabel="Appearance"
-      size="sm"
+      stretch
       value={theme}
       onChange={choose}
       options={[
-        { value: "system", title: "Match device", label: <IconDevice className="size-4" /> },
-        { value: "light", title: "Light", label: <IconSun className="size-4" /> },
-        { value: "dark", title: "Dark", label: <IconMoon className="size-4" /> },
+        { value: "system", label: "System" },
+        { value: "light", label: "Light" },
+        { value: "dark", label: "Dark" },
       ]}
     />
   );

@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { AppHeader } from "./components/app-header";
-import { themeScript } from "./components/theme-switch";
+import { ThemeRestorer, themeScript } from "./components/theme-switch";
 
 export const metadata: Metadata = {
   title: "Card Tracker",
@@ -23,6 +23,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>
       <body className="flex min-h-full flex-col">
+        <ThemeRestorer />
         <AppHeader />
         {children}
       </body>

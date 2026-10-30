@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { GroupedSection, ListRow } from "@/app/components/grouped-list";
 import { IconPlus } from "@/app/components/icons";
+import { SheetBar } from "@/app/components/sheet-bar";
 import { PRESETS_UPDATED, findPreset, presetsByIssuer, type CardPreset } from "@/lib/card-presets";
 import { REWARD_TYPE_LABELS, rateSummary } from "@/lib/cards";
 import { saveCard } from "../actions";
@@ -34,14 +34,9 @@ export default async function NewCardPage({ searchParams }: PageProps<"/cards/ne
 
   return (
     <main className="sheet-in mx-auto w-full max-w-xl flex-1 px-4 pb-16">
-      <div className="sticky top-14 z-30 -mx-4 grid grid-cols-[1fr_auto_1fr] items-center bg-background/80 px-4 py-3 backdrop-blur-xl">
-        <Link href="/cards" className="justify-self-start text-[17px] text-accent hover:opacity-70">
-          Cancel
-        </Link>
-        <h1 className="text-[17px] font-semibold">Add a Card</h1>
-      </div>
+      <SheetBar title="Add a Card" cancelHref="/cards" />
 
-      <p className="mt-2 px-4 text-[15px] leading-snug text-label-secondary">
+      <p className="mt-2 px-4 text-subhead leading-snug text-label-secondary">
         Pick your card and its rewards are filled in for you. You can change anything before saving.
       </p>
 
@@ -69,7 +64,7 @@ export default async function NewCardPage({ searchParams }: PageProps<"/cards/ne
           </GroupedSection>
         ))}
 
-        <p className="px-4 text-[13px] leading-snug text-label-secondary">
+        <p className="px-4 text-footnote leading-snug text-label-secondary">
           Rates are from {PRESETS_UPDATED} and simplified to one rate per category; issuers change them. Card
           names belong to their issuers. No card numbers are ever stored.
         </p>

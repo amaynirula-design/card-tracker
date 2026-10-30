@@ -4,7 +4,7 @@ import { deleteCard, saveCard } from "../../actions";
 import { CardForm } from "../../card-form";
 import { getCard } from "../../data";
 
-export const metadata: Metadata = { title: "Edit card · Card Tracker" };
+export const metadata: Metadata = { title: "Edit Card · Card Tracker" };
 
 export default async function EditCardPage({ params }: PageProps<"/cards/[id]/edit">) {
   const { id } = await params;

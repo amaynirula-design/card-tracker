@@ -33,28 +33,28 @@ export default async function CardPage({ params }: PageProps<"/cards/[id]">) {
   return (
     <main className="mx-auto w-full max-w-xl flex-1 px-4 pb-16 pt-4">
       <nav className="-ml-1.5 flex items-center justify-between">
-        <Link href="/cards" className="flex items-center text-[17px] text-accent hover:opacity-70">
+        <Link href="/cards" className="flex min-h-11 items-center text-body text-accent hover:opacity-70">
           <IconChevronLeft className="size-6" />
           Cards
         </Link>
-        <Link href={`/cards/${card.id}/edit`} className="text-[17px] text-accent hover:opacity-70">
+        <Link href={`/cards/${card.id}/edit`} className="flex min-h-11 items-center text-body text-accent hover:opacity-70">
           Edit
         </Link>
       </nav>
 
-      <h1 className="mt-4 text-[34px] font-bold leading-tight tracking-tight">{card.name}</h1>
-      <p className="mt-1 text-[17px] text-label-secondary">
+      <h1 className="mt-4 text-large-title font-bold leading-tight tracking-tight">{card.name}</h1>
+      <p className="mt-1 text-body text-label-secondary">
         {details.join(" · ")}
         {!card.isActive && " · Closed"}
       </p>
 
       <div className="mt-8">
         <GroupedSection
-          header="What it earns"
+          header="What It Earns"
           footer={
             card.rewardType === "points"
-              ? "Points per dollar, and what that's worth in cash at your point value. Gray rates come from Everything Else."
-              : "Cash back per dollar. Gray rates come from Everything Else."
+              ? "Points per dollar, and what that's worth in cash at your point value. \"Base\" rates come from Everything Else."
+              : "Cash back per dollar. \"Base\" rates come from Everything Else."
           }
         >
           {CATEGORIES.map((category) => {
@@ -70,13 +70,9 @@ export default async function CardPage({ params }: PageProps<"/cards/[id]">) {
                     : undefined
                 }
                 trailing={
-                  <span
-                    className={[
-                      "tabular",
-                      isBonus ? "font-semibold text-accent" : ownRate === undefined ? "text-label-tertiary" : "",
-                    ].join(" ")}
-                  >
+                  <span className={["tabular", isBonus ? "font-semibold text-label" : ""].join(" ")}>
                     {formatRate(card, rateFor(card, category))}
+                    {ownRate === undefined && " · base"}
                   </span>
                 }
               />

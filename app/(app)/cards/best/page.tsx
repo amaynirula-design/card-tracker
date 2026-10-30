@@ -20,21 +20,21 @@ export default async function BestCardPage({ searchParams }: PageProps<"/cards/b
   return (
     <main className="mx-auto w-full max-w-xl flex-1 px-4 pb-16 pt-4">
       <nav className="-ml-1.5">
-        <Link href="/cards" className="inline-flex items-center text-[17px] text-accent hover:opacity-70">
+        <Link href="/cards" className="inline-flex min-h-11 items-center text-body text-accent hover:opacity-70">
           <IconChevronLeft className="size-6" />
           Cards
         </Link>
       </nav>
-      <h1 className="mt-4 text-[34px] font-bold leading-tight tracking-tight">Best Card</h1>
-      <p className="mt-1 text-[17px] text-label-secondary">Which card to use at checkout.</p>
+      <h1 className="mt-4 text-large-title font-bold leading-tight tracking-tight">Best Card</h1>
+      <p className="mt-1 text-body text-label-secondary">Which card to use at checkout.</p>
 
       {best.cards.length === 0 ? (
         <div className="mt-16 flex flex-col items-center text-center">
-          <span className="flex size-16 items-center justify-center rounded-2xl bg-accent-soft text-accent">
+          <span className="flex size-16 items-center justify-center rounded-2xl bg-fill text-label-secondary">
             <IconTarget className="size-8" />
           </span>
-          <h2 className="mt-5 text-[22px] font-semibold tracking-tight">No open cards yet</h2>
-          <p className="mt-2 max-w-xs text-[15px] leading-relaxed text-label-secondary">
+          <h2 className="mt-5 text-title2 font-semibold tracking-tight">No open cards yet</h2>
+          <p className="mt-2 max-w-xs text-subhead leading-relaxed text-label-secondary">
             Add the cards you carry, and this shows which one earns the most for each kind of purchase.
           </p>
           <ButtonLink href="/cards/new" size="lg" className="mt-6 w-full max-w-xs">
@@ -48,14 +48,14 @@ export default async function BestCardPage({ searchParams }: PageProps<"/cards/b
 
             {/* The answer, large: which card to reach for. */}
             <section aria-live="polite" className="rounded-2xl bg-surface p-5 shadow-panel">
-              <h2 className="text-[15px] font-semibold text-label-secondary">
+              <h2 className="text-subhead font-semibold text-label-secondary">
                 {best.cards.length > 1 ? `Tied for ${category}` : `Use for ${category}`}
               </h2>
               <ul className="mt-2 space-y-3">
                 {best.cards.map((card) => (
                   <li key={card.id}>
-                    <p className="text-[28px] font-bold leading-tight tracking-tight">{card.name}</p>
-                    <p className="mt-0.5 text-[15px] text-label-secondary">{earningsLine(card, category)}</p>
+                    <p className="text-title1 font-bold leading-tight tracking-tight">{card.name}</p>
+                    <p className="mt-0.5 text-subhead text-label-secondary">{earningsLine(card, category)}</p>
                   </li>
                 ))}
               </ul>

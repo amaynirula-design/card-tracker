@@ -28,7 +28,7 @@ export function ConfirmDialog({
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="h-12 w-full rounded-2xl bg-surface text-[17px] text-danger shadow-panel transition-opacity hover:opacity-80 active:opacity-60"
+        className="h-12 w-full rounded-2xl bg-surface text-body text-danger shadow-panel transition-opacity hover:opacity-80 active:opacity-60"
       >
         {triggerLabel}
       </button>
@@ -47,16 +47,22 @@ export function ConfirmDialog({
   );
 }
 
-function Alert({
+// A centered alert on wide screens. On phones the same dialog is an action sheet
+// at the bottom of the screen, with Cancel on its own below, like Mail and Photos.
+export function Alert({
   title,
   message,
+  cancelLabel = "Cancel",
   confirmLabel,
+  pendingLabel = "Deleting…",
   action,
   onClose,
 }: {
   title: string;
   message: string;
+  cancelLabel?: string;
   confirmLabel: string;
+  pendingLabel?: string;
   action: (state: ConfirmState, formData: FormData) => Promise<ConfirmState>;
   onClose: () => void;
 }) {
@@ -73,37 +79,38 @@ function Alert({
       ref={ref}
       onClose={onClose}
       aria-labelledby="confirm-title"
-      className="alert-in m-auto w-[270px] overflow-hidden rounded-[14px] bg-surface-raised p-0 text-center text-label shadow-2xl backdrop:bg-black/40"
+      className="alert-in m-auto w-[270px] bg-transparent p-0 text-center text-label backdrop:bg-black/40 max-md:mb-[calc(env(safe-area-inset-bottom)+0.5rem)] max-md:w-[calc(100%-1rem)] max-md:max-w-md"
     >
-      <form action={formAction}>
-        <div className="px-4 pb-4 pt-5">
-          <h2 id="confirm-title" className="text-[17px] font-semibold">
+      <form
+        action={formAction}
+        className="flex flex-col text-body md:grid md:grid-cols-2 md:overflow-hidden md:rounded-[14px] md:shadow-2xl"
+      >
+        <div className="rounded-t-[14px] bg-surface-raised px-4 pb-4 pt-5 md:col-span-2 md:rounded-none">
+          <h2 id="confirm-title" className="font-semibold max-md:text-footnote max-md:text-label-secondary">
             {title}
           </h2>
-          <p className="mt-1 text-[13px] leading-snug">{message}</p>
+          <p className="mt-1 text-footnote leading-snug max-md:text-label-secondary">{message}</p>
           {state.error && (
-            <p role="alert" className="mt-2 text-[13px] leading-snug text-danger">
+            <p role="alert" className="mt-2 text-footnote leading-snug text-danger">
               {state.error}
             </p>
           )}
         </div>
-        <div className="grid grid-cols-2 border-t border-separator text-[17px]">
-          <button
-            type="button"
-            autoFocus
-            onClick={() => ref.current?.close()}
-            className="h-11 text-accent hover:bg-fill"
-          >
-            Cancel
-          </button>
-          <button
-            type="submit"
-            disabled={pending}
-            className="h-11 border-l border-separator font-semibold text-danger hover:bg-fill disabled:opacity-50"
-          >
-            {pending ? "Deleting…" : confirmLabel}
-          </button>
-        </div>
+        <button
+          type="button"
+          autoFocus
+          onClick={() => ref.current?.close()}
+          className="h-11 border-t border-separator bg-surface-raised text-accent-raised hover:bg-fill max-md:order-last max-md:mt-2 max-md:h-14 max-md:rounded-[14px] max-md:border-t-0 max-md:font-semibold"
+        >
+          {cancelLabel}
+        </button>
+        <button
+          type="submit"
+          disabled={pending}
+          className="h-11 border-t border-separator bg-surface-raised font-semibold text-danger hover:bg-fill disabled:opacity-50 max-md:h-14 max-md:rounded-b-[14px] max-md:font-normal md:border-l"
+        >
+          {pending ? pendingLabel : confirmLabel}
+        </button>
       </form>
     </dialog>
   );
