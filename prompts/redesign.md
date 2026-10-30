@@ -52,6 +52,8 @@ With my account logged in on my local copy, using one temporary card and two tem
 ## What went wrong / caught along the way
 
 - **The 200% text test found real problems.** The page title ran into the buttons, purchase rows got cramped, and the dashboard tiles pushed the page wider than the phone. Claude Code fixed all three so they wrap. Tab labels are still tight at 200%.
+- **That fix caused a problem of its own.** After opening the PR, Claude Code realized the new wrapping could also wrap long values, like my email on Account, at normal size. It had only rechecked at 200%. It loosened the rule and confirmed those rows stay on one line.
+- **A wider check found one more overflow.** The Best Card dropdown pushed the page wide at 200%, so Claude Code fixed it. It then checked Best Card, Cards, Add a Card, New Card, New Purchase, Account, and Starred at 200%: none are wider than the phone. Purchases and Dashboard had passed earlier.
 - **Skipped on purpose:** the review's iOS Dynamic Type hook. It changes the size of the whole page on iPhones, and Claude Code couldn't test that without a real iPhone.
 - **One exception to "teal means tappable":** the chart's bars stay teal, as the one color for data.
 - **Not tested:** a real iPhone, the keyboard focus ring on dropdown rows, and Reduce Transparency.

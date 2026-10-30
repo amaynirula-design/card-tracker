@@ -111,7 +111,7 @@ function RowContent({
       {/* The divider sits on this part only, so it starts after the icon, like iOS. */}
       {/* At large text sizes, the trailing value wraps under the title. */}
       <div className="flex min-w-0 flex-1 flex-wrap items-center gap-x-3 border-t border-separator py-3 pr-4 group-first:border-t-0">
-        <div className="min-w-0 flex-[1_1_9rem]">
+        <div className="min-w-0 flex-[1_1_5rem]">
           <p className="text-body leading-snug text-label">{title}</p>
           {subtitle && (
             <p className="mt-0.5 text-subhead leading-snug text-label-secondary">{subtitle}</p>
