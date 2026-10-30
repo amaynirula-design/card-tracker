@@ -21,6 +21,15 @@ Claude Code asked where the test should run: a separate test project, or my real
 
 I created the test project, sent Claude Code its link and publishable key, and it saved them in `.env.test.local` (gitignored) and confirmed all 5 tables existed. I started the first run myself, because it signs up two accounts on a hosted service. All 12 tests passed the first time (10 for isolation, 2 for the dashboard).
 
+## The red-then-green run
+
+I did this one myself, in the test project only. Screenshots: `docs/screenshots/test-1-red.png` and `docs/screenshots/test-1-green.png`.
+
+- **Red:** I ran `alter table public.purchases disable row level security;` in the test project's SQL Editor, then `npm test`. 6 failed, 6 passed. User B's list showed User A's "Secret Cafe" and "Secret Market", and User B could open, edit, and delete User A's purchases.
+- **Green:** I ran `alter table public.purchases enable row level security;`, then `npm test`. 12 passed.
+
 ## What went wrong / caught along the way
+
+- Claude Code predicted about 5 failures and it was 6. The extra one was "User A can see their own": with the rule off, User A also saw the purchases left by the first run's throwaway account.
 
 - Local Supabase wasn't an option because Docker isn't installed, so the test couldn't be run until my test project exists.
