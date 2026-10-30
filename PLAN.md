@@ -144,3 +144,28 @@ Given a user has one cash back card earning 3% on Dining and 1% on Everything El
 At the end, add a "Plan vs. Reality" section here with this table. Don't edit the plan above to match what shipped.
 | Planned feature | Shipped / Changed / Cut | Status (Done/Backlogged) | Learning | What changed and why (one line) |
 -->
+
+## Plan vs. Reality
+
+Added at the end of the project. Everything above this section is the original plan, unchanged. "#" numbers are the pull requests.
+
+| Planned feature | Shipped / Changed / Cut | Status (Done/Backlogged) | Learning | What changed and why (one line) |
+|---|---|---|---|---|
+| 1. Sign up and login | Shipped | Done | I forgot the password on my first test account and had to delete it in Supabase, so I learned to test the whole flow, including getting back in. | Built as planned (#6). |
+| Password reset (not in the plan) | Cut | Backlogged | A feature I never planned became obvious the moment I needed it. | My decision: leave it out for now, because it wasn't in the plan and the demo doesn't need it. |
+| 2. My cards | Changed | Done | Deleting is a design decision: I had to decide what happens to the rows connected to the thing being deleted. | I added a Delete Card button the plan didn't have; a card with purchases can't be deleted, only closed, so purchases keep their card (#8). |
+| 3. Log purchases | Shipped | Done | Calculating rewards when needed, instead of storing them, means editing a card updates every purchase. | Built as planned (#10). |
+| 4. Validation | Shipped | Done | The bugs were in what happens after a failed save, not in the normal path, so failures need testing too. | Built as planned, and testing found two dropdown bugs: Category reset after a failed save, and a blank Card fell back to the default (#12). |
+| 5. Stars | Shipped | Done | Not every bug can be reproduced; one star glitch appeared once and never again, so we logged it honestly instead of claiming a fix. | Built as planned, as a single `stars` junction table (#14). |
+| 6. Find things | Shipped | Done | Keeping filters in the page address means the database does the work and the filtered view survives a refresh. | Built as planned (#16). |
+| 7. Dashboard | Changed | Done | A "this month" view can look empty even when there's plenty of data. | I added a This Month / All Time switch so older purchases still count (#18), and the tiles were rearranged in the redesign (#34). |
+| 8. Best card for a category | Shipped | Done | Keeping the math in plain functions made this quick to build, because it reused the rewards math. | Built as planned, with ties shown and points converted using my point value (#21). |
+| 9. Missed rewards | Changed | Done | The number unique to my app deserved to be the loudest thing on the screen. | Built as planned (#23), then I chose to make it the dashboard's headline sentence instead of one tile among equals (#34). |
+| 10. Card presets | Shipped | Done | My plan's risk was right: real cards don't fit one rate per category, and issuers change them, so the app has to say so. | Shipped with 15 cards and mid-2026 rates; caps, rotating categories, and portal bonuses are approximated with a note on each (#25). |
+| Test 1: Data isolation | Changed | Done | A test that "User B sees nothing" also needs a check that User A sees something, or a broken setup would pass. | Goes beyond the plan: it also proves User B can't edit, delete, add on, or star User A's data, and it runs on a separate Supabase test project (#30). |
+| Test 2: Dashboard stat | Shipped | Done | Breaking the code on purpose showed me the test really does catch a real mistake. | Built as planned (#29); I also added 4 Missed Rewards tests (#32). |
+| Database (section 3) | Changed | Done | Plain-English types have to become real database types, and the database can back up the app's rules. | Same five tables and relationships, with real types and extra safety rules; the full comparison is in `schema.md` (#8, #10, #14, #27). |
+| Design: teal accent | Changed | Done | A color can look fine and still fail contrast; measuring it beats judging by eye. | My decision: light teal is now #00716C, dark filled buttons #007C77, and dark teal on raised panels #00B0AA, so text passes contrast (#34). |
+| Design: teal's meaning | Changed | Done | One color should mean one thing. | My decision: the plan didn't define this, so I made teal mean tappable; money and rates use the regular text color, and the chart's bars are the one exception (#34). |
+| Design: frosted header and theme switch | Changed | Done | Repeating the app's name above every page made it feel like a website, not an app. | My decision: signed-in phone screens have no top bar, and the System / Light / Dark switch moved to Account (#34). |
+| Design: "are you sure?" dialog | Changed | Done | The right pattern depends on the device. | The review recommended an action sheet on phones, so delete uses one there and keeps the planned dialog on wider screens (#34). |
