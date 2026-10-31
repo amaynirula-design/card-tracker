@@ -1,12 +1,13 @@
 "use client";
 
-import { useActionState, useEffect, useRef } from "react";
+import { useActionState, useEffect, useRef, useState } from "react";
 import { ConfirmDialog, type ConfirmState } from "@/app/components/confirm-dialog";
 import { Affix, Field, FormSection, inputClasses, numberClasses } from "@/app/components/form";
 import { IconSelector } from "@/app/components/icons";
 import { SheetBar } from "@/app/components/sheet-bar";
 import type { Card } from "@/lib/cards";
-import { CATEGORIES } from "@/lib/categories";
+import { CATEGORIES, type Category } from "@/lib/categories";
+import { suggestCategory } from "@/lib/category-suggestions";
 import { todayISO } from "@/lib/format";
 import { MAX_MERCHANT_LENGTH, MAX_NOTES_LENGTH } from "@/lib/purchase-validation";
 import type { Purchase } from "@/lib/purchases";
@@ -43,6 +44,19 @@ export function PurchaseForm({
   const initial = (field: string, saved: string | number | null | undefined) =>
     values ? (values[field] ?? "") : saved === undefined || saved === null ? "" : String(saved);
 
+  // On a new purchase, the category follows the merchant until it's picked by
+  // hand. An existing purchase keeps the category it was saved with.
+  const pickedCategory = useRef(Boolean(purchase));
+  const [suggestion, setSuggestion] = useState<Category>();
+
+  function suggestFrom(merchant: string) {
+    if (pickedCategory.current) return;
+    const suggested = suggestCategory(merchant);
+    const select = formRef.current?.elements.namedItem("category") as HTMLSelectElement | null;
+    if (select) select.value = suggested ?? "";
+    setSuggestion(suggested);
+  }
+
   // With only one card, there's nothing to choose.
   const defaultCard = purchase?.card.id ?? (cards.length === 1 ? cards[0].id : "");
 
@@ -70,6 +84,7 @@ export function PurchaseForm({
               placeholder="Trader Joe’s"
               maxLength={MAX_MERCHANT_LENGTH}
               autoComplete="off"
+              onChange={(event) => suggestFrom(event.target.value)}
               aria-invalid={Boolean(errors.merchant)}
               className={inputClasses}
             />
@@ -99,35 +114,44 @@ export function PurchaseForm({
           </Field>
         </FormSection>
 
-        <FormSection error={[errors.category, errors.card_id]}>
-          <Field label="Category" invalid={Boolean(errors.category)}>
-            <Select
-              name="category"
-              defaultValue={initial("category", purchase?.category)}
-              invalid={Boolean(errors.category)}
-            >
-              {CATEGORIES.map((category) => (
-                <option key={category} value={category}>
-                  {category}
-                </option>
-              ))}
-            </Select>
-          </Field>
-          <Field label="Card" invalid={Boolean(errors.card_id)}>
-            <Select
-              name="card_id"
-              defaultValue={initial("card_id", defaultCard)}
-              invalid={Boolean(errors.card_id)}
-            >
-              {cards.map((card) => (
-                <option key={card.id} value={card.id}>
-                  {card.name}
-                  {card.isActive ? "" : " (closed)"}
-                </option>
-              ))}
-            </Select>
-          </Field>
-        </FormSection>
+        <div className="space-y-1.5">
+          <FormSection error={[errors.category, errors.card_id]}>
+            <Field label="Category" invalid={Boolean(errors.category)}>
+              <Select
+                name="category"
+                defaultValue={initial("category", purchase?.category)}
+                invalid={Boolean(errors.category)}
+                onChange={() => {
+                  pickedCategory.current = true;
+                  setSuggestion(undefined);
+                }}
+              >
+                {CATEGORIES.map((category) => (
+                  <option key={category} value={category}>
+                    {category}
+                  </option>
+                ))}
+              </Select>
+            </Field>
+            <Field label="Card" invalid={Boolean(errors.card_id)}>
+              <Select
+                name="card_id"
+                defaultValue={initial("card_id", defaultCard)}
+                invalid={Boolean(errors.card_id)}
+              >
+                {cards.map((card) => (
+                  <option key={card.id} value={card.id}>
+                    {card.name}
+                    {card.isActive ? "" : " (closed)"}
+                  </option>
+                ))}
+              </Select>
+            </Field>
+          </FormSection>
+          <p role="status" className="px-4 text-footnote leading-snug text-label-secondary">
+            {suggestion && `${suggestion} was suggested from the merchant. Change it if it's wrong.`}
+          </p>
+        </div>
 
         <FormSection header="Notes" error={errors.notes}>
           <textarea
@@ -161,11 +185,13 @@ function Select({
   name,
   defaultValue,
   invalid,
+  onChange,
   children,
 }: {
   name: string;
   defaultValue: string;
   invalid?: boolean;
+  onChange?: () => void;
   children: React.ReactNode;
 }) {
   return (
@@ -177,6 +203,7 @@ function Select({
         key={defaultValue}
         name={name}
         defaultValue={defaultValue}
+        onChange={onChange}
         aria-invalid={invalid}
         className="h-11 min-w-0 cursor-pointer appearance-none truncate bg-transparent pr-1 text-right text-body text-label outline-none [&:has(option[value='']:checked)]:text-label-tertiary"
       >
