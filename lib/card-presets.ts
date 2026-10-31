@@ -5,10 +5,10 @@ import type { Card } from "./cards";
 // Picking one fills in the New Card form; saving copies the values into the
 // user's own card, so editing that card never changes the preset.
 //
-// Rates are as of mid-2026 and issuers change them. Caps, rotating categories,
+// Rates were checked against issuers' pages in October 2026, and issuers change them. Caps, rotating categories,
 // and portal bonuses are approximated with one fixed rate per category, and the
-// note says so (PLAN.md section 7). Point values are a starting guess that each
-// person can change.
+// note says so (PLAN.md section 7). Point values are the base value of 1¢, and
+// each person can change theirs.
 
 export type CardPreset = Omit<Card, "id" | "isActive"> & {
   id: string;
@@ -17,7 +17,7 @@ export type CardPreset = Omit<Card, "id" | "isActive"> & {
   note?: string;
 };
 
-export const PRESETS_UPDATED = "mid-2026";
+export const PRESETS_UPDATED = "October 2026";
 
 export const CARD_PRESETS: CardPreset[] = [
   {
@@ -25,20 +25,20 @@ export const CARD_PRESETS: CardPreset[] = [
     issuer: "Chase",
     name: "Chase Sapphire Preferred",
     rewardType: "points",
-    pointValueCents: 1.25,
+    pointValueCents: 1,
     annualFee: 95,
-    rates: { Dining: 3, Streaming: 3, Travel: 2, "Everything Else": 1 },
-    note: "3× on online groceries and 5× on travel booked through Chase aren't separate categories here.",
+    rates: { Dining: 3, Streaming: 3, Gas: 3, Travel: 2, "Everything Else": 1 },
+    note: "3× on online groceries and 5× on travel booked through Chase aren't separate categories here. A point is set to 1¢, its base value; change it if you get more.",
   },
   {
     id: "chase-sapphire-reserve",
     issuer: "Chase",
     name: "Chase Sapphire Reserve",
     rewardType: "points",
-    pointValueCents: 1.5,
+    pointValueCents: 1,
     annualFee: 795,
     rates: { Dining: 3, Travel: 4, "Everything Else": 1 },
-    note: "Travel is set to 4× (flights and hotels booked directly). 8× through Chase Travel isn't tracked separately.",
+    note: "Travel is set to 4× (flights and hotels booked directly); other travel earns 1×. 8× through Chase Travel isn't tracked separately. A point is set to 1¢, its base value; change it if you get more.",
   },
   {
     id: "chase-freedom-unlimited",
@@ -58,7 +58,7 @@ export const CARD_PRESETS: CardPreset[] = [
     pointValueCents: 1,
     annualFee: 325,
     rates: { Dining: 4, Groceries: 4, Travel: 3, "Everything Else": 1 },
-    note: "4× at U.S. supermarkets is capped at $25,000 a year. Travel is 3× on flights booked directly with airlines.",
+    note: "4× is capped at $50,000 a year at restaurants and $25,000 at U.S. supermarkets, then 1×. Travel is 3× on flights booked directly with airlines or through Amex Travel.",
   },
   {
     id: "amex-blue-cash-preferred",
@@ -88,6 +88,7 @@ export const CARD_PRESETS: CardPreset[] = [
     pointValueCents: 1,
     annualFee: 0,
     rates: { Dining: 3, Groceries: 3, Streaming: 3, "Everything Else": 1 },
+    note: "3% on entertainment isn't a category here.",
   },
   {
     id: "capital-one-venture-x",
@@ -97,7 +98,7 @@ export const CARD_PRESETS: CardPreset[] = [
     pointValueCents: 1,
     annualFee: 395,
     rates: { "Everything Else": 2 },
-    note: "10× on hotels and 5× on flights booked through Capital One Travel aren't tracked separately.",
+    note: "Earns miles, shown here as points. 10× on hotels and rental cars and 5× on flights and vacation rentals booked through Capital One Travel aren't tracked separately.",
   },
   {
     id: "capital-one-venture",
@@ -107,6 +108,7 @@ export const CARD_PRESETS: CardPreset[] = [
     pointValueCents: 1,
     annualFee: 95,
     rates: { "Everything Else": 2 },
+    note: "Earns miles, shown here as points. 5× on hotels, vacation rentals, and rental cars booked through Capital One Travel isn't tracked separately.",
   },
   {
     id: "citi-double-cash",
@@ -126,7 +128,7 @@ export const CARD_PRESETS: CardPreset[] = [
     pointValueCents: 1,
     annualFee: 0,
     rates: { Dining: 5, "Everything Else": 1 },
-    note: "5% goes to your top category each month (up to $500). It's set here as Dining — change it to yours.",
+    note: "5% goes to your top category each billing cycle, on the first $500. It's set here as Dining — change it to yours.",
   },
   {
     id: "discover-it-cash-back",
@@ -165,7 +167,7 @@ export const CARD_PRESETS: CardPreset[] = [
     pointValueCents: 1,
     annualFee: 0,
     rates: { "Online Shopping": 5, Dining: 2, Gas: 2, Transit: 2, "Everything Else": 1 },
-    note: "5% is at Amazon and Whole Foods with a Prime membership, set here as Online Shopping.",
+    note: "5% is at Amazon, Whole Foods, and Chase Travel with a Prime membership, set here as Online Shopping.",
   },
 ];
 
