@@ -585,7 +585,7 @@
     "rules": [
       {
         "name": "The One Yellow Rule",
-        "body": "Yellow means the winning route and its selected origin, and nothing else. In practice that is the winner's route, stop, rate, code, and tag, plus the selected category key. The logo qualifies because it is a drawn winning route. The map's origin dot and code stay white. Never use yellow for a highlight, a badge, a star, or a primary button. The browser's text-selection color is also yellow today; that is carried in the build, not a precedent.",
+        "body": "Yellow means the winning route and its selected origin, and nothing else. In practice that is the winner's route, stop, rate, code, and tag, plus the selected category key. The logo qualifies because it is a drawn winning route. The map's origin dot and code stay white. Never use yellow for a highlight, a badge, a star, or a primary button.",
         "section": "colors"
       },
       {
