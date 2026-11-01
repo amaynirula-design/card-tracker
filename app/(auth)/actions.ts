@@ -47,7 +47,7 @@ export async function signUp(_prev: AuthFormState, formData: FormData): Promise<
     return { email, error: "Check your email to confirm your account, then log in." };
   }
 
-  redirect("/purchases");
+  redirect("/cards/best");
 }
 
 export async function logIn(_prev: AuthFormState, formData: FormData): Promise<AuthFormState> {
@@ -67,7 +67,7 @@ export async function logIn(_prev: AuthFormState, formData: FormData): Promise<A
     return { email, error: "We couldn't log you in. Please try again." };
   }
 
-  redirect("/purchases");
+  redirect("/cards/best");
 }
 
 export async function logOut() {

@@ -1,0 +1,668 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-01T02:18:57.434079+00:00",
+  "title": "Design System: Card Tracker",
+  "extensions": {
+    "colorMeta": {
+      "ultramarine": {
+        "role": "primary",
+        "displayName": "Ultramarine Ground",
+        "canonical": "#2230c8",
+        "tonalRamp": [
+          "#030038",
+          "#0b016e",
+          "#1806ae",
+          "#2d44db",
+          "#4d71fb",
+          "#80a0fc",
+          "#bacdfe",
+          "#e8eeff"
+        ]
+      },
+      "ultramarine-deep": {
+        "role": "primary",
+        "displayName": "Deep Ultramarine",
+        "canonical": "#1a269f",
+        "tonalRamp": [
+          "#030037",
+          "#0b0070",
+          "#18219b",
+          "#334ec7",
+          "#5274f0",
+          "#7f9ffe",
+          "#bacdfe",
+          "#e8eeff"
+        ]
+      },
+      "pale-land": {
+        "role": "secondary",
+        "displayName": "Pale Land",
+        "canonical": "#f1f2fb",
+        "tonalRamp": [
+          "#0a0b0f",
+          "#202127",
+          "#393a41",
+          "#5c5d64",
+          "#7f7f87",
+          "#a3a4ac",
+          "#cccdd4",
+          "#eeeef1"
+        ]
+      },
+      "ink": {
+        "role": "secondary",
+        "displayName": "Timetable Ink",
+        "canonical": "#0e1240",
+        "tonalRamp": [
+          "#050529",
+          "#151b4a",
+          "#2c3667",
+          "#4d5a8e",
+          "#6f7db4",
+          "#92a1db",
+          "#bdcbff",
+          "#e9eeff"
+        ]
+      },
+      "panel": {
+        "role": "neutral",
+        "displayName": "Panel White",
+        "canonical": "#ffffff",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#222222",
+          "#3a3a3a",
+          "#5d5d5d",
+          "#808080",
+          "#a4a4a4",
+          "#cecece",
+          "#eeeeee"
+        ]
+      },
+      "winner": {
+        "role": "tertiary",
+        "displayName": "Winning Yellow",
+        "canonical": "#ffd21f",
+        "tonalRamp": [
+          "#120a00",
+          "#2b2000",
+          "#483901",
+          "#715b00",
+          "#9a7d08",
+          "#c4a118",
+          "#f0ca4a",
+          "#fdeec0"
+        ]
+      },
+      "missed": {
+        "role": "tertiary",
+        "displayName": "Missed Orange",
+        "canonical": "#ff6b2c",
+        "tonalRamp": [
+          "#210000",
+          "#400e00",
+          "#671f00",
+          "#9e3703",
+          "#d44f0e",
+          "#fe7641",
+          "#febca4",
+          "#ffe9e2"
+        ]
+      },
+      "missed-ink": {
+        "role": "tertiary",
+        "displayName": "Missed Ink",
+        "canonical": "#a83a08",
+        "tonalRamp": [
+          "#220000",
+          "#420c00",
+          "#671e00",
+          "#9f3607",
+          "#ca5930",
+          "#f47f56",
+          "#febca5",
+          "#ffe9e2"
+        ]
+      },
+      "danger": {
+        "role": "neutral",
+        "displayName": "Danger Red",
+        "canonical": "#b4123c",
+        "tonalRamp": [
+          "#220003",
+          "#470010",
+          "#720020",
+          "#af0638",
+          "#d94059",
+          "#fe6f7f",
+          "#feb9bc",
+          "#ffe8e9"
+        ]
+      },
+      "field-line": {
+        "role": "neutral",
+        "displayName": "Field Line",
+        "canonical": "#6b70a0",
+        "tonalRamp": [
+          "#070625",
+          "#1b1c44",
+          "#333560",
+          "#555987",
+          "#767cad",
+          "#9aa0d3",
+          "#c4caf7",
+          "#ebedff"
+        ]
+      },
+      "ground-fg": {
+        "role": "neutral",
+        "displayName": "Ground Text",
+        "canonical": "#ffffff",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#222222",
+          "#3a3a3a",
+          "#5d5d5d",
+          "#808080",
+          "#a4a4a4",
+          "#cecece",
+          "#eeeeee"
+        ]
+      },
+      "ground-fg-soft": {
+        "role": "neutral",
+        "displayName": "Ground Soft",
+        "canonical": "#d4d8ff",
+        "tonalRamp": [
+          "#08081e",
+          "#1d1e3b",
+          "#353756",
+          "#585a7c",
+          "#7a7da0",
+          "#9ea1c6",
+          "#c8cbec",
+          "#ecedfb"
+        ]
+      },
+      "ground-line": {
+        "role": "neutral",
+        "displayName": "Ground Line",
+        "canonical": "rgb(255 255 255 / 0.28)",
+        "tonalRamp": [
+          "rgb(255 255 255 / 0.04)",
+          "rgb(255 255 255 / 0.08)",
+          "rgb(255 255 255 / 0.14)",
+          "rgb(255 255 255 / 0.2)",
+          "rgb(255 255 255 / 0.24)",
+          "rgb(255 255 255 / 0.28)",
+          "rgb(255 255 255 / 0.4)",
+          "rgb(255 255 255 / 0.6)"
+        ]
+      },
+      "ground-fill": {
+        "role": "neutral",
+        "displayName": "Ground Fill",
+        "canonical": "rgb(255 255 255 / 0.14)",
+        "tonalRamp": [
+          "rgb(255 255 255 / 0.04)",
+          "rgb(255 255 255 / 0.08)",
+          "rgb(255 255 255 / 0.14)",
+          "rgb(255 255 255 / 0.2)",
+          "rgb(255 255 255 / 0.24)",
+          "rgb(255 255 255 / 0.28)",
+          "rgb(255 255 255 / 0.4)",
+          "rgb(255 255 255 / 0.6)"
+        ]
+      },
+      "ground-fill-strong": {
+        "role": "neutral",
+        "displayName": "Ground Fill Strong",
+        "canonical": "rgb(255 255 255 / 0.24)",
+        "tonalRamp": [
+          "rgb(255 255 255 / 0.04)",
+          "rgb(255 255 255 / 0.08)",
+          "rgb(255 255 255 / 0.14)",
+          "rgb(255 255 255 / 0.2)",
+          "rgb(255 255 255 / 0.24)",
+          "rgb(255 255 255 / 0.28)",
+          "rgb(255 255 255 / 0.4)",
+          "rgb(255 255 255 / 0.6)"
+        ]
+      },
+      "ground-action-hover": {
+        "role": "neutral",
+        "displayName": "Ground Action Hover",
+        "canonical": "#e3e6f7",
+        "tonalRamp": [
+          "#090a13",
+          "#1f212d",
+          "#373a47",
+          "#5a5d6b",
+          "#7d7f8e",
+          "#a1a4b3",
+          "#cacddb",
+          "#edeef4"
+        ]
+      },
+      "land-fg-soft": {
+        "role": "neutral",
+        "displayName": "Land Soft",
+        "canonical": "#3a3f6b",
+        "tonalRamp": [
+          "#070625",
+          "#1a1c44",
+          "#313661",
+          "#535988",
+          "#757cad",
+          "#99a1d4",
+          "#c3cbf8",
+          "#eaedfe"
+        ]
+      },
+      "land-line": {
+        "role": "neutral",
+        "displayName": "Land Rule",
+        "canonical": "#c9cdea",
+        "tonalRamp": [
+          "#080919",
+          "#1e1f35",
+          "#363850",
+          "#585c75",
+          "#7b7e99",
+          "#9fa2be",
+          "#c8cce5",
+          "#eceef8"
+        ]
+      },
+      "land-fill": {
+        "role": "neutral",
+        "displayName": "Land Fill",
+        "canonical": "#e3e6f7",
+        "tonalRamp": [
+          "#090a13",
+          "#1f212d",
+          "#373a47",
+          "#5a5d6b",
+          "#7d7f8e",
+          "#a1a4b3",
+          "#cacddb",
+          "#edeef4"
+        ]
+      },
+      "land-fill-strong": {
+        "role": "neutral",
+        "displayName": "Land Fill Strong",
+        "canonical": "#d3d7f0",
+        "tonalRamp": [
+          "#080a17",
+          "#1e2032",
+          "#36394d",
+          "#595c71",
+          "#7b7f95",
+          "#9fa3bb",
+          "#c9cce1",
+          "#eceef7"
+        ]
+      },
+      "fleet-teal": {
+        "role": "tertiary",
+        "displayName": "Fleet Teal",
+        "canonical": "#25d6c8",
+        "tonalRamp": [
+          "#00100d",
+          "#002925",
+          "#00453f",
+          "#0a6c65",
+          "#06948a",
+          "#19bdb0",
+          "#69e6d9",
+          "#ccf9f3"
+        ]
+      },
+      "fleet-pink": {
+        "role": "tertiary",
+        "displayName": "Fleet Pink",
+        "canonical": "#ff8fc4",
+        "tonalRamp": [
+          "#20000f",
+          "#430027",
+          "#6d0043",
+          "#973167",
+          "#bf568b",
+          "#e87baf",
+          "#feb5d5",
+          "#ffe7f1"
+        ]
+      },
+      "fleet-lime": {
+        "role": "tertiary",
+        "displayName": "Fleet Lime",
+        "canonical": "#a8e05f",
+        "tonalRamp": [
+          "#040f00",
+          "#162800",
+          "#2a4300",
+          "#466a00",
+          "#62910b",
+          "#83b832",
+          "#b0e077",
+          "#e2f7cd"
+        ]
+      },
+      "fleet-lilac": {
+        "role": "tertiary",
+        "displayName": "Fleet Lilac",
+        "canonical": "#c9a8ff",
+        "tonalRamp": [
+          "#13002b",
+          "#2e0452",
+          "#472470",
+          "#6a4a98",
+          "#8d6dbf",
+          "#b291e6",
+          "#d7c1fe",
+          "#f1ebff"
+        ]
+      },
+      "fleet-sky": {
+        "role": "tertiary",
+        "displayName": "Fleet Sky",
+        "canonical": "#6fc8ff",
+        "tonalRamp": [
+          "#000d1b",
+          "#00253a",
+          "#003f5e",
+          "#006592",
+          "#2b89bd",
+          "#55afe4",
+          "#99d6fe",
+          "#dff2ff"
+        ]
+      },
+      "fleet-mist": {
+        "role": "tertiary",
+        "displayName": "Fleet Mist",
+        "canonical": "#d9deff",
+        "tonalRamp": [
+          "#08091b",
+          "#1d1f37",
+          "#353852",
+          "#585b77",
+          "#7a7e9c",
+          "#9ea2c1",
+          "#c8cce7",
+          "#eceef9"
+        ]
+      },
+      "fleet-closed": {
+        "role": "tertiary",
+        "displayName": "Closed Grey",
+        "canonical": "#a6a9c4",
+        "tonalRamp": [
+          "#090919",
+          "#1e1f34",
+          "#36384f",
+          "#595b74",
+          "#7b7e98",
+          "#9fa2bd",
+          "#c9cce4",
+          "#eceef8"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "The purchase amount on its detail screen only."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Every screen title, on the ground."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "The answer on land and the missed-rewards sentence."
+      },
+      "lead": {
+        "displayName": "Lead",
+        "purpose": "Form section headers, dialog and empty-state titles, and dashboard stat values."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Default reading text."
+      },
+      "small": {
+        "displayName": "Small",
+        "purpose": "Row subtitles, footers, and notes."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Field labels, list headers, and buttons."
+      },
+      "code": {
+        "displayName": "Code",
+        "purpose": "Three-letter tags and the wordmark. The only uppercase in the system."
+      },
+      "code-key": {
+        "displayName": "Code Key",
+        "purpose": "Category keys."
+      },
+      "caption": {
+        "displayName": "Caption",
+        "purpose": "Phone tab labels only."
+      }
+    },
+    "shadows": [
+      {
+        "name": "dialog-lift",
+        "value": "0 12px 32px rgb(14 18 64 / 0.35)",
+        "purpose": "Confirmation dialogs only, over an ink scrim at 60%."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease-out-expo",
+        "value": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "Dialog rise and switch thumb."
+      },
+      {
+        "name": "route-swing",
+        "value": "420ms, 1 - 2^(-10t)",
+        "purpose": "Routes moving to new stops, tweened by hand. Instant under Reduce Motion."
+      },
+      {
+        "name": "route-stroke",
+        "value": "200ms",
+        "purpose": "Route weight and color when a category changes."
+      },
+      {
+        "name": "dialog-in",
+        "value": "200ms, rise 12px with fade",
+        "purpose": "Dialogs opening."
+      },
+      {
+        "name": "control-color",
+        "value": "150ms",
+        "purpose": "Button, key, and switch color changes."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "sm",
+        "value": "40rem"
+      },
+      {
+        "name": "md",
+        "value": "48rem"
+      },
+      {
+        "name": "lg",
+        "value": "64rem"
+      },
+      {
+        "name": "xl",
+        "value": "80rem"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button (ground)",
+      "kind": "button",
+      "refersTo": "button-primary-ground",
+      "description": "The main action on ultramarine: white with ink text.",
+      "html": "<div class=\"ds-g\"><button class=\"ds-btn-pg\">Create account</button></div>",
+      "css": ".ds-g{background:var(--ultramarine);color:#fff;padding:20px} .ds-btn-pg{font-family:var(--font-archivo),Archivo,system-ui,sans-serif;height:48px;padding:0 24px;border:0;border-radius:6px;background:#fff;color:var(--ink);font-weight:700;font-size:1rem;cursor:pointer;transition:background-color .15s} .ds-btn-pg:hover{background:#e3e6f7} .ds-btn-pg:focus-visible{outline:2px solid #fff;outline-offset:2px}"
+    },
+    {
+      "name": "Primary Button (land)",
+      "kind": "button",
+      "refersTo": "button-primary-land",
+      "description": "The same button on land: ultramarine with white text.",
+      "html": "<div class=\"ds-l\"><button class=\"ds-btn-pl\">Save</button></div>",
+      "css": ".ds-l{background:var(--pale);color:var(--ink);padding:20px} .ds-btn-pl{font-family:var(--font-archivo),Archivo,system-ui,sans-serif;height:44px;padding:0 16px;border:0;border-radius:6px;background:var(--ultramarine);color:#fff;font-weight:700;font-size:.875rem;cursor:pointer;transition:background-color .15s} .ds-btn-pl:hover{background:var(--ultramarine-deep)} .ds-btn-pl:focus-visible{outline:2px solid var(--ultramarine);outline-offset:2px}"
+    },
+    {
+      "name": "Secondary Button (land)",
+      "kind": "button",
+      "refersTo": "button-secondary-land",
+      "description": "A 1px outline in the current text color, for the other actions.",
+      "html": "<div class=\"ds-l2\"><button class=\"ds-btn-sl\">Edit</button></div>",
+      "css": ".ds-l2{background:var(--pale);color:var(--ink);padding:20px} .ds-btn-sl{font-family:var(--font-archivo),Archivo,system-ui,sans-serif;height:44px;padding:0 16px;border:1px solid currentColor;border-radius:6px;background:transparent;color:var(--ink);font-weight:700;font-size:.875rem;cursor:pointer;transition:background-color .15s} .ds-btn-sl:hover{background:#e3e6f7} .ds-btn-sl:focus-visible{outline:2px solid var(--ultramarine);outline-offset:2px}"
+    },
+    {
+      "name": "Category Keys",
+      "kind": "chip",
+      "refersTo": "category-key",
+      "description": "The grid of category codes. The selected key is the origin, so it is yellow.",
+      "html": "<div class=\"ds-keys\"><button class=\"ds-key ds-key-on\" aria-pressed=\"true\">DIN</button><button class=\"ds-key\" aria-pressed=\"false\">GRO</button><button class=\"ds-key\" aria-pressed=\"false\">GAS</button><button class=\"ds-key\" aria-pressed=\"false\">TVL</button></div>",
+      "css": ".ds-keys{background:var(--ultramarine);color:#fff;padding:20px;display:flex;gap:6px} .ds-key{font-family:var(--font-archivo),Archivo,system-ui,sans-serif;font-stretch:115%;font-weight:800;letter-spacing:.06em;text-transform:uppercase;height:44px;min-width:56px;border:0;border-radius:7px;background:rgb(255 255 255 / .14);color:#fff;font-size:.9375rem;cursor:pointer;transition:background-color .15s} .ds-key:hover{background:rgb(255 255 255 / .24)} .ds-key:focus-visible{outline:2px solid #fff;outline-offset:2px} .ds-key-on,.ds-key-on:hover{background:var(--winner);color:var(--ink)}"
+    },
+    {
+      "name": "Row with Code Tags",
+      "kind": "card",
+      "refersTo": "card-tag",
+      "description": "A land row: tag, name, and the value in the right-aligned column.",
+      "html": "<ul class=\"ds-rows\"><li class=\"ds-row\"><span class=\"ds-tag\" style=\"background:var(--winner)\">AMG</span><span class=\"ds-t\">American Express Gold</span><span class=\"ds-v\">4%</span></li><li class=\"ds-row\"><span class=\"ds-tag\" style=\"background:#a8e05f\">CSP</span><span class=\"ds-t\">Chase Sapphire Preferred</span><span class=\"ds-v\">3.75%</span></li><li class=\"ds-row\"><span class=\"ds-tag\" style=\"background:#6fc8ff\">CIP</span><span class=\"ds-t\">Citi Strata Premier</span><span class=\"ds-v\">3%</span></li></ul>",
+      "css": ".ds-rows{background:var(--pale);color:var(--ink);font-family:var(--font-archivo),Archivo,system-ui,sans-serif;list-style:none;margin:0;padding:20px} .ds-row{display:flex;align-items:center;gap:12px;min-height:56px;border-bottom:1px solid #c9cdea} .ds-tag{font-family:var(--font-archivo),Archivo,system-ui,sans-serif;font-stretch:115%;font-weight:800;letter-spacing:.06em;text-transform:uppercase;display:inline-flex;align-items:center;justify-content:center;height:28px;min-width:56px;padding:0 6px;border-radius:5px;font-size:.875rem;line-height:1;color:var(--ink)} .ds-t{flex:1;font-weight:600} .ds-v{font-weight:700;text-align:right;font-variant-numeric:tabular-nums}"
+    },
+    {
+      "name": "Input",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "A bold label above a white box with a field-line border.",
+      "html": "<div class=\"ds-f\"><label class=\"ds-lb\">Merchant<input class=\"ds-in\" placeholder=\"Trader Joe’s\"></label></div>",
+      "css": ".ds-f{background:var(--pale);color:var(--ink);font-family:var(--font-archivo),Archivo,system-ui,sans-serif;padding:20px} .ds-lb{display:block;font-size:.875rem;font-weight:700} .ds-in{font-family:var(--font-archivo),Archivo,system-ui,sans-serif;display:block;margin-top:6px;width:100%;height:48px;padding:0 12px;border:1px solid var(--field-line);border-radius:6px;background:#fff;color:var(--ink);font-size:1rem} .ds-in::placeholder{color:#3a3f6b} .ds-in:focus-visible{outline:2px solid var(--ultramarine);outline-offset:2px}"
+    },
+    {
+      "name": "Phone Tab Bar",
+      "kind": "nav",
+      "refersTo": "tab-bar",
+      "description": "The white five-tab bar pinned to the bottom on phones. Active is ultramarine with a filled icon.",
+      "html": "<nav class=\"ds-tabs\"><a class=\"ds-tab ds-tab-on\" href=\"#\" aria-current=\"page\"><svg viewBox=\"0 0 24 24\" width=\"24\" height=\"24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\"><path d=\"M5 17Q12 1 19 17\"/><circle cx=\"5\" cy=\"17\" r=\"2.5\" fill=\"currentColor\"/><circle cx=\"19\" cy=\"17\" r=\"2.5\" fill=\"currentColor\"/></svg>Best Card</a><a class=\"ds-tab\" href=\"#\"><svg viewBox=\"0 0 24 24\" width=\"24\" height=\"24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M12 3l2.8 5.7 6.2.9-4.5 4.4 1.1 6.2L12 17.3 6.4 20.2l1.1-6.2L3 9.6l6.2-.9z\"/></svg>Starred</a></nav>",
+      "css": ".ds-tabs{font-family:var(--font-archivo),Archivo,system-ui,sans-serif;display:flex;background:#fff;border-top:1px solid #c9cdea} .ds-tab{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 0 8px;font-size:.6875rem;font-weight:600;line-height:1;font-stretch:88%;color:#3a3f6b;text-decoration:none;transition:color .15s} .ds-tab:hover{color:var(--ink)} .ds-tab-on{color:var(--ultramarine)} .ds-tab:focus-visible{outline:2px solid var(--ultramarine);outline-offset:-2px}"
+    },
+    {
+      "name": "Route Map",
+      "kind": "custom",
+      "refersTo": "route-map",
+      "description": "The signature: routes from a white origin along one percent axis, with one thick yellow winner.",
+      "html": "<div class=\"ds-map\"><svg viewBox=\"0 0 390 250\" role=\"img\" aria-label=\"Dining, percent back by card\"><line x1=\"30\" x2=\"360\" y1=\"186\" y2=\"186\" stroke=\"rgb(255 255 255 / .28)\" stroke-width=\"1.5\"/><path class=\"ds-r\" d=\"M30 186Q120 76 210 186\" stroke=\"#c9a8ff\"/><path class=\"ds-r\" d=\"M30 186Q147 44 264 186\" stroke=\"#6fc8ff\"/><path d=\"M30 186Q165 21 300 186\" fill=\"none\" stroke=\"#ffd21f\" stroke-width=\"6\" stroke-linecap=\"round\"/><circle cx=\"30\" cy=\"186\" r=\"9\" fill=\"#fff\"/><circle cx=\"210\" cy=\"186\" r=\"6\" fill=\"#c9a8ff\"/><circle cx=\"264\" cy=\"186\" r=\"6\" fill=\"#6fc8ff\"/><circle cx=\"300\" cy=\"186\" r=\"9\" fill=\"#ffd21f\"/><text class=\"ds-rate\" x=\"165\" y=\"90\">4%</text><text class=\"ds-c\" x=\"30\" y=\"224\" fill=\"#fff\">DIN</text><text class=\"ds-c\" x=\"210\" y=\"224\" fill=\"#fff\">CDC</text><text class=\"ds-c\" x=\"300\" y=\"224\" fill=\"#ffd21f\">AMG</text></svg></div>",
+      "css": ".ds-map{background:var(--ultramarine);color:#fff;padding:12px} .ds-map svg{display:block;width:100%} .ds-r{fill:none;stroke-width:2.5;stroke-linecap:round;stroke-dasharray:3 7;transition:stroke .2s,stroke-width .2s} .ds-rate{font-family:var(--font-archivo),Archivo,system-ui,sans-serif;font-size:38px;font-weight:800;font-stretch:112%;fill:#ffd21f;text-anchor:middle} .ds-c{font-family:var(--font-archivo),Archivo,system-ui,sans-serif;font-stretch:115%;font-weight:800;letter-spacing:.06em;text-transform:uppercase;font-size:15px;text-anchor:middle}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The System Map",
+    "overview": "Choosing a card is reading a route map. A category is the origin, your cards are destinations, and how far along the line a card sits is what a dollar earns there. The world is a 1960s airline system map and its jellybean fleet: a saturated ultramarine ground, pale land rising from below, one thick yellow route, thin dashed routes in fleet colors, and three-letter codes in place of logos.\n\nThe system has two zones and they do different jobs. The ground carries the question, the map, and the headline numbers; land carries the answer, the lists, and the forms. Every screen is built this way, from Best Card to the add-purchase form. Density is that of a timetable: plain rows between thin rules, one right-aligned column of figures, no cards inside cards.\n\nThe world refuses its category's default: a balance hero, a card carousel, and soft white tiles. It must not look like a bank, and there is a single appearance, with no dark mode and no theme switch.",
+    "keyCharacteristics": [
+      "Two zones, ground and land, set by one class that overrides the color variables",
+      "One fixed percent scale per wallet, so routes move and the ruler stays put",
+      "Two colors with exactly one meaning each: yellow wins, orange was missed",
+      "Three-letter codes as the only identity a card or category has",
+      "One family, Archivo, spoken at three widths",
+      "Phone-first, flat, and answer-first"
+    ],
+    "rules": [
+      {
+        "name": "The One Yellow Rule",
+        "body": "Yellow means the winning route and its selected origin, and nothing else. In practice that is the winner's route, stop, rate, code, and tag, plus the selected category key. The logo qualifies because it is a drawn winning route. The map's origin dot and code stay white. Never use yellow for a highlight, a badge, a star, or a primary button. The browser's text-selection color is also yellow today; that is carried in the build, not a precedent.",
+        "section": "colors"
+      },
+      {
+        "name": "The One Orange Rule",
+        "body": "Orange means missed rewards, and nothing else. It is never an alert, a warning, or a call to action; those are Danger Red's job or nobody's.",
+        "section": "colors"
+      },
+      {
+        "name": "The Orange Legibility Rule",
+        "body": "Orange never appears as bare text, because the raw value reads at 2.6:1 on land and 3.2:1 on the ground. On land, orange text is Missed Ink. On the ground, an orange amount sits in an orange tag with ink text.",
+        "section": "colors"
+      },
+      {
+        "name": "The Livery Rule",
+        "body": "Yellow and orange are not in the fleet. Fleet colors identify a card and carry no value judgment, so no fleet color may suggest better or worse.",
+        "section": "colors"
+      },
+      {
+        "name": "The Words Too Rule",
+        "body": "Color never carries meaning alone. Every map has a ranked text list beside it, the winner is also thicker and solid, and missed amounts are always written out.",
+        "section": "colors"
+      },
+      {
+        "name": "The Width Rule",
+        "body": "Width carries voice: wide for headings, extra wide for codes, narrow only where space is tight. Do not add a second family.",
+        "section": "typography"
+      },
+      {
+        "name": "The Sentence Case Rule",
+        "body": "The only uppercase in the system is a code. Labels and headers stay in sentence case, and no eyebrow sits above a heading.",
+        "section": "typography"
+      },
+      {
+        "name": "The Timetable Rule",
+        "body": "Rates and amounts use tabular figures and sit in one right-aligned column, so they line up down the whole screen.",
+        "section": "typography"
+      },
+      {
+        "name": "The Answer Rises Rule",
+        "body": "The question sits on the ground and the answer sits on land. A new screen's title, lead, and map go on ultramarine; its lists and forms go on a land panel.",
+        "section": "layout"
+      },
+      {
+        "name": "The Fixed Scale Rule",
+        "body": "The map's percent axis is set once per wallet and does not change between categories. Motion means a card moved, never that the ruler did.",
+        "section": "layout"
+      },
+      {
+        "name": "The One Shadow Rule",
+        "body": "Only a dialog leaves the map. Anything in the page stays flat and uses zones and rules for hierarchy.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do set a zone with the land class, and read colors from the zone's variables (text, soft text, line, fill, action, focus) so a component works on both ground and land.",
+      "Do put the question on the ground and the answer on land.",
+      "Do take every card code from `cardCodes` in `lib/card-codes.ts`, so presets keep fixed codes and every code is unique in a wallet.",
+      "Do give every card one fleet color through `cardColor` in `lib/card-colors.ts`, and use ink text on it.",
+      "Do write every value in text beside any map, route, or chart.",
+      "Do use Missed Ink for orange text on land, and an orange tag with ink text on the ground.",
+      "Do keep rates and amounts tabular and right-aligned in one column.",
+      "Do keep routes on one fixed scale, with one thick solid winner and thin dashed others.",
+      "Do honor Reduce Motion in anything hand-animated, as the route tween does."
+    ],
+    "donts": [
+      "Don't use yellow for anything except the winning route and its selected origin.",
+      "Don't use orange for anything except missed rewards.",
+      "Don't use raw Missed Orange as text in either zone.",
+      "Don't add yellow or orange to the fleet.",
+      "Don't build a balance hero, a card carousel, or soft white tiles.",
+      "Don't make it look like a bank, and don't use issuer logos.",
+      "Don't add a dark mode or a theme switch. There is one appearance.",
+      "Don't add a second typeface. Use Archivo's width axis.",
+      "Don't add page shadows, decorative gradients, or blur. The dialog holds the only shadow.",
+      "Don't set uppercase on anything but a code, or put an eyebrow above a heading.",
+      "Don't let the percent axis rescale between categories.",
+      "Don't put Danger Red on the ground."
+    ]
+  }
+}

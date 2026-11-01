@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
-import { ButtonLink } from "@/app/components/button";
-import { IconChart } from "@/app/components/icons";
-import { LargeTitle } from "@/app/components/large-title";
+import { EmptyState } from "@/app/components/empty-state";
+import { Screen } from "@/app/components/screen";
+import { Row, Section } from "@/app/components/rows";
+import { cardCodes } from "@/lib/card-codes";
 import { dashboardStats, formatPercent, inPeriod, type Period } from "@/lib/dashboard";
 import { formatMoney, formatMonth, todayInAppTimeZone } from "@/lib/format";
 import { missedSummary, type MissedSummary } from "@/lib/missed";
@@ -9,7 +10,7 @@ import { getCards } from "../cards/data";
 import { getPurchases } from "../purchases/data";
 import { PeriodSwitch } from "./period-switch";
 import { RewardsChart } from "./rewards-chart";
-import { RewardsRing } from "./rewards-ring";
+import { RewardsRoute } from "./rewards-route";
 
 export const metadata: Metadata = { title: "Dashboard · Card Tracker" };
 
@@ -20,115 +21,126 @@ export default async function DashboardPage({ searchParams }: PageProps<"/dashbo
   const inRange = inPeriod(purchases, period, today);
   const stats = dashboardStats(inRange);
   const missed = missedSummary(inRange, cards);
-  const periodLabel = period === "month" ? formatMonth(today) : "All time";
+  const codes = cardCodes(cards);
+  const empty = stats.purchaseCount === 0;
 
   return (
-    <main className="mx-auto w-full max-w-xl flex-1 px-4 pb-16 pt-5 md:pt-10">
-      <LargeTitle>Dashboard</LargeTitle>
-
-      <div className="mt-4">
-        <PeriodSwitch period={period} />
-      </div>
-      <p className="mt-3 px-1 text-subhead text-label-secondary">
-        {periodLabel} · {stats.purchaseCount} {stats.purchaseCount === 1 ? "purchase" : "purchases"}
-      </p>
-
-      {stats.purchaseCount === 0 ? (
-        <div className="mt-16 flex flex-col items-center text-center">
-          <span className="flex size-16 items-center justify-center rounded-2xl bg-fill text-label-secondary">
-            <IconChart className="size-8" />
-          </span>
-          <h2 className="mt-5 text-title2 font-semibold tracking-tight">
-            {period === "month" && purchases.length > 0 ? "Nothing yet this month" : "No purchases yet"}
-          </h2>
-          <p className="mt-2 max-w-xs text-subhead leading-relaxed text-label-secondary">
-            {period === "month" && purchases.length > 0
-              ? "Switch to All Time to see everything, or log this month's first purchase."
-              : "Log a few purchases and your rewards show up here."}
-          </p>
-          <ButtonLink href="/purchases/new" size="lg" className="mt-6 w-full max-w-xs">
-            Add a Purchase
-          </ButtonLink>
-        </div>
-      ) : (
-        <div className="mt-6 space-y-4">
-          <MissedHero period={period} earned={stats.totalRewards} missed={missed} />
-
-          <div className="grid grid-cols-[repeat(auto-fit,minmax(9rem,1fr))] gap-4">
-            <Tile label="Total Spend">
-              <Stat>{formatMoney(stats.totalSpend)}</Stat>
-            </Tile>
-            <Tile label="Effective Rate">
-              <Stat>{formatPercent(stats.effectiveRate)}</Stat>
-              <p className="mt-1.5 text-footnote text-label-secondary">back on every dollar</p>
-            </Tile>
+    <Screen
+      title="Dashboard"
+      lead={
+        <>
+          <div className="mt-4">
+            <PeriodSwitch period={period} />
           </div>
+          {!empty && (
+            <Missed
+              when={period === "month" ? `in ${formatMonth(today)}` : "so far"}
+              purchaseCount={stats.purchaseCount}
+              earned={stats.totalRewards}
+              missed={missed}
+            />
+          )}
+        </>
+      }
+    >
+      {empty ? (
+        <EmptyState
+          title={period === "month" && purchases.length > 0 ? "Nothing yet this month" : "No purchases yet"}
+          text={
+            period === "month" && purchases.length > 0
+              ? "Switch to All time to see everything, or log this month's first purchase."
+              : "Log a few purchases and your rewards show up here."
+          }
+          href="/purchases/new"
+          action="Add a purchase"
+        />
+      ) : (
+        <div className="space-y-9">
+          <Section>
+            <Row
+              title="Total rewards"
+              trailing={<span className="text-lead font-extrabold">{formatMoney(stats.totalRewards)}</span>}
+            />
+            <Row
+              title="Total spend"
+              trailing={<span className="text-lead font-extrabold">{formatMoney(stats.totalSpend)}</span>}
+            />
+            <Row
+              title="Effective rate"
+              subtitle="Back on every dollar"
+              trailing={<span className="text-lead font-extrabold">{formatPercent(stats.effectiveRate)}</span>}
+            />
+          </Section>
 
-          <Tile label="Rewards by Card">
+          <section>
+            <h2 className="text-small font-bold">Rewards by card</h2>
             {stats.byCard.length > 1 && stats.byCard[0].rewards > stats.byCard[1].rewards && (
-              <p className="-mt-1 mb-3 text-subhead">{stats.byCard[0].name} earned the most.</p>
+              <p className="mt-1 text-fg-soft">{stats.byCard[0].name} earned the most.</p>
             )}
-            <div className="-mx-1 mt-1">
-              <RewardsChart data={stats.byCard.map(({ name, rewards }) => ({ name, rewards }))} />
+            <div className="mt-3">
+              <RewardsChart
+                data={stats.byCard.map(({ cardId, name, rewards }) => {
+                  const card = cards.find((each) => each.id === cardId);
+                  return { id: cardId, name, rewards, isActive: card?.isActive ?? false, code: codes.get(cardId) };
+                })}
+              />
             </div>
-          </Tile>
+          </section>
         </div>
       )}
-    </main>
+    </Screen>
   );
 }
 
-// The app's signature (feature 9): the ring, then what using the wrong card cost
-// in one sentence, and the one change that fixes most of it.
-function MissedHero({
-  period,
+// The dashboard's headline (feature 9): what using the wrong card cost in one
+// sentence, the one change that fixes most of it, then the route.
+function Missed({
+  when,
+  purchaseCount,
   earned,
   missed,
 }: {
-  period: Period;
+  // "in October 2026" or "so far".
+  when: string;
+  purchaseCount: number;
   earned: number;
   missed: MissedSummary;
 }) {
   const biggest = missed.biggest;
+  const purchases = purchaseCount === 1 ? "purchase" : "purchases";
   return (
-    <section aria-label="Missed rewards" className="px-1 pb-3 pt-2 text-center">
-      <RewardsRing earned={earned} missed={missed.totalMissed} />
+    <section aria-label="Missed rewards" className="mt-5">
       {missed.totalMissed > 0 ? (
         <>
-          <p className="mt-5 text-title2 font-bold leading-tight tracking-tight">
-            You left <span className="tabular text-danger">{formatMoney(missed.totalMissed)}</span> on the table{" "}
-            {period === "month" ? "this month" : "so far"}.
+          <p className="wide text-title font-extrabold leading-[1.15] tracking-tight">
+            You left{" "}
+            <span className="tabular whitespace-nowrap rounded-[5px] bg-missed px-1.5 text-ink">
+              {formatMoney(missed.totalMissed)}
+            </span>{" "}
+            on the table {when}.
           </p>
-          <p className="mt-2 text-subhead text-label-secondary">
-            Across {missed.missedCount} {missed.missedCount === 1 ? "purchase" : "purchases"}.
+          <p className="mt-2 leading-snug text-fg-soft">
+            Across {missed.missedCount} of {purchaseCount} {purchases}.
             {biggest && biggest.bestCards.length > 0 && (
               <>
                 {" "}
-                Use <span className="font-semibold text-label">{biggest.bestCards.map((card) => card.name).join(" or ")}</span>{" "}
+                Use <span className="font-bold text-fg">{biggest.bestCards.map((card) => card.name).join(" or ")}</span>{" "}
                 for {biggest.category} to save the most ({formatMoney(biggest.missed)}).
               </>
             )}
           </p>
         </>
       ) : (
-        <p className="mt-5 text-title2 font-bold leading-tight tracking-tight">
-          You used your best card every time.
-        </p>
+        <>
+          <p className="wide text-title font-extrabold leading-[1.15] tracking-tight">
+            You used your best card every time {when}.
+          </p>
+          <p className="mt-2 leading-snug text-fg-soft">
+            Across {purchaseCount} {purchases}.
+          </p>
+        </>
       )}
-    </section>
-  );
-}
-
-function Stat({ children }: { children: React.ReactNode }) {
-  return <p className="tabular text-title1 font-bold leading-none tracking-tight">{children}</p>;
-}
-
-// A rounded summary panel with a small label on top.
-function Tile({ label, children }: { label: string; children: React.ReactNode }) {
-  return (
-    <section className="rounded-2xl bg-surface p-4 shadow-panel">
-      <h2 className="mb-3 text-subhead font-semibold text-label-secondary">{label}</h2>
-      {children}
+      <RewardsRoute earned={earned} missed={missed.totalMissed} />
     </section>
   );
 }

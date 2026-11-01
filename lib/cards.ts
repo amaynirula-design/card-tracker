@@ -43,6 +43,12 @@ export function formatRate(card: Pick<Card, "rewardType">, rate: number): string
   return card.rewardType === "cashback" ? `${formatNumber(rate)}%` : `${formatNumber(rate)}×`;
 }
 
+// A card's best category and what it earns there, for ranking cards.
+export function topRate(card: Card): { category: Category; percent: number } {
+  const category = [...CATEGORIES].sort((a, b) => rewardPercent(card, b) - rewardPercent(card, a))[0];
+  return { category, percent: rewardPercent(card, category) };
+}
+
 // A one-line summary for card lists: the best bonus categories, or the base rate.
 export function rateSummary(card: Card): string {
   const base = rateFor(card, FALLBACK_CATEGORY);

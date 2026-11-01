@@ -1,25 +1,25 @@
 import Link from "next/link";
 
-// Apple-style buttons: "filled" for the main action on a screen, "tinted" for
-// secondary actions, "plain" for text-only links.
-type Variant = "filled" | "tinted" | "plain";
+// "primary" for the main action on a screen, "secondary" for the others, "text"
+// for links. Their colors come from the zone they sit in (see globals.css).
+type Variant = "primary" | "secondary" | "text";
 type Size = "md" | "lg";
 
 const base =
-  "inline-flex items-center justify-center gap-2 rounded-xl font-semibold transition-[opacity,transform] duration-150 active:scale-[0.98] disabled:pointer-events-none disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent";
+  "inline-flex items-center justify-center gap-2 rounded-md font-bold transition-colors duration-150 disabled:pointer-events-none disabled:opacity-50";
 
 const variants: Record<Variant, string> = {
-  filled: "bg-accent-fill text-on-accent hover:opacity-90",
-  tinted: "bg-accent-soft text-accent hover:opacity-80",
-  plain: "text-accent hover:opacity-70",
+  primary: "bg-action text-on-action hover:bg-action-hover",
+  secondary: "border border-current text-fg hover:bg-fill",
+  text: "text-fg underline decoration-1 underline-offset-4 hover:decoration-2",
 };
 
 const sizes: Record<Size, string> = {
-  md: "h-11 px-5 text-subhead",
-  lg: "h-[50px] px-6 text-body",
+  md: "h-11 px-4 text-small",
+  lg: "h-12 px-6 text-body",
 };
 
-export function buttonClasses(variant: Variant = "filled", size: Size = "md", className = "") {
+export function buttonClasses(variant: Variant = "primary", size: Size = "md", className = "") {
   return [base, variants[variant], sizes[size], className].join(" ");
 }
 

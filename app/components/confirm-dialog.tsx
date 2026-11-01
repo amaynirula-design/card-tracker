@@ -2,12 +2,13 @@
 
 import { useActionState, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
+import { Button } from "./button";
 
 export type ConfirmState = { error?: string };
 
-// An "are you sure?" alert in the style of iOS: a red button opens it, and the
-// action only runs if you confirm. The alert is drawn on top of the page (in a
-// portal) so it can hold its own form even when the button sits inside another form.
+// An "are you sure?" dialog: a red button opens it, and the action only runs if
+// you confirm. It's drawn on top of the page (in a portal) so it can hold its own
+// form even when the button sits inside another form.
 export function ConfirmDialog({
   triggerLabel,
   title,
@@ -28,7 +29,7 @@ export function ConfirmDialog({
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="h-12 w-full rounded-2xl bg-surface text-body text-danger shadow-panel transition-opacity hover:opacity-80 active:opacity-60"
+        className="h-12 w-full rounded-md border border-danger text-body font-bold text-danger transition-colors hover:bg-danger hover:text-white"
       >
         {triggerLabel}
       </button>
@@ -47,8 +48,8 @@ export function ConfirmDialog({
   );
 }
 
-// A centered alert on wide screens. On phones the same dialog is an action sheet
-// at the bottom of the screen, with Cancel on its own below, like Mail and Photos.
+// Centered on wide screens; at the bottom of the screen on phones, where the
+// buttons are within reach of a thumb.
 export function Alert({
   title,
   message,
@@ -79,38 +80,30 @@ export function Alert({
       ref={ref}
       onClose={onClose}
       aria-labelledby="confirm-title"
-      className="alert-in m-auto w-[270px] bg-transparent p-0 text-center text-label backdrop:bg-black/40 max-md:mb-[calc(env(safe-area-inset-bottom)+0.5rem)] max-md:w-[calc(100%-1rem)] max-md:max-w-md"
+      className="land dialog-in m-auto w-[22rem] max-w-[calc(100%-1rem)] rounded-[1.25rem] p-5 shadow-[0_12px_32px_rgb(14_18_64/0.35)] backdrop:bg-ink/60 max-md:mb-[calc(env(safe-area-inset-bottom)+0.5rem)] max-md:w-[calc(100%-1rem)] max-md:max-w-md"
     >
-      <form
-        action={formAction}
-        className="flex flex-col text-body md:grid md:grid-cols-2 md:overflow-hidden md:rounded-[14px] md:shadow-2xl"
-      >
-        <div className="rounded-t-[14px] bg-surface-raised px-4 pb-4 pt-5 md:col-span-2 md:rounded-none">
-          <h2 id="confirm-title" className="font-semibold max-md:text-footnote max-md:text-label-secondary">
-            {title}
-          </h2>
-          <p className="mt-1 text-footnote leading-snug max-md:text-label-secondary">{message}</p>
-          {state.error && (
-            <p role="alert" className="mt-2 text-footnote leading-snug text-danger">
-              {state.error}
-            </p>
-          )}
+      <form action={formAction}>
+        <h2 id="confirm-title" className="wide text-lead font-extrabold leading-tight tracking-tight">
+          {title}
+        </h2>
+        <p className="mt-2 leading-snug text-fg-soft">{message}</p>
+        {state.error && (
+          <p role="alert" className="mt-2 text-small font-semibold leading-snug text-danger">
+            {state.error}
+          </p>
+        )}
+        <div className="mt-5 grid grid-cols-2 gap-2">
+          <Button type="button" variant="secondary" size="lg" autoFocus onClick={() => ref.current?.close()}>
+            {cancelLabel}
+          </Button>
+          <button
+            type="submit"
+            disabled={pending}
+            className="h-12 rounded-md bg-danger font-bold text-white transition-opacity hover:opacity-90 disabled:opacity-50"
+          >
+            {pending ? pendingLabel : confirmLabel}
+          </button>
         </div>
-        <button
-          type="button"
-          autoFocus
-          onClick={() => ref.current?.close()}
-          className="h-11 border-t border-separator bg-surface-raised text-accent-raised hover:bg-fill max-md:order-last max-md:mt-2 max-md:h-14 max-md:rounded-[14px] max-md:border-t-0 max-md:font-semibold"
-        >
-          {cancelLabel}
-        </button>
-        <button
-          type="submit"
-          disabled={pending}
-          className="h-11 border-t border-separator bg-surface-raised font-semibold text-danger hover:bg-fill disabled:opacity-50 max-md:h-14 max-md:rounded-b-[14px] max-md:font-normal md:border-l"
-        >
-          {pending ? pendingLabel : confirmLabel}
-        </button>
       </form>
     </dialog>
   );

@@ -45,3 +45,10 @@ next-env.d.ts
 
 # local preview config for Claude Code
 /.claude/launch.json
+
+# Impeccable working files
+.impeccable/mocks/
+.impeccable/review/
+.impeccable/build/
+.impeccable/config.local.json
+.impeccable/hook.cache.json

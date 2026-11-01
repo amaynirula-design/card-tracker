@@ -1,17 +1,23 @@
 import { ButtonLink } from "./components/button";
+import { EmptyState } from "./components/empty-state";
+import { Land } from "./components/screen";
+import { PublicHeader } from "./components/public-header";
 
 // Shown for any page that doesn't exist, and for anything that belongs to
 // another user (the database won't return it, so to you it doesn't exist).
 export default function NotFound() {
   return (
-    <main className="mx-auto flex w-full max-w-sm flex-1 flex-col items-center px-4 pb-16 pt-24 text-center">
-      <h1 className="text-title1 font-bold tracking-tight">Not Found</h1>
-      <p className="mt-2 text-body text-label-secondary">
-        This page doesn&apos;t exist, or it isn&apos;t yours.
-      </p>
-      <ButtonLink href="/" variant="tinted" className="mt-8">
-        Go Home
-      </ButtonLink>
-    </main>
+    <>
+      <PublicHeader />
+      <main className="flex flex-1 flex-col pt-6">
+        <h1 className="wide px-5 pb-6 text-headline font-extrabold tracking-tight md:px-10">Not found</h1>
+        <Land>
+          <EmptyState title="No route to this page" text="This page doesn't exist, or it isn't yours." />
+          <ButtonLink href="/" variant="secondary">
+            Go home
+          </ButtonLink>
+        </Land>
+      </main>
+    </>
   );
 }

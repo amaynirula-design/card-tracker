@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { notFound } from "next/navigation";
-import { GroupedSection, ListRow } from "@/app/components/grouped-list";
-import { IconChevronLeft } from "@/app/components/icons";
+import { ButtonLink } from "@/app/components/button";
+import { CardTag, CategoryTag } from "@/app/components/code-tag";
+import { Screen } from "@/app/components/screen";
+import { Row, Section } from "@/app/components/rows";
+import { cardCodes } from "@/lib/card-codes";
 import { formatNumber, formatRate, rateFor } from "@/lib/cards";
-import { CATEGORY_COLORS } from "@/lib/categories";
 import { formatDate, formatMoney } from "@/lib/format";
 import { missedFor } from "@/lib/missed";
 import { purchaseRewards } from "@/lib/rewards";
@@ -30,46 +31,33 @@ export default async function PurchasePage({ params }: PageProps<"/purchases/[id
   const points = purchase.amount * rateFor(card, purchase.category);
 
   return (
-    <main className="mx-auto w-full max-w-xl flex-1 px-4 pb-16 pt-4">
-      <nav className="-ml-1.5 flex items-center justify-between">
-        <Link href="/purchases" className="flex min-h-11 items-center text-body text-accent hover:opacity-70">
-          <IconChevronLeft className="size-6" />
-          Purchases
-        </Link>
-        <div className="flex items-center gap-2">
-          <StarButton purchaseId={purchase.id} starred={purchase.starred} merchant={purchase.merchant} size="lg" />
-          <Link href={`/purchases/${purchase.id}/edit`} className="flex min-h-11 items-center text-body text-accent hover:opacity-70">
-            Edit
-          </Link>
+    <Screen
+      title={purchase.merchant}
+      back={{ href: "/purchases", label: "Purchases" }}
+      lead={
+        <div className="mt-2 flex flex-wrap items-end justify-between gap-x-3 gap-y-2">
+          <div>
+            <p className="tabular wide text-display font-extrabold leading-none tracking-tight">
+              {formatMoney(purchase.amount)}
+            </p>
+            <p className="mt-2 text-small text-fg-soft">{formatDate(purchase.date)}</p>
+          </div>
+          <div className="flex items-center gap-1">
+            <StarButton purchaseId={purchase.id} starred={purchase.starred} merchant={purchase.merchant} size="lg" />
+            <ButtonLink href={`/purchases/${purchase.id}/edit`} variant="secondary" className="h-10">
+              Edit
+            </ButtonLink>
+          </div>
         </div>
-      </nav>
+      }
+    >
+      <div className="space-y-9">
+        <Section>
+          <Row tag={<CardTag card={card} code={cardCodes(cards).get(card.id)} />} title={card.name} subtitle="Card" />
+          <Row tag={<CategoryTag category={purchase.category} />} title={purchase.category} subtitle="Category" />
+        </Section>
 
-      {/* Like a transaction in Apple Wallet: the amount large, then who and when. */}
-      <div className="mt-8 flex flex-col items-center text-center">
-        <p className="tabular text-display font-bold leading-none tracking-tight">{formatMoney(purchase.amount)}</p>
-        <h1 className="mt-3 text-title2 font-semibold tracking-tight">{purchase.merchant}</h1>
-        <p className="mt-1 text-subhead text-label-secondary">{formatDate(purchase.date)}</p>
-      </div>
-
-      <div className="mt-8 space-y-8">
-        <GroupedSection>
-          <ListRow title="Card" trailing={card.name} />
-          <ListRow
-            title="Category"
-            trailing={
-              <span className="flex items-center gap-2">
-                <span
-                  aria-hidden="true"
-                  className="size-2.5 rounded-full"
-                  style={{ backgroundColor: CATEGORY_COLORS[purchase.category] }}
-                />
-                {purchase.category}
-              </span>
-            }
-          />
-        </GroupedSection>
-
-        <GroupedSection
+        <Section
           header="Rewards"
           footer={
             card.rewardType === "points"
@@ -77,31 +65,34 @@ export default async function PurchasePage({ params }: PageProps<"/purchases/[id
               : undefined
           }
         >
-          <ListRow
+          <Row
             title="Earned"
             subtitle={`${rate} on ${purchase.category}`}
-            trailing={<span className="tabular font-semibold text-label">{formatMoney(rewards)}</span>}
+            trailing={<span className="font-bold">{formatMoney(rewards)}</span>}
           />
           {/* Feature 9: what the best card for this category would have earned. */}
           {missed.missed > 0 ? (
-            <ListRow
-              title="Missed"
+            <Row
+              title={
+                <span className="flex items-center gap-2">
+                  <span aria-hidden="true" className="size-2.5 rounded-full bg-missed" />
+                  Missed
+                </span>
+              }
               subtitle={`${bestNames} would have earned ${formatMoney(missed.bestRewards)}`}
-              trailing={<span className="tabular font-semibold text-label">{formatMoney(missed.missed)}</span>}
+              trailing={<span className="font-bold text-missed-ink">{formatMoney(missed.missed)}</span>}
             />
           ) : (
-            missed.bestCards.length > 0 && (
-              <ListRow title="Best Card" subtitle={`Nothing missed on ${purchase.category}`} trailing="✓" />
-            )
+            missed.bestCards.length > 0 && <Row title="Best card" subtitle={`Nothing missed on ${purchase.category}`} />
           )}
-        </GroupedSection>
+        </Section>
 
         {purchase.notes && (
-          <GroupedSection header="Notes">
-            <li className="whitespace-pre-wrap px-4 py-3 text-body leading-snug">{purchase.notes}</li>
-          </GroupedSection>
+          <Section header="Notes">
+            <li className="whitespace-pre-wrap border-b border-line py-3 leading-snug">{purchase.notes}</li>
+          </Section>
         )}
       </div>
-    </main>
+    </Screen>
   );
 }

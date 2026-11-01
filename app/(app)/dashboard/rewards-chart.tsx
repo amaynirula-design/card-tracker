@@ -1,43 +1,40 @@
 "use client";
 
-import { Bar, BarChart, LabelList, ResponsiveContainer, XAxis, YAxis } from "recharts";
+import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis } from "recharts";
+import { CardTag } from "@/app/components/code-tag";
 import { formatMoney } from "@/lib/format";
 
-const ROW_HEIGHT = 48;
-const MAX_NAME_LENGTH = 16;
+const BAR_HEIGHT = 8;
 
-// Rewards earned by card, as horizontal bars (card names read better down the
-// side than squeezed under columns on a phone). Rounded bars and no gridlines,
-// like the Health app.
-export function RewardsChart({ data }: { data: { name: string; rewards: number }[] }) {
+type Row = { id: number; name: string; rewards: number; isActive: boolean; code: string | undefined };
+
+// Rewards earned by card. Each row is the card's code, full name, and amount, with
+// its bar right underneath, so a long name can wrap and the row just grows. Every
+// bar is drawn on one scale from zero, set by the card that earned the most.
+export function RewardsChart({ data }: { data: Row[] }) {
   const summary = data.map((card) => `${card.name} ${formatMoney(card.rewards)}`).join(", ");
+  const most = Math.max(...data.map((card) => card.rewards));
 
   return (
-    <div role="img" aria-label={`Rewards by card: ${summary}`} style={{ height: data.length * ROW_HEIGHT + 8 }}>
-      <ResponsiveContainer width="100%" height="100%">
-        <BarChart data={data} layout="vertical" margin={{ top: 4, right: 72, bottom: 4, left: 0 }} barCategoryGap={10}>
-          <XAxis type="number" hide domain={[0, "dataMax"]} />
-          <YAxis
-            type="category"
-            dataKey="name"
-            width={120}
-            tickLine={false}
-            axisLine={false}
-            tick={{ fill: "var(--label-secondary)", fontSize: 13 }}
-            tickFormatter={(name: string) =>
-              name.length > MAX_NAME_LENGTH ? `${name.slice(0, MAX_NAME_LENGTH - 1)}…` : name
-            }
-          />
-          <Bar dataKey="rewards" fill="var(--accent)" radius={[0, 6, 6, 0]} minPointSize={3} isAnimationActive={false}>
-            <LabelList
-              dataKey="rewards"
-              position="right"
-              formatter={(value) => formatMoney(Number(value))}
-              style={{ fill: "var(--label)", fontSize: 13, fontWeight: 600 }}
-            />
-          </Bar>
-        </BarChart>
-      </ResponsiveContainer>
-    </div>
+    <ul role="img" aria-label={`Rewards by card: ${summary}`} className="space-y-5">
+      {data.map((card) => (
+        <li key={card.id}>
+          <div className="flex items-start gap-2">
+            <CardTag card={card} code={card.code} />
+            <span className="min-w-0 flex-1 break-words pt-1 text-small font-semibold leading-snug">{card.name}</span>
+            <span className="tabular pt-1 text-small font-bold leading-snug">{formatMoney(card.rewards)}</span>
+          </div>
+          <div className="mt-1.5" style={{ height: BAR_HEIGHT }}>
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={[card]} layout="vertical" margin={{ top: 0, right: 0, bottom: 0, left: 0 }} barCategoryGap={0}>
+                <XAxis type="number" hide domain={[0, most]} />
+                <YAxis type="category" dataKey="name" hide />
+                <Bar dataKey="rewards" fill="var(--action)" radius={2} minPointSize={3} isAnimationActive={false} />
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+        </li>
+      ))}
+    </ul>
   );
 }

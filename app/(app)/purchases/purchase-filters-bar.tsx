@@ -54,9 +54,8 @@ export function PurchaseFiltersBar({
   const cardName = cards.find((card) => card.id === filters.cardId)?.name;
 
   return (
-    <div className="mt-5 space-y-3" aria-busy={pending}>
-      {/* An iOS-style search field: gray, rounded, with a clear button. */}
-      <div className="flex h-10 items-center gap-2 rounded-[10px] bg-fill px-2.5 text-label-secondary">
+    <div className="mt-4 space-y-3" aria-busy={pending}>
+      <div className="flex h-11 items-center gap-2 rounded-md bg-panel px-3 text-[#3a3f6b] focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-white">
         <IconSearch className="size-[18px] shrink-0" />
         <input
           type="search"
@@ -66,14 +65,14 @@ export function PurchaseFiltersBar({
           aria-label="Search purchases by merchant"
           enterKeyHint="search"
           autoComplete="off"
-          className="h-full min-w-0 flex-1 bg-transparent text-body text-label outline-none placeholder:text-label-secondary [&::-webkit-search-cancel-button]:hidden"
+          className="h-full min-w-0 flex-1 bg-transparent text-body text-ink outline-none placeholder:text-[#3a3f6b] [&::-webkit-search-cancel-button]:hidden"
         />
         {query && (
           <button
             type="button"
             onClick={() => search("")}
             aria-label="Clear search"
-            className="shrink-0 text-label-tertiary hover:text-label-secondary"
+            className="shrink-0 text-[#3a3f6b] hover:text-ink"
           >
             <IconClear className="size-[18px]" />
           </button>
@@ -81,7 +80,7 @@ export function PurchaseFiltersBar({
       </div>
 
       {/* The fade at the end hints that the row scrolls. */}
-      <div className="-mx-4 -my-1.5 flex gap-2 overflow-x-auto py-1.5 pl-4 pr-10 [mask-image:linear-gradient(to_left,transparent,black_2.5rem)] [scrollbar-width:none]">
+      <div className="-mx-5 -my-1.5 flex gap-2 overflow-x-auto py-1.5 pl-5 pr-10 [mask-image:linear-gradient(to_left,transparent,black_2.5rem)] [scrollbar-width:none] md:mx-0 md:pl-0">
         <FilterMenu
           label="Card"
           display={cardName ?? "All cards"}
@@ -126,11 +125,11 @@ export function PurchaseFiltersBar({
       </div>
 
       {isFiltering(filters) && (
-        <div className="flex items-center justify-between px-1 text-subhead">
-          <span className="text-label-secondary" aria-live="polite">
+        <div className="flex items-center justify-between text-small">
+          <span className="text-fg-soft" aria-live="polite">
             {pending ? "Searching…" : `${resultCount} ${resultCount === 1 ? "purchase" : "purchases"}`}
           </span>
-          <button type="button" onClick={clearAll} className="text-accent hover:opacity-70">
+          <button type="button" onClick={clearAll} className="font-semibold underline underline-offset-4">
             Clear
           </button>
         </div>
@@ -139,8 +138,8 @@ export function PurchaseFiltersBar({
   );
 }
 
-// A rounded pill that opens the phone's own picker (a real dropdown sits on
-// top of it, invisible), tinted teal when it's narrowing the list.
+// A pill that opens the phone's own picker (a real dropdown sits on top of it,
+// invisible), solid white when it's narrowing the list.
 function FilterMenu({
   label,
   display,
@@ -159,8 +158,8 @@ function FilterMenu({
   return (
     <label
       className={[
-        "relative flex h-8 shrink-0 cursor-pointer items-center gap-1 rounded-full pl-3.5 pr-2.5 text-subhead font-medium transition-colors focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-accent",
-        active ? "bg-accent-soft text-accent" : "bg-fill text-label",
+        "relative flex h-9 shrink-0 cursor-pointer items-center gap-1 rounded-md pl-3 pr-2 text-small font-semibold transition-colors focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-white",
+        active ? "bg-panel text-ink" : "bg-fill text-fg hover:bg-fill-strong",
       ].join(" ")}
     >
       <span className="whitespace-nowrap">{display}</span>

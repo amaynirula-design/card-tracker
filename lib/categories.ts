@@ -20,15 +20,16 @@ export function isCategory(value: string): value is Category {
   return (CATEGORIES as readonly string[]).includes(value);
 }
 
-// Each category's small dot, using Apple's system colors (PLAN.md section 6).
-export const CATEGORY_COLORS: Record<Category, string> = {
-  Dining: "#ff9500",
-  Groceries: "#34c759",
-  Gas: "#ffcc00",
-  Travel: "#007aff",
-  "Online Shopping": "#af52de",
-  Streaming: "#ff2d55",
-  "Drug Stores": "#ff3b30",
-  Transit: "#5ac8fa",
-  "Everything Else": "#8e8e93",
+// Each category's three-letter code, like an airport's. Screens that show a code
+// also show the full name, or give it to screen readers.
+export const CATEGORY_CODES: Record<Category, string> = {
+  Dining: "DIN",
+  Groceries: "GRO",
+  Gas: "GAS",
+  Travel: "TVL",
+  "Online Shopping": "SHP",
+  Streaming: "STR",
+  "Drug Stores": "DRG",
+  Transit: "TRN",
+  "Everything Else": "ETC",
 };
