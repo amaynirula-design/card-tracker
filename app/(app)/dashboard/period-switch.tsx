@@ -5,7 +5,6 @@ import { useTransition } from "react";
 import { SegmentedControl } from "@/app/components/segmented-control";
 import type { Period } from "@/lib/dashboard";
 
-// This Month / All Time, like the D W M Y switch in the Health app.
 export function PeriodSwitch({ period }: { period: Period }) {
   const router = useRouter();
   const [, startTransition] = useTransition();
@@ -19,8 +18,8 @@ export function PeriodSwitch({ period }: { period: Period }) {
         startTransition(() => router.replace(next === "all" ? "/dashboard?period=all" : "/dashboard", { scroll: false }))
       }
       options={[
-        { value: "month", label: "This Month" },
-        { value: "all", label: "All Time" },
+        { value: "month", label: "This month" },
+        { value: "all", label: "All time" },
       ]}
     />
   );

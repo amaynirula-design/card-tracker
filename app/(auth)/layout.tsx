@@ -1,11 +1,11 @@
-import { AppMark } from "@/app/components/app-mark";
+import { PublicHeader } from "@/app/components/public-header";
 
-// Shared frame for the sign-up and log-in pages: a narrow centered column.
+// Shared frame for the sign-up and log-in pages.
 export default function AuthLayout({ children }: LayoutProps<"/">) {
   return (
-    <main className="mx-auto w-full max-w-sm flex-1 px-4 pb-16 pt-12 sm:pt-20">
-      <AppMark className="mx-auto size-14" />
-      {children}
-    </main>
+    <>
+      <PublicHeader />
+      <main className="flex flex-1 flex-col pt-6 md:items-center md:pt-14">{children}</main>
+    </>
   );
 }

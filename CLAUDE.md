@@ -61,6 +61,11 @@ Secrets: never commit keys. The Supabase URL and anon key go in `.env.local` (gi
 - PLAN.md changes applied: public `users` table filled by a signup trigger; true coding-agent line in section 5; RLS so a purchase can only use my own cards and a star can only point at my own purchases; risk line on capped/rotating cards; DRAFT/DECIDE comments removed.
 - Supabase: no project yet. I need to create one and share the URL + anon key before feature 1.
 
+## Decisions made (Oct 31, 2026, full redesign)
+
+- Design: the Apple style above is replaced by **System Map**, a 1960s airline route map world, built with the Impeccable plugin. Ultramarine ground, pale land panels, Archivo with its width axis, three-letter codes. Yellow only means the winning route; orange only means missed rewards. One appearance, no light/dark switch. `DESIGN.md` is the design system; `PRODUCT.md` is the product record. PLAN.md section 6 stays as written; the change is in Plan vs. Reality.
+- Best Card (`/cards/best`) is the first tab and where logging in lands.
+
 ## Demo (Wed Nov 4, 5 min hard stop)
 
 Live sign-up of a new account, log in to my real account and show real data, dashboard and stars, let the class pick something (star / search / add), answer one question. The app needs to be fast and reliable for a brand-new account, with no setup friction.

@@ -4,7 +4,7 @@ Know which credit card to use for every purchase, and see what your cards actual
 
 **Live app:** https://card-tracker-swart-five.vercel.app
 
-Card Tracker is a web app for people who carry several credit cards. You add your cards and what they earn in each spending category, log your purchases, and the app works out your rewards. It tells you which card to use for each kind of purchase, and how much you left on the table by using the wrong one. It's built mobile-first, in the style of an Apple app, with light and dark mode.
+Card Tracker is a web app for people who carry several credit cards. You add your cards and what they earn in each spending category, log your purchases, and the app works out your rewards. It tells you which card to use for each kind of purchase, and how much you left on the table by using the wrong one. It's built mobile-first, and its design is based on 1960s airline route maps: pick a category and routes fly to your cards, with the winner in yellow.
 
 Built for Intro to Coding (UC Berkeley Haas, Fall 2026). The design and plan are in [PLAN.md](PLAN.md); the database is described in [schema.md](schema.md).
 
@@ -14,7 +14,7 @@ Built for Intro to Coding (UC Berkeley Haas, Fall 2026). The design and plan are
 |---|---|
 | **Sign up, log in, log out** | Email and password. Each person sees only their own data. |
 | **My cards** | Name, cash back or points, what a point is worth to you, annual fee, and a rate for each category. Close a card to keep its history. |
-| **Card presets** | Pick from 15 common cards (Chase, Amex, Capital One, Citi, Apple Card, …) to fill in the rates, then edit anything. |
+| **Card presets** | Pick from 32 common cards (Chase, Amex, Capital One, Citi, Apple Card, …) to fill in the rates, then edit anything. |
 | **Purchases** | Add, list, open, edit, and delete, with an "are you sure?" alert. Each shows the rewards it earned. |
 | **Validation** | Friendly messages for anything missing, or an amount of $0 or less. |
 | **Stars** | Star a purchase to come back to (a return, a charge to dispute) and see them all in **Starred**. |
@@ -28,7 +28,7 @@ No card numbers are ever stored. A card is just a name you choose.
 ## Tools
 
 - **[Next.js](https://nextjs.org) 16** (React 19, App Router, TypeScript): pages and server logic in one project
-- **[Tailwind CSS](https://tailwindcss.com) 4**: styling, with light and dark design tokens in `app/globals.css`
+- **[Tailwind CSS](https://tailwindcss.com) 4**: styling, with the design tokens in `app/globals.css`
 - **[Supabase](https://supabase.com)**: Postgres database, email/password sign-in, and row-level security so each user only sees their own rows
 - **[Vercel](https://vercel.com)**: hosting; every merge to `main` deploys the live app automatically
 - **[Recharts](https://recharts.org)**: the dashboard chart

@@ -3,25 +3,38 @@
 import Link from "next/link";
 import { useActionState } from "react";
 import { Button } from "@/app/components/button";
+import { Field, inputClasses } from "@/app/components/form";
 import type { AuthFormState } from "./actions";
 
-// The shared sign-up / log-in form: email and password in one iOS-style
-// grouped panel, a friendly error message, and one main button.
+// The shared sign-up / log-in form: the heading on the ground, then email and
+// password on a land panel, a friendly error message, and one main button.
 export function AuthForm({
   mode,
+  title,
+  subtitle,
   action,
 }: {
   mode: "signup" | "login";
+  title: string;
+  subtitle: string;
   action: (state: AuthFormState, formData: FormData) => Promise<AuthFormState>;
 }) {
   const [state, formAction, pending] = useActionState(action, {});
   const isSignup = mode === "signup";
 
   return (
-    <form action={formAction} noValidate className="space-y-4">
-      <div className="overflow-hidden rounded-2xl bg-surface shadow-panel">
-        <label className="flex items-center gap-3 px-4">
-          <span className="w-[86px] shrink-0 text-body">Email</span>
+    <div className="flex w-full flex-1 flex-col md:max-w-md md:flex-none">
+      <div className="px-5 pb-6 md:px-0">
+        <h1 className="wide text-headline font-extrabold leading-[1.05] tracking-tight">{title}</h1>
+        <p className="mt-2 text-fg-soft">{subtitle}</p>
+      </div>
+
+      <form
+        action={formAction}
+        noValidate
+        className="land flex-1 space-y-4 rounded-t-[1.25rem] px-5 pb-12 pt-6 md:flex-none md:rounded-[1.25rem] md:p-8"
+      >
+        <Field label="Email">
           <input
             name="email"
             type="email"
@@ -32,45 +45,43 @@ export function AuthForm({
             placeholder="you@example.com"
             defaultValue={state.email}
             aria-invalid={Boolean(state.error)}
-            className="h-12 min-w-0 flex-1 bg-transparent text-body outline-none placeholder:text-label-tertiary"
+            className={inputClasses}
           />
-        </label>
-        <div className="ml-4 border-t border-separator" />
-        <label className="flex items-center gap-3 px-4">
-          <span className="w-[86px] shrink-0 text-body">Password</span>
+        </Field>
+        <Field label="Password">
           <input
             name="password"
             type="password"
             autoComplete={isSignup ? "new-password" : "current-password"}
             placeholder={isSignup ? "At least 8 characters" : "Required"}
             aria-invalid={Boolean(state.error)}
-            className="h-12 min-w-0 flex-1 bg-transparent text-body outline-none placeholder:text-label-tertiary"
+            className={inputClasses}
           />
-        </label>
-      </div>
+        </Field>
 
-      {state.error && (
-        <p role="alert" className="px-4 text-subhead leading-snug text-danger">
-          {state.error}
+        {state.error && (
+          <p role="alert" className="text-small font-semibold leading-snug text-danger">
+            {state.error}
+          </p>
+        )}
+
+        <Button type="submit" size="lg" disabled={pending} className="w-full">
+          {pending
+            ? isSignup
+              ? "Creating account…"
+              : "Logging in…"
+            : isSignup
+              ? "Create account"
+              : "Log in"}
+        </Button>
+
+        <p className="text-center text-small text-fg-soft">
+          {isSignup ? "Already have an account? " : "New to Card Tracker? "}
+          <Link href={isSignup ? "/login" : "/signup"} className="text-link">
+            {isSignup ? "Log in" : "Create an account"}
+          </Link>
         </p>
-      )}
-
-      <Button type="submit" size="lg" disabled={pending} className="w-full">
-        {pending
-          ? isSignup
-            ? "Creating Account…"
-            : "Logging In…"
-          : isSignup
-            ? "Create Account"
-            : "Log In"}
-      </Button>
-
-      <p className="text-center text-subhead text-label-secondary">
-        {isSignup ? "Already have an account? " : "New to Card Tracker? "}
-        <Link href={isSignup ? "/login" : "/signup"} className="font-medium text-accent">
-          {isSignup ? "Log In" : "Create an Account"}
-        </Link>
-      </p>
-    </form>
+      </form>
+    </div>
   );
 }

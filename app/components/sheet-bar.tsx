@@ -6,9 +6,9 @@ import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { Alert } from "./confirm-dialog";
 
-// The bar at the top of add and edit screens, like an iOS sheet: Cancel on the
-// left, the title in the middle, and the save button on the right. Cancel asks
-// first if anything in the form changed.
+// The bar at the top of add and edit screens: Cancel on the left, the title in
+// the middle, and the save button on the right, so saving stays in reach on a
+// long form. Cancel asks first if anything in the form changed.
 export function SheetBar({
   title,
   cancelHref,
@@ -44,7 +44,7 @@ export function SheetBar({
   return (
     <div
       ref={barRef}
-      className="frosted sticky top-0 z-30 -mx-4 grid grid-cols-[1fr_auto_1fr] items-center bg-background/80 px-4 py-1 backdrop-blur-xl md:top-14"
+      className="sticky top-0 z-30 grid min-h-14 grid-cols-[1fr_auto_1fr] items-center gap-2 bg-ground px-5 py-1.5 md:px-10"
     >
       <Link
         href={cancelHref}
@@ -54,16 +54,16 @@ export function SheetBar({
             setAsking(true);
           }
         }}
-        className="flex min-h-11 items-center justify-self-start text-body text-accent hover:opacity-70"
+        className="flex min-h-11 items-center justify-self-start text-small font-semibold underline decoration-1 underline-offset-4"
       >
         Cancel
       </Link>
-      <h1 className="text-body font-semibold">{title}</h1>
+      <h1 className="wide text-center text-body font-extrabold">{title}</h1>
       {submitLabel && (
         <button
           type="submit"
           disabled={pending}
-          className="min-h-11 justify-self-end text-body font-semibold text-accent hover:opacity-70 disabled:opacity-40"
+          className="h-10 min-w-16 justify-self-end rounded-md bg-action px-4 text-small font-bold text-on-action transition-colors hover:bg-action-hover disabled:opacity-60"
         >
           {pending ? "Saving…" : submitLabel}
         </button>
@@ -71,9 +71,9 @@ export function SheetBar({
       {asking &&
         createPortal(
           <Alert
-            title="Discard Changes?"
+            title="Discard changes?"
             message="What you've entered here won't be saved."
-            cancelLabel="Keep Editing"
+            cancelLabel="Keep editing"
             confirmLabel="Discard"
             pendingLabel="Discard"
             action={async () => {

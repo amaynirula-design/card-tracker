@@ -3,7 +3,8 @@
 import { useActionState, useEffect, useRef, useState } from "react";
 import { ConfirmDialog, type ConfirmState } from "@/app/components/confirm-dialog";
 import { Affix, Field, FormSection, inputClasses, numberClasses } from "@/app/components/form";
-import { IconSelector } from "@/app/components/icons";
+import { IconChevronDown } from "@/app/components/icons";
+import { Land } from "@/app/components/screen";
 import { SheetBar } from "@/app/components/sheet-bar";
 import type { Card } from "@/lib/cards";
 import { CATEGORIES, type Category } from "@/lib/categories";
@@ -13,7 +14,7 @@ import { MAX_MERCHANT_LENGTH, MAX_NOTES_LENGTH } from "@/lib/purchase-validation
 import type { Purchase } from "@/lib/purchases";
 import type { PurchaseFormState } from "./actions";
 
-// The add / edit purchase screen, laid out like an iOS sheet (same as cards).
+// The add / edit purchase screen.
 export function PurchaseForm({
   purchase,
   cards,
@@ -61,78 +62,86 @@ export function PurchaseForm({
   const defaultCard = purchase?.card.id ?? (cards.length === 1 ? cards[0].id : "");
 
   return (
-    <form ref={formRef} action={formAction} noValidate className="sheet-in mx-auto w-full max-w-xl flex-1 px-4 pb-16">
+    <form ref={formRef} action={formAction} noValidate className="flex flex-1 flex-col">
       <SheetBar
-        title={purchase ? "Edit Purchase" : "New Purchase"}
+        title={purchase ? "Edit purchase" : "New purchase"}
         cancelHref={cancelHref}
         submitLabel={purchase ? "Done" : "Add"}
         pending={pending}
       />
+      <div className="pt-2" />
 
-      {state.error && (
-        <p role="alert" className="mt-2 px-4 text-subhead text-danger">
-          {state.error}
-        </p>
-      )}
+      <Land>
+        {state.error && (
+          <p role="alert" className="mb-4 text-small font-semibold text-danger">
+            {state.error}
+          </p>
+        )}
 
-      <div className="mt-4 space-y-8">
-        <FormSection error={[errors.merchant, errors.amount, errors.purchase_date]}>
-          <Field label="Merchant" invalid={Boolean(errors.merchant)}>
-            <input
-              name="merchant"
-              defaultValue={initial("merchant", purchase?.merchant)}
-              placeholder="Trader Joe’s"
-              maxLength={MAX_MERCHANT_LENGTH}
-              autoComplete="off"
-              onChange={(event) => suggestFrom(event.target.value)}
-              aria-invalid={Boolean(errors.merchant)}
-              className={inputClasses}
-            />
-          </Field>
-          <Field label="Amount" invalid={Boolean(errors.amount)}>
-            <Affix before="$">
+        <div className="space-y-9">
+          <FormSection error={[errors.merchant, errors.amount, errors.purchase_date]}>
+            <Field label="Merchant" invalid={Boolean(errors.merchant)}>
               <input
-                name="amount"
-                inputMode="decimal"
-                defaultValue={initial("amount", purchase?.amount.toFixed(2))}
-                placeholder="0.00"
-                aria-invalid={Boolean(errors.amount)}
-                className={numberClasses}
+                name="merchant"
+                defaultValue={initial("merchant", purchase?.merchant)}
+                placeholder="Trader Joe’s"
+                maxLength={MAX_MERCHANT_LENGTH}
+                autoComplete="off"
+                onChange={(event) => suggestFrom(event.target.value)}
+                aria-invalid={Boolean(errors.merchant)}
+                className={inputClasses}
               />
-            </Affix>
-          </Field>
-          <Field label="Date" invalid={Boolean(errors.purchase_date)}>
-            <input
-              name="purchase_date"
-              type="date"
-              defaultValue={initial("purchase_date", purchase?.date ?? todayISO())}
-              // The server's "today" can differ from the browser's.
-              suppressHydrationWarning
-              aria-invalid={Boolean(errors.purchase_date)}
-              className={`${inputClasses} [&::-webkit-date-and-time-value]:text-right`}
-            />
-          </Field>
-        </FormSection>
-
-        <div className="space-y-1.5">
-          <FormSection error={[errors.category, errors.card_id]}>
-            <Field label="Category" invalid={Boolean(errors.category)}>
-              <Select
-                name="category"
-                defaultValue={initial("category", purchase?.category)}
-                invalid={Boolean(errors.category)}
-                onChange={() => {
-                  pickedCategory.current = true;
-                  setSuggestion(undefined);
-                }}
-              >
-                {CATEGORIES.map((category) => (
-                  <option key={category} value={category}>
-                    {category}
-                  </option>
-                ))}
-              </Select>
             </Field>
+            <div className="grid grid-cols-[repeat(auto-fit,minmax(9rem,1fr))] gap-4">
+              <Field label="Amount" invalid={Boolean(errors.amount)}>
+                <Affix before="$">
+                  <input
+                    name="amount"
+                    inputMode="decimal"
+                    defaultValue={initial("amount", purchase?.amount.toFixed(2))}
+                    placeholder="0.00"
+                    aria-invalid={Boolean(errors.amount)}
+                    className={numberClasses}
+                  />
+                </Affix>
+              </Field>
+              <Field label="Date" invalid={Boolean(errors.purchase_date)}>
+                <input
+                  name="purchase_date"
+                  type="date"
+                  defaultValue={initial("purchase_date", purchase?.date ?? todayISO())}
+                  // The server's "today" can differ from the browser's.
+                  suppressHydrationWarning
+                  aria-invalid={Boolean(errors.purchase_date)}
+                  className={`${inputClasses} appearance-none`}
+                />
+              </Field>
+            </div>
+          </FormSection>
+
+          <FormSection error={[errors.category, errors.card_id]}>
+            <div>
+              <Field label="Category" invalid={Boolean(errors.category)}>
+                <Select
+                  name="category"
+                  defaultValue={initial("category", purchase?.category)}
+                  invalid={Boolean(errors.category)}
+                  onChange={() => {
+                    pickedCategory.current = true;
+                    setSuggestion(undefined);
+                  }}
+                >
+                  {CATEGORIES.map((category) => (
+                    <option key={category} value={category}>
+                      {category}
+                    </option>
+                  ))}
+                </Select>
+              </Field>
+              <p role="status" className="mt-1.5 text-small leading-snug text-fg-soft empty:hidden">
+                {suggestion && `${suggestion} was suggested from the merchant. Change it if it's wrong.`}
+              </p>
+            </div>
             <Field label="Card" invalid={Boolean(errors.card_id)}>
               <Select
                 name="card_id"
@@ -148,39 +157,39 @@ export function PurchaseForm({
               </Select>
             </Field>
           </FormSection>
-          <p role="status" className="px-4 text-footnote leading-snug text-label-secondary">
-            {suggestion && `${suggestion} was suggested from the merchant. Change it if it's wrong.`}
-          </p>
+
+          <FormSection error={errors.notes}>
+            <Field label="Notes" invalid={Boolean(errors.notes)}>
+              <textarea
+                name="notes"
+                defaultValue={initial("notes", purchase?.notes)}
+                placeholder="Optional, like “return by Nov 15”"
+                rows={3}
+                maxLength={MAX_NOTES_LENGTH}
+                aria-invalid={Boolean(errors.notes)}
+                className={`${inputClasses} h-auto resize-none py-3`}
+              />
+            </Field>
+          </FormSection>
+
+          {purchase && deleteAction && (
+            <div className="pt-8">
+              <ConfirmDialog
+                triggerLabel="Delete purchase"
+                title="Delete this purchase?"
+                message={`${purchase.merchant} will be removed from your purchases. This can't be undone.`}
+                confirmLabel="Delete"
+                action={deleteAction}
+              />
+            </div>
+          )}
         </div>
-
-        <FormSection header="Notes" error={errors.notes}>
-          <textarea
-            name="notes"
-            defaultValue={initial("notes", purchase?.notes)}
-            placeholder="Optional, like “return by Nov 15”"
-            rows={3}
-            maxLength={MAX_NOTES_LENGTH}
-            aria-invalid={Boolean(errors.notes)}
-            className="block w-full resize-none bg-transparent px-4 py-3 text-body outline-none placeholder:text-label-tertiary"
-          />
-        </FormSection>
-
-        {purchase && deleteAction && (
-          <ConfirmDialog
-            triggerLabel="Delete Purchase"
-            title="Delete This Purchase?"
-            message={`${purchase.merchant} will be removed from your purchases. This can't be undone.`}
-            confirmLabel="Delete"
-            action={deleteAction}
-          />
-        )}
-      </div>
+      </Land>
     </form>
   );
 }
 
-// A native dropdown styled like an iOS picker row: the value on the right with
-// small up/down arrows. "Choose" shows until something is picked.
+// A native dropdown. "Choose" shows until something is picked.
 function Select({
   name,
   defaultValue,
@@ -195,7 +204,7 @@ function Select({
   children: React.ReactNode;
 }) {
   return (
-    <span className="relative flex min-w-0 items-center justify-end gap-1 text-label-secondary">
+    <span className="relative block">
       <select
         // React only applies defaultValue to a dropdown when it first appears, and
         // it clears the form after each save. A new key rebuilds the dropdown with
@@ -205,14 +214,14 @@ function Select({
         defaultValue={defaultValue}
         onChange={onChange}
         aria-invalid={invalid}
-        className="h-11 min-w-0 cursor-pointer appearance-none truncate bg-transparent pr-1 text-right text-body text-label outline-none [&:has(option[value='']:checked)]:text-label-tertiary"
+        className={`${inputClasses} cursor-pointer appearance-none pr-10 [&:has(option[value='']:checked)]:text-fg-soft`}
       >
         <option value="" disabled>
           Choose
         </option>
         {children}
       </select>
-      <IconSelector className="size-4 shrink-0" />
+      <IconChevronDown className="pointer-events-none absolute right-3 top-3.5 size-5 text-ink" />
     </span>
   );
 }
