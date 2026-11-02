@@ -8,7 +8,7 @@ This PR is the screenshots. The reflection drafts are separate and aren't in thi
 
 ## What Claude Code did
 
-- Told me first that the brief doesn't require README screenshots. It only asks for a dashboard screenshot on bCourses, so this is extra.
+- Checked the brief: README screenshots aren't required. It only asks for a dashboard screenshot on bCourses, so this is extra.
 - Opened Issue #49 and created `docs/readme-screenshots` from main.
 - Added my four screenshots to `docs/screenshots/`: Best Card, Purchases, Dashboard, and Cards.
 - Added a Screenshots section to the README, above What it does.
