@@ -8,6 +8,18 @@ Card Tracker is a web app for people who carry several credit cards. You add you
 
 Built for Intro to Coding (UC Berkeley Haas, Fall 2026). The design and plan are in [PLAN.md](PLAN.md); the database is described in [schema.md](schema.md).
 
+## Screenshots
+
+From my own account, with my real cards and purchases.
+
+| Best Card | Dashboard |
+|---|---|
+| ![Best Card: a route map showing American Express Gold winning Dining at 4%](docs/screenshots/app-best-card.png) | ![Dashboard: $1.63 left on the table this month, $4.79 earned on $209.66 spent, and rewards by card](docs/screenshots/app-dashboard.png) |
+
+| Purchases | Cards |
+|---|---|
+| ![Purchases: six purchases with search, filters, stars, and card codes](docs/screenshots/app-purchases.png) | ![Cards: six open cards ranked by their top rate](docs/screenshots/app-cards.png) |
+
 ## What it does
 
 | Feature | |
