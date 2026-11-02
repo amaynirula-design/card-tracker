@@ -34,6 +34,21 @@ export function rewardPercent(card: Card, category: Category): number {
   return card.rewardType === "cashback" ? rate : rate * card.pointValueCents;
 }
 
+// Whether saving this name would create a duplicate, ignoring capitals and extra
+// spaces. ownId is the card being edited: keeping its name is always fine, so
+// copies made before this check can still be edited or closed.
+export function hasCardNamed(
+  cards: Pick<Card, "id" | "name">[],
+  name: string,
+  ownId: number | null,
+): boolean {
+  const clean = (text: string) => text.trim().replace(/\s+/g, " ").toLowerCase();
+  const matches = (card: Pick<Card, "name">) => clean(card.name) === clean(name);
+  const own = cards.find((card) => card.id === ownId);
+  if (own && matches(own)) return false;
+  return cards.some(matches);
+}
+
 export function formatNumber(value: number): string {
   return value.toLocaleString("en-US", { maximumFractionDigits: 2 });
 }

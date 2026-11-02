@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { CATEGORIES, FALLBACK_CATEGORY, type Category } from "@/lib/categories";
 import type { ConfirmState } from "@/app/components/confirm-dialog";
-import type { RewardType } from "@/lib/cards";
+import { hasCardNamed, type RewardType } from "@/lib/cards";
 import { createClient } from "@/lib/supabase/server";
 
 // What the card form shows after a failed save: a message per field, plus
@@ -86,6 +86,17 @@ export async function saveCard(
 
   const supabase = await createClient();
   const failed = { errors: { form: "We couldn't save this card. Please try again." }, values };
+
+  // Row-level security means this only sees your own cards, so two people can
+  // both have a Sapphire Preferred.
+  const { data: existing, error: existingError } = await supabase.from("cards").select("id, name");
+  if (existingError) return failed;
+  if (hasCardNamed(existing, name, cardId)) {
+    return {
+      errors: { name: `You already have a card named “${name}”. Edit that one, or use a different name.` },
+      values,
+    };
+  }
 
   let id = cardId;
   if (id === null) {
