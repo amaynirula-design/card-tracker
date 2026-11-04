@@ -8,8 +8,10 @@ import { formatNumber, formatRate, rateFor, type Card } from "@/lib/cards";
 import { CATEGORIES, CATEGORY_CODES, type Category } from "@/lib/categories";
 import { routeStops } from "@/lib/route-map";
 import { CardTag, CategoryTag } from "./code-tag";
+import { IconChevronDown } from "./icons";
 import { RouteMap } from "./route-map";
 import { Row, RowContent, Section, rowClasses } from "./rows";
+import { landPanelClasses } from "./screen";
 
 // Best Card (feature 8): pick a category code and the map and the answer change
 // right away, with no trip to the server. All the rates are already here. The
@@ -52,7 +54,7 @@ export function RouteFinder({
   }
 
   return (
-    <main className="flex min-w-0 flex-1 flex-col lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(0,28rem)] lg:items-stretch">
+    <main className="flex min-w-0 flex-1 flex-col lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(0,28rem)] lg:items-start">
       <div className="px-5 pb-4 pt-3 md:px-10 md:pt-10">
         <div className="lg:mx-auto lg:max-w-xl">
           {intro}
@@ -97,7 +99,9 @@ export function RouteFinder({
         </div>
       </div>
 
-      <div className="land flex-1 rounded-t-[1.25rem] px-5 pb-28 pt-5 md:px-10 md:pb-12 lg:rounded-tr-none lg:pt-10">
+      {/* Beside the map on wide screens, under it on phones. Either way it ends
+          with its content instead of running to the bottom of the window. */}
+      <div className={`${landPanelClasses} md:mx-10 lg:ml-0 lg:mt-10`}>
         <section aria-live="polite">
           <h2 className="wide text-title font-extrabold leading-[1.1] tracking-tight">
             Use {best.cards.map((card) => card.name).join(" or ")}
@@ -139,36 +143,44 @@ export function RouteFinder({
           </p>
         )}
 
-        <div className="mt-9">
-          <Section
-            header="Every category"
-            footer="Points cards are compared by what their points are worth to you, using each card's point value. Rates are simplified to one per category, so spending caps and rotating categories aren't reflected."
-          >
-            {CATEGORIES.map((each) => {
-              const winner = bestCardFor(cards, each);
-              return (
-                <li key={each} className="border-b border-line">
-                  <button
-                    type="button"
-                    aria-pressed={each === category}
-                    onClick={() => {
-                      choose(each);
-                      window.scrollTo({ top: 0, behavior: "smooth" });
-                    }}
-                    className={`${rowClasses} w-full transition-colors hover:bg-fill aria-pressed:bg-fill`}
-                  >
-                    <RowContent
-                      tag={<CategoryTag category={each} />}
-                      title={each}
-                      subtitle={winner.cards.map((card) => card.name).join(" · ")}
-                      trailing={<span className="font-bold">{formatNumber(winner.percent)}%</span>}
-                    />
-                  </button>
-                </li>
-              );
-            })}
-          </Section>
-        </div>
+        {/* Closed at first so the page stays short: the category codes at the
+            top already switch the answer. */}
+        <details className="group mt-2">
+          <summary className="flex min-h-11 cursor-pointer list-none items-center gap-1.5 font-semibold text-action [&::-webkit-details-marker]:hidden">
+            <span className="group-open:hidden">Show every category</span>
+            <span className="hidden group-open:inline">Hide every category</span>
+            <IconChevronDown className="size-5 transition-transform group-open:rotate-180" />
+          </summary>
+          <div className="mt-3">
+            <Section
+              footer="Points cards are compared by what their points are worth to you, using each card's point value. Rates are simplified to one per category, so spending caps and rotating categories aren't reflected."
+            >
+              {CATEGORIES.map((each) => {
+                const winner = bestCardFor(cards, each);
+                return (
+                  <li key={each} className="border-b border-line">
+                    <button
+                      type="button"
+                      aria-pressed={each === category}
+                      onClick={() => {
+                        choose(each);
+                        window.scrollTo({ top: 0, behavior: "smooth" });
+                      }}
+                      className={`${rowClasses} w-full transition-colors hover:bg-fill aria-pressed:bg-fill`}
+                    >
+                      <RowContent
+                        tag={<CategoryTag category={each} />}
+                        title={each}
+                        subtitle={winner.cards.map((card) => card.name).join(" · ")}
+                        trailing={<span className="font-bold">{formatNumber(winner.percent)}%</span>}
+                      />
+                    </button>
+                  </li>
+                );
+              })}
+            </Section>
+          </div>
+        </details>
 
         {children}
       </div>
