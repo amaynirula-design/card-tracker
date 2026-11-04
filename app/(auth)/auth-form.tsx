@@ -32,7 +32,7 @@ export function AuthForm({
       <form
         action={formAction}
         noValidate
-        className="land flex-1 space-y-4 rounded-t-[1.25rem] px-5 pb-12 pt-6 md:flex-none md:rounded-[1.25rem] md:p-8"
+        className="land mb-10 space-y-4 rounded-[1.25rem] px-5 pb-8 pt-6 md:p-8"
       >
         <Field label="Email">
           <input

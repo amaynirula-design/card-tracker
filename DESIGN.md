@@ -299,9 +299,9 @@ All sizes are rem so text scales to 200%. Tracking on headings is -0.025em.
 
 ## Layout
 
-On phones the page is a single stack: a 56px top row with the wordmark and Account on the ground, the title block, then a land panel running to the bottom of the page with its last 112px kept clear of the tab bar. Side gutters are 20px.
+On phones the page is a single stack: a 56px top row with the wordmark and Account on the ground, the title block, then a land panel that ends where its content ends, with rounded bottom corners and a strip of ground below it (88px plus the safe area, so it clears the tab bar). You can always see where the page stops. Side gutters are 20px.
 
-From 48rem the top row and tab bar become one 224px ultramarine rail on the left. Gutters grow to 40px, the title block caps at 48rem, and land caps at 44rem. From 64rem Best Card splits into two columns: the map on the ground, and a full-height land column of up to 28rem against the right edge. The category keys hold one row of nine from 80rem.
+From 48rem the top row and tab bar become one 224px ultramarine rail on the left. Gutters grow to 40px, the title block caps at 48rem, and land caps at 44rem. From 64rem Best Card splits into two columns: the map on the ground, and a land panel of up to 28rem beside it, starting level with the title and ending with its content. On Best Card the full category list is folded behind "Show every category"; the category keys above already switch the answer. The category keys hold one row of nine from 80rem.
 
 Spacing is a 4px base. Rows get a 56px minimum height with 10px vertical padding and 12px gaps; major blocks are separated by 36px. Every tap target is at least 44px. At large text sizes titles and trailing values wrap rather than truncate.
 
@@ -326,7 +326,7 @@ Flat. Depth comes from the two zones: land reads as a sheet lying over the groun
 
 ## Shapes
 
-Small, firm radii on anything you press, and one large radius for land. Tags are 5px, controls 6px, category keys 7px, and a segmented control's inner thumb 4px. Land panels and dialogs take 20px; land rounds only its top corners when it meets the bottom of the page. Stars and switches are fully round.
+Small, firm radii on anything you press, and one large radius for land. Tags are 5px, controls 6px, category keys 7px, and a segmented control's inner thumb 4px. Land panels and dialogs take 20px on all four corners, so every panel shows its end. Stars and switches are fully round.
 
 The recurring geometry is the route: a parabolic arc from a stop to a stop with round caps. It is the logo (one solid arc), the map, the empty state (a dashed arc to a hollow stop), and, flattened into a line, the rewards route on the dashboard. Icons are 24px-grid line drawings at a 2px stroke with round caps, and fill in when their tab is active.
 
@@ -347,7 +347,7 @@ Components read their colors from the zone they sit in, so the same button works
 - **Code tags:** 28px tall and at least 56px wide, centered code in ink on the card's fleet color. The winner's tag is yellow. Category tags use the zone's fill. The full name is always beside a tag, so tags are hidden from screen readers.
 
 ### Cards / Containers
-- **Land panel:** The one container. 20px top corners, 20px padding on phones and 32px from 48rem.
+- **Land panel:** The one container. 20px corners, 20px padding on phones and 32px from 48rem.
 - **Rows:** Plain rows between thin rules on land, in the order tag, title and subtitle, trailing value, chevron if it links. Never wrap a row in its own tile.
 
 ### Inputs / Fields

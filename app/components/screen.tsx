@@ -2,8 +2,8 @@ import Link from "next/link";
 import { IconChevronLeft } from "./icons";
 
 // Every screen's frame: the title on the ultramarine ground, then the screen's
-// content on a land panel that runs to the bottom of the page. "lead" sits on
-// the ground under the title, and "back" above it.
+// content on a land panel that ends with its content. "lead" sits on the ground
+// under the title, and "back" above it.
 export function Screen({
   title,
   action,
@@ -35,14 +35,14 @@ export function Screen({
   );
 }
 
-// The pale panel. The padding at the bottom keeps the last row clear of the
-// phone tab bar.
+// The pale panel. It stops after its last item, with rounded corners and a strip
+// of ground below, so you can see where the page ends. The space below also keeps
+// the panel clear of the phone tab bar.
+export const landPanelClasses =
+  "land rounded-[1.25rem] px-5 pb-8 pt-5 mb-[calc(5.5rem+env(safe-area-inset-bottom))] md:mb-10 md:px-8 md:pt-8";
+
 export function Land({ children }: { children: React.ReactNode }) {
-  return (
-    <div className="land flex-1 rounded-t-[1.25rem] px-5 pb-28 pt-5 md:ml-10 md:mr-10 md:max-w-[44rem] md:px-8 md:pb-12 md:pt-8">
-      {children}
-    </div>
-  );
+  return <div className={`${landPanelClasses} md:mx-10 md:max-w-[44rem]`}>{children}</div>;
 }
 
 export function BackLink({ href, label }: { href: string; label: string }) {
