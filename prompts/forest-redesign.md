@@ -45,9 +45,17 @@ Branch: `design/forest-redesign`. Written Nov 13, 2026, after the demo. This is 
 - **Every page** got the dark forest footer band.
 - **Docs:** DESIGN.md rewritten for the new system; README intro, CLAUDE.md and a Plan vs. Reality row updated.
 
+## Prompt 4 (me)
+
+> Logged in
+
+(I logged in to the local copy myself so Claude Code could check my real pages. It never typed my password.)
+
 ## How it was checked
 
 - **Seen in the browser, signed out:** the home page at laptop and phone widths, sign-up, log-in and the not-found page at phone width.
+- **Seen with my real data at laptop width:** Best Card, Dashboard, Purchases, Cards, a card's detail page, Account and the new-purchase form.
+- **Seen with my real data at phone width:** Best Card (top to footer), Dashboard and Purchases. Nothing scrolls sideways, and the footer clears the tab bar.
 - **Contrast worked out by hand:** white on forest is about 6.4:1; forest on sage about 5.7:1.
 - **Type check, lint, and the 53 no-database tests:** all pass.
 
@@ -56,5 +64,6 @@ Branch: `design/forest-redesign`. Written Nov 13, 2026, after the demo. This is 
 - **The skill's first answer was wrong for this job.** It suggested blue on a dark background and a handwriting font. Claude Code didn't use it and told me why.
 - **The footer came out black instead of dark green** on the first try, because one style was overriding another. Fixed.
 - **The first card drawing covered its pedestal.** Resized so the card rests on it.
+- **The add and edit forms stretched across the whole laptop screen.** The old panel had a width limit that the new one dropped. Claude Code caught it when checking my pages and put the forms in the same centered column as everything else.
 - **The arc map was removed without asking me first.** It was the old look's main visual, and the mockups I approved didn't have it, but I never said "delete it". Claude Code flagged this for me to confirm.
 - **This PR is stacked on the email confirmation PR (#54),** because both touch the sign-up form. Merge #54 first.

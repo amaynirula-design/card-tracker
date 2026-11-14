@@ -62,7 +62,7 @@ export function PurchaseForm({
   const defaultCard = purchase?.card.id ?? (cards.length === 1 ? cards[0].id : "");
 
   return (
-    <form ref={formRef} action={formAction} noValidate className="flex flex-1 flex-col">
+    <form ref={formRef} action={formAction} noValidate className="mx-auto flex w-full max-w-3xl flex-1 flex-col">
       <SheetBar
         title={purchase ? "Edit purchase" : "New purchase"}
         cancelHref={cancelHref}

@@ -53,7 +53,7 @@ export function CardForm({
     values?.[field] ?? (saved === undefined ? "" : String(saved));
 
   return (
-    <form action={formAction} noValidate className="flex flex-1 flex-col">
+    <form action={formAction} noValidate className="mx-auto flex w-full max-w-3xl flex-1 flex-col">
       <SheetBar
         title={card ? "Edit card" : "New card"}
         cancelHref={cancelHref}
