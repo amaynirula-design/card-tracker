@@ -10,12 +10,22 @@ import type { Card } from "./cards";
 // note says so (PLAN.md section 7). Point values are the base value of 1¢, and
 // each person can change theirs.
 
+// A yearly credit or benefit that can offset the annual fee. "value" is the most
+// it's worth in a year if you use all of it, in dollars; leave it out for perks
+// that aren't a fixed amount (like lounge access).
+export type Perk = { label: string; value?: number };
+
 export type CardPreset = Omit<Card, "id" | "isActive"> & {
   id: string;
   issuer: string;
   // What the fixed rates leave out, shown under the form.
   note?: string;
+  // Only for cards with an annual fee, where perks are part of the decision.
+  perks?: Perk[];
 };
+
+// When the perks were last written down. Issuers change credits often.
+export const PERKS_UPDATED = "November 2026";
 
 export const PRESETS_UPDATED = "October 2026";
 
@@ -29,6 +39,11 @@ export const CARD_PRESETS: CardPreset[] = [
     annualFee: 95,
     rates: { Dining: 3, Streaming: 3, Gas: 3, Travel: 2, "Everything Else": 1 },
     note: "3× on online groceries and 5× on travel booked through Chase aren't separate categories here. A point is set to 1¢, its base value; change it if you get more.",
+    perks: [
+      { label: "Hotel credit through Chase Travel", value: 50 },
+      { label: "10% anniversary points bonus" },
+      { label: "No foreign transaction fees" },
+    ],
   },
   {
     id: "chase-sapphire-reserve",
@@ -39,6 +54,11 @@ export const CARD_PRESETS: CardPreset[] = [
     annualFee: 795,
     rates: { Dining: 3, Travel: 4, "Everything Else": 1 },
     note: "Travel is set to 4× (flights and hotels booked directly); other travel earns 1×. 8× through Chase Travel isn't tracked separately. A point is set to 1¢, its base value; change it if you get more.",
+    perks: [
+      { label: "Travel credit", value: 300 },
+      { label: "Airport lounge access" },
+      { label: "No foreign transaction fees" },
+    ],
   },
   {
     id: "chase-freedom-unlimited",
@@ -79,6 +99,13 @@ export const CARD_PRESETS: CardPreset[] = [
     annualFee: 325,
     rates: { Dining: 4, Groceries: 4, Travel: 3, "Everything Else": 1 },
     note: "4× is capped at $50,000 a year at restaurants and $25,000 at U.S. supermarkets, then 1×. Travel is 3× on flights booked directly with airlines or through Amex Travel.",
+    perks: [
+      { label: "Dining credit at select restaurants ($10 a month)", value: 120 },
+      { label: "Uber Cash ($10 a month)", value: 120 },
+      { label: "Resy restaurant credit ($50 twice a year)", value: 100 },
+      { label: "Dunkin' credit ($7 a month)", value: 84 },
+      { label: "No foreign transaction fees" },
+    ],
   },
   {
     id: "amex-blue-cash-preferred",
@@ -89,6 +116,9 @@ export const CARD_PRESETS: CardPreset[] = [
     annualFee: 95,
     rates: { Groceries: 6, Streaming: 6, Gas: 3, Transit: 3, "Everything Else": 1 },
     note: "6% at U.S. supermarkets is capped at $6,000 a year, then 1%.",
+    perks: [
+      { label: "Disney streaming bundle credit ($7 a month)", value: 84 },
+    ],
   },
   {
     id: "amex-blue-cash-everyday",
@@ -109,6 +139,13 @@ export const CARD_PRESETS: CardPreset[] = [
     annualFee: 895,
     rates: { Travel: 5, "Everything Else": 1 },
     note: "Travel is set to 5× (flights booked directly or through Amex Travel, and prepaid hotels through Amex Travel); other travel earns 1×. 5× on flights is capped at $500,000 a year.",
+    perks: [
+      { label: "Hotel credit through Amex Travel", value: 600 },
+      { label: "Resy restaurant credit", value: 400 },
+      { label: "Uber Cash", value: 200 },
+      { label: "Airline fee credit", value: 200 },
+      { label: "Airport lounge access" },
+    ],
   },
   {
     id: "capital-one-savor",
@@ -129,6 +166,11 @@ export const CARD_PRESETS: CardPreset[] = [
     annualFee: 395,
     rates: { "Everything Else": 2 },
     note: "Earns miles, shown here as points. 10× on hotels and rental cars and 5× on flights and vacation rentals booked through Capital One Travel aren't tracked separately.",
+    perks: [
+      { label: "Travel credit through Capital One Travel", value: 300 },
+      { label: "10,000 anniversary miles (about $100)", value: 100 },
+      { label: "Airport lounge access" },
+    ],
   },
   {
     id: "capital-one-venture",
@@ -139,6 +181,9 @@ export const CARD_PRESETS: CardPreset[] = [
     annualFee: 95,
     rates: { "Everything Else": 2 },
     note: "Earns miles, shown here as points. 5× on hotels, vacation rentals, and rental cars booked through Capital One Travel isn't tracked separately.",
+    perks: [
+      { label: "No foreign transaction fees" },
+    ],
   },
   {
     id: "capital-one-ventureone",
@@ -208,6 +253,10 @@ export const CARD_PRESETS: CardPreset[] = [
     annualFee: 95,
     rates: { Dining: 3, Groceries: 3, Gas: 3, Travel: 3, "Everything Else": 1 },
     note: "Travel is 3× on air travel and hotels. 10× on hotels, car rentals, and attractions booked through Citi Travel isn't tracked separately.",
+    perks: [
+      { label: "Hotel savings on one stay of $500 or more", value: 100 },
+      { label: "No foreign transaction fees" },
+    ],
   },
   {
     id: "costco-anywhere-visa",

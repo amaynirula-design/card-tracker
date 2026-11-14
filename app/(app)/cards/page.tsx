@@ -41,6 +41,13 @@ export default async function CardsPage() {
         <div className="space-y-9">
           <CardSection cards={open} codes={codes} header="Open, by top rate" />
           <CardSection cards={closed} codes={codes} header="Closed" />
+          <Section>
+            <Row
+              href="/cards/suggested"
+              title="Cards worth adding"
+              subtitle="Cards that would earn you more on what you spend, with their fees and perks counted"
+            />
+          </Section>
         </div>
       )}
     </Screen>
