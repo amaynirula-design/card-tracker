@@ -47,7 +47,7 @@ You need [Node.js](https://nodejs.org) 20 or newer and a free [Supabase](https:/
    npm install
    ```
 
-2. **Set up the database.** In your Supabase project, open **SQL Editor** and run each file in [`supabase/migrations/`](supabase/migrations/) **in date order** (users, cards, purchases, stars). For instant sign-up, turn off email confirmation in **Authentication → Sign In / Providers → Email**.
+2. **Set up the database.** In your Supabase project, open **SQL Editor** and run each file in [`supabase/migrations/`](supabase/migrations/) **in date order** (users, cards, purchases, stars). For instant sign-up, turn off email confirmation in **Authentication → Sign In / Providers → Email**. To make people confirm their email instead, see [Email confirmation](#email-confirmation-optional) below.
 
 3. **Connect the app.** Copy `.env.example` to `.env.local` and fill in your project's URL and publishable key (**Project Settings → API**). `.env.local` is never committed.
 
@@ -68,6 +68,24 @@ You need [Node.js](https://nodejs.org) 20 or newer and a free [Supabase](https:/
    ```bash
    npm test
    ```
+
+## Email confirmation (optional)
+
+The app works with Supabase's "Confirm email" setting on or off. With it off, a new account is signed in right away. With it on, sign-up shows "Check your inbox", and the account only works after the link in the email is opened.
+
+To turn it on, in your Supabase project:
+
+1. **Set up an email sender.** Supabase's built-in sender only emails members of your own project, two an hour, so real sign-ups need your own. Under **Authentication → Emails → SMTP Settings**, enter the details from a provider such as [Resend](https://resend.com) (verify your domain there first). The SMTP password is a secret: enter it in the dashboard only, never in this repo.
+2. **Point the email's link at the app.** Under **Authentication → Emails → Templates → Confirm signup**, set the link to:
+
+   ```
+   {{ .SiteURL }}/auth/confirm?token_hash={{ .TokenHash }}&type=email
+   ```
+
+3. **Set the Site URL** to where the app is hosted (**Authentication → URL Configuration**).
+4. **Turn on "Confirm email"** under **Authentication → Sign In / Providers → Email**.
+
+Keep it **off** in the separate test project, because the data-isolation test signs up accounts and uses them straight away.
 
 ## Where things are
 

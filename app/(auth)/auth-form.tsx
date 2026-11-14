@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useActionState } from "react";
 import { Button } from "@/app/components/button";
 import { Field, inputClasses } from "@/app/components/form";
-import { resendConfirmation, type AuthFormState } from "./actions";
+import type { AuthFormState } from "./actions";
 
 const panelClasses = "land mb-10 rounded-[1.25rem] px-5 pb-8 pt-6 md:p-8";
 
@@ -25,7 +25,9 @@ export function AuthForm({
   const [state, formAction, pending] = useActionState(action, {});
   const isSignup = mode === "signup";
 
-  if (state.sent && state.email) return <CheckInbox email={state.email} />;
+  if (state.sent && state.email) {
+    return <CheckInbox state={state} email={state.email} formAction={formAction} pending={pending} />;
+  }
 
   return (
     <AuthFrame title={title} subtitle={subtitle}>
@@ -55,11 +57,7 @@ export function AuthForm({
           />
         </Field>
 
-        {state.error && (
-          <p role="alert" className="text-small font-semibold leading-snug text-danger">
-            {state.error}
-          </p>
-        )}
+        <Messages state={state} />
 
         <Button type="submit" size="lg" disabled={pending} className="w-full">
           {pending
@@ -70,14 +68,10 @@ export function AuthForm({
               ? "Create account"
               : "Log in"}
         </Button>
-      </form>
 
-      {/* Logging in was refused because the email isn't confirmed yet. */}
-      {state.unconfirmed && state.email && (
-        <div className="mt-4">
-          <ResendForm email={state.email} />
-        </div>
-      )}
+        {/* Logging in was refused because the email isn't confirmed yet. */}
+        {state.unconfirmed && <ResendButton pending={pending} />}
+      </form>
 
       <p className="mt-4 text-center text-small text-fg-soft">
         {isSignup ? "Already have an account? " : "New to Card Tracker? "}
@@ -112,7 +106,17 @@ export function AuthFrame({
 
 // Shown after signing up: the account exists but can't be used until the link
 // in the email is opened.
-function CheckInbox({ email }: { email: string }) {
+function CheckInbox({
+  state,
+  email,
+  formAction,
+  pending,
+}: {
+  state: AuthFormState;
+  email: string;
+  formAction: (formData: FormData) => void;
+  pending: boolean;
+}) {
   return (
     <AuthFrame title="Check your inbox" subtitle="One more step to finish creating your account.">
       <p className="leading-relaxed">
@@ -123,9 +127,11 @@ function CheckInbox({ email }: { email: string }) {
         It can take a minute to arrive. If you don&rsquo;t see it, look in your spam folder.
       </p>
 
-      <div className="mt-6">
-        <ResendForm email={email} />
-      </div>
+      <form action={formAction} className="mt-6 space-y-3">
+        <input type="hidden" name="email" value={email} />
+        <ResendButton pending={pending} />
+        <Messages state={state} />
+      </form>
 
       <p className="mt-5 text-center text-small text-fg-soft">
         Wrong address? {/* A full page load, so the form starts empty again. */}
@@ -141,26 +147,39 @@ function CheckInbox({ email }: { email: string }) {
   );
 }
 
-// One button that sends the confirmation email again.
-function ResendForm({ email }: { email: string }) {
-  const [state, formAction, pending] = useActionState(resendConfirmation, {});
-
+// Sends the confirmation email again. It submits the form it sits in, and its
+// name and value tell the server which button was pressed.
+function ResendButton({ pending }: { pending: boolean }) {
   return (
-    <form action={formAction} className="space-y-3">
-      <input type="hidden" name="email" value={email} />
-      <Button type="submit" variant="secondary" size="lg" disabled={pending} className="w-full">
-        {pending ? "Sending…" : "Send the email again"}
-      </Button>
-      {state.error && (
-        <p role="alert" className="text-small font-semibold leading-snug text-danger">
-          {state.error}
-        </p>
-      )}
-      {state.notice && !state.error && (
-        <p role="status" className="text-small font-semibold leading-snug">
-          {state.notice}
-        </p>
-      )}
-    </form>
+    <Button
+      type="submit"
+      name="intent"
+      value="resend"
+      variant="secondary"
+      size="lg"
+      disabled={pending}
+      className="w-full"
+    >
+      Send the email again
+    </Button>
   );
+}
+
+// What went wrong, or a short "done" note.
+function Messages({ state }: { state: AuthFormState }) {
+  if (state.error) {
+    return (
+      <p role="alert" className="text-small font-semibold leading-snug text-danger">
+        {state.error}
+      </p>
+    );
+  }
+  if (state.notice) {
+    return (
+      <p role="status" className="text-small font-semibold leading-snug">
+        {state.notice}
+      </p>
+    );
+  }
+  return null;
 }

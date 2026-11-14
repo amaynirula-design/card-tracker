@@ -24,11 +24,16 @@ function readForm(formData: FormData) {
   return {
     email: String(formData.get("email") ?? "").trim(),
     password: String(formData.get("password") ?? ""),
+    // Which button was pressed: the main one, or "Send the email again".
+    resend: formData.get("intent") === "resend",
   };
 }
 
 export async function signUp(_prev: AuthFormState, formData: FormData): Promise<AuthFormState> {
-  const { email, password } = readForm(formData);
+  const { email, password, resend } = readForm(formData);
+
+  // The "Send the email again" button on the "check your inbox" screen.
+  if (resend) return { email, sent: true, ...(await resendConfirmation(email)) };
 
   if (!email || !password) {
     return { email, error: "Enter your email and a password to create your account." };
@@ -64,7 +69,10 @@ export async function signUp(_prev: AuthFormState, formData: FormData): Promise<
 }
 
 export async function logIn(_prev: AuthFormState, formData: FormData): Promise<AuthFormState> {
-  const { email, password } = readForm(formData);
+  const { email, password, resend } = readForm(formData);
+
+  // The "Send the email again" button shown after an unconfirmed log-in.
+  if (resend) return { email, unconfirmed: true, ...(await resendConfirmation(email)) };
 
   if (!email || !password) {
     return { email, error: "Enter your email and password to log in." };
@@ -90,26 +98,22 @@ export async function logIn(_prev: AuthFormState, formData: FormData): Promise<A
   redirect("/cards/best");
 }
 
-// Sends the confirmation email again, from the "check your inbox" screen or the
-// log-in form. The answer is the same whether or not the address has an account,
-// so this can't be used to find out who has signed up.
-export async function resendConfirmation(
-  _prev: AuthFormState,
-  formData: FormData,
-): Promise<AuthFormState> {
-  const email = String(formData.get("email") ?? "").trim();
+// Sends the confirmation email again. Both forms call this when their "Send the
+// email again" button is pressed, so the answer lands in the same form state as
+// everything else and still shows if the page isn't interactive yet. The answer
+// is the same whether or not the address has an account, so this can't be used
+// to find out who has signed up.
+async function resendConfirmation(email: string): Promise<Pick<AuthFormState, "error" | "notice">> {
   if (!email) return { error: "Enter your email so we know where to send the link." };
 
   const supabase = await createClient();
   const { error } = await supabase.auth.resend({ type: "signup", email });
 
   if (error?.code === "over_email_send_rate_limit" || error?.status === 429) {
-    return { email, sent: true, error: "We just sent one. Wait a minute, then try again." };
+    return { error: "We just sent one. Wait a minute, then try again." };
   }
-  if (error) {
-    return { email, sent: true, error: "We couldn't send the email. Please try again." };
-  }
-  return { email, sent: true, notice: "We sent a new email. Use the newest link." };
+  if (error) return { error: "We couldn't send the email. Please try again." };
+  return { notice: "We sent a new email. Use the newest link." };
 }
 
 // Runs when the button on the confirmation page is pressed. The link's token is
