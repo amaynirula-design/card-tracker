@@ -29,8 +29,9 @@ export function Wordmark() {
   );
 }
 
-// On phones: the name and Account at the top, and a tab bar fixed to the bottom.
-// On wider screens: one rail down the left side with all of it.
+// A black bar across the top of every signed-in screen: the name, the sections,
+// and Account. On phones the sections move to a tab bar fixed to the bottom,
+// where a thumb reaches them.
 export function AppNav() {
   const pathname = usePathname();
   // Add and edit screens have their own bar, and it replaces all of this on phones.
@@ -39,61 +40,75 @@ export function AppNav() {
 
   return (
     <>
-      <div className={`${inSheet ? "hidden" : "flex"} min-h-14 flex-wrap items-center justify-between gap-x-3 px-5 md:hidden`}>
-        <Link href="/cards/best" aria-label="Card Tracker, Best Card">
-          <Wordmark />
-        </Link>
-        <AccountLink className="-mr-2 px-2" />
-      </div>
+      <header className={`night ${inSheet ? "max-md:hidden" : ""}`}>
+        <div className="mx-auto flex min-h-14 w-full max-w-6xl items-center gap-x-6 px-5 md:px-10">
+          <Link href="/cards/best" aria-label="Card Tracker, Best Card" className="shrink-0">
+            <Wordmark />
+          </Link>
+
+          <nav aria-label="Sections" className="hidden min-w-0 md:block">
+            <ul className="flex gap-1">
+              {TABS.map(({ href, label }) => {
+                const active = isActive(pathname, href);
+                return (
+                  <li key={href}>
+                    <Link
+                      href={href}
+                      aria-current={active ? "page" : undefined}
+                      className={[
+                        "flex min-h-11 items-center whitespace-nowrap rounded-[4px] px-3 text-small font-semibold transition-colors",
+                        active ? "bg-fill text-fg" : "text-fg-soft hover:bg-fill hover:text-fg",
+                      ].join(" ")}
+                    >
+                      {label}
+                    </Link>
+                  </li>
+                );
+              })}
+            </ul>
+          </nav>
+
+          <Link
+            href="/account"
+            aria-current={accountActive ? "page" : undefined}
+            className={[
+              "ml-auto flex min-h-10 shrink-0 items-center gap-2 rounded-[4px] px-3 text-small font-semibold text-on-action transition-colors",
+              accountActive ? "bg-action-hover" : "bg-action hover:bg-action-hover",
+            ].join(" ")}
+          >
+            <IconPerson className="size-5" />
+            Account
+          </Link>
+        </div>
+      </header>
 
       <nav
         aria-label="Sections"
-        className={`${inSheet ? "max-md:hidden" : ""} fixed inset-x-0 bottom-0 z-40 border-t border-[#c9cdea] bg-panel pb-[env(safe-area-inset-bottom)] [--focus:var(--ultramarine)] md:inset-y-0 md:[--focus:#fff] md:right-auto md:flex md:w-56 md:flex-col md:border-t-0 md:bg-ground md:px-4 md:pb-6 md:pt-8`}
+        className={`land fixed inset-x-0 bottom-0 z-40 border-t border-line pb-[env(safe-area-inset-bottom)] md:hidden ${
+          inSheet ? "hidden" : ""
+        }`}
       >
-        <Link href="/cards/best" aria-label="Card Tracker, Best Card" className="mb-8 hidden px-2 md:block">
-          <Wordmark />
-        </Link>
-        <ul className="flex md:flex-col md:gap-1">
+        <ul className="flex">
           {TABS.map(({ href, label, Icon }) => {
             const active = isActive(pathname, href);
             return (
-              <li key={href} className="min-w-0 flex-1 md:flex-none">
+              <li key={href} className="min-w-0 flex-1">
                 <Link
                   href={href}
                   aria-current={active ? "page" : undefined}
                   className={[
-                    "narrow flex flex-col items-center gap-1 pb-2 pt-2.5 text-caption font-semibold leading-none transition-colors",
-                    "md:flex-row md:gap-3 md:rounded-md md:px-3 md:py-2.5 md:text-small md:[font-stretch:100%]",
-                    active
-                      ? "text-ground md:bg-panel"
-                      : "text-[#3a3f6b] hover:text-ink md:text-fg md:hover:bg-fill md:hover:text-fg",
+                    "flex flex-col items-center gap-1 pb-2 pt-2.5 text-caption font-semibold leading-none transition-colors",
+                    active ? "text-action" : "text-fg-soft hover:text-fg",
                   ].join(" ")}
                 >
-                  <Icon filled={active} className="size-6 md:size-5" />
+                  <Icon filled={active} className="size-6" />
                   <span className="max-w-full truncate">{label}</span>
                 </Link>
               </li>
             );
           })}
         </ul>
-        <AccountLink
-          className={`mt-auto hidden rounded-md px-3 md:flex ${accountActive ? "bg-panel text-ground" : "hover:bg-fill"}`}
-          current={accountActive}
-        />
       </nav>
     </>
-  );
-}
-
-function AccountLink({ className = "", current }: { className?: string; current?: boolean }) {
-  return (
-    <Link
-      href="/account"
-      aria-current={current ? "page" : undefined}
-      className={`flex min-h-11 items-center gap-2 text-small font-semibold transition-colors ${className}`}
-    >
-      <IconPerson className="size-5" />
-      Account
-    </Link>
   );
 }

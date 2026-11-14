@@ -59,16 +59,16 @@ export default async function DashboardPage({ searchParams }: PageProps<"/dashbo
           <Section>
             <Row
               title="Total rewards"
-              trailing={<span className="text-lead font-extrabold">{formatMoney(stats.totalRewards)}</span>}
+              trailing={<span className="text-lead font-bold">{formatMoney(stats.totalRewards)}</span>}
             />
             <Row
               title="Total spend"
-              trailing={<span className="text-lead font-extrabold">{formatMoney(stats.totalSpend)}</span>}
+              trailing={<span className="text-lead font-bold">{formatMoney(stats.totalSpend)}</span>}
             />
             <Row
               title="Effective rate"
               subtitle="Back on every dollar"
-              trailing={<span className="text-lead font-extrabold">{formatPercent(stats.effectiveRate)}</span>}
+              trailing={<span className="text-lead font-bold">{formatPercent(stats.effectiveRate)}</span>}
             />
           </Section>
 
@@ -112,7 +112,7 @@ function Missed({
     <section aria-label="Missed rewards" className="mt-5">
       {missed.totalMissed > 0 ? (
         <>
-          <p className="wide text-title font-extrabold leading-[1.15] tracking-tight">
+          <p className="display text-title leading-[1.15]">
             You left{" "}
             <span className="tabular whitespace-nowrap rounded-[5px] bg-missed px-1.5 text-ink">
               {formatMoney(missed.totalMissed)}
@@ -132,7 +132,7 @@ function Missed({
         </>
       ) : (
         <>
-          <p className="wide text-title font-extrabold leading-[1.15] tracking-tight">
+          <p className="display text-title leading-[1.15]">
             You used your best card every time {when}.
           </p>
           <p className="mt-2 leading-snug text-fg-soft">

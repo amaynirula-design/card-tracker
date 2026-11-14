@@ -6,7 +6,7 @@ type Variant = "primary" | "secondary" | "text";
 type Size = "md" | "lg";
 
 const base =
-  "inline-flex items-center justify-center gap-2 rounded-md font-bold transition-colors duration-150 disabled:pointer-events-none disabled:opacity-50";
+  "inline-flex items-center justify-center gap-2 rounded-[4px] font-semibold transition-colors duration-150 disabled:pointer-events-none disabled:opacity-50";
 
 const variants: Record<Variant, string> = {
   primary: "bg-action text-on-action hover:bg-action-hover",

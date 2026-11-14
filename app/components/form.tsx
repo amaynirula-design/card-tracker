@@ -24,7 +24,7 @@ export function FormSection({
   const errors = (Array.isArray(error) ? error : [error]).filter(Boolean);
   return (
     <section className="space-y-3">
-      {header && <h2 className="wide text-lead font-extrabold tracking-tight">{header}</h2>}
+      {header && <h2 className="display text-lead">{header}</h2>}
       <div className="space-y-4">{children}</div>
       {errors.length > 0 && (
         <div role="alert" className="space-y-0.5 text-small font-semibold leading-snug text-danger">

@@ -58,12 +58,12 @@ export function SheetBar({
       >
         Cancel
       </Link>
-      <h1 className="wide text-center text-body font-extrabold">{title}</h1>
+      <h1 className="text-center text-body font-semibold">{title}</h1>
       {submitLabel && (
         <button
           type="submit"
           disabled={pending}
-          className="h-10 min-w-16 justify-self-end rounded-md bg-action px-4 text-small font-bold text-on-action transition-colors hover:bg-action-hover disabled:opacity-60"
+          className="h-10 min-w-16 justify-self-end rounded-[4px] bg-action px-4 text-small font-semibold text-on-action transition-colors hover:bg-action-hover disabled:opacity-60"
         >
           {pending ? "Saving…" : submitLabel}
         </button>

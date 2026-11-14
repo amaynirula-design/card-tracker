@@ -28,7 +28,7 @@ export function EmptyState({
         <circle cx="8" cy="42" r="5" fill="currentColor" />
         <circle cx="112" cy="42" r="4.5" fill="none" stroke="currentColor" strokeWidth="2.5" />
       </svg>
-      <h2 className="wide mt-4 text-lead font-extrabold tracking-tight">{title}</h2>
+      <h2 className="display mt-4 text-lead">{title}</h2>
       <p className="mt-2 max-w-sm text-body leading-relaxed text-fg-soft">{text}</p>
       {href && action && (
         <ButtonLink href={href} size="lg" className="mt-6 w-full max-w-xs">

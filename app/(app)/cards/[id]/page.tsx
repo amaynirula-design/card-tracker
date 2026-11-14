@@ -71,7 +71,7 @@ export default async function CardPage({ params }: PageProps<"/cards/[id]">) {
                   : undefined
               }
               trailing={
-                <span className={isBonus ? "font-extrabold" : "text-fg-soft"}>
+                <span className={isBonus ? "font-bold" : "text-fg-soft"}>
                   {formatRate(card, rateFor(card, category))}
                   {ownRate === undefined && " · base"}
                 </span>
