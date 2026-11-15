@@ -7,6 +7,13 @@ export function formatMoney(amount: number): string {
   return money.format(amount);
 }
 
+const wholeMoney = new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 });
+
+// For estimates, where cents would be false precision: 18143.4 → "$18,143"
+export function formatWholeMoney(amount: number): string {
+  return wholeMoney.format(Math.round(amount));
+}
+
 // Purchase dates are stored as "2026-10-29" with no time or time zone, so they
 // are read as a local calendar date (new Date("2026-10-29") would be UTC and
 // could show the day before in California).

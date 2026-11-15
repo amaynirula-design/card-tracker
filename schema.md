@@ -105,7 +105,7 @@ So another user's purchase, even opened by its direct link, simply doesn't exist
 ## What's *not* in the database
 
 - **Rewards earned, missed rewards, and the best card** are calculated when needed from purchases, cards, and rates (`lib/rewards.ts`, `lib/missed.ts`, `lib/best-card.ts`). They're never stored, so editing a card's rates updates every purchase.
-- **Card presets** are a list in the code (`lib/card-presets.ts`). Picking one copies its values into a new row in `cards` and `reward_rates`, so editing your card never changes the preset.
+- **Card presets** are a list in the code (`lib/card-presets.ts`). Picking one copies its values into a new row in `cards` and `reward_rates`, so editing your card never changes the preset. Presets with an annual fee also list their yearly perks, which the **Cards worth adding** page uses; nothing about suggestions is stored.
 
 ## Compared to the plan (PLAN.md section 3)
 

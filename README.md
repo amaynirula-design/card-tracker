@@ -22,6 +22,7 @@ Built for Intro to Coding (UC Berkeley Haas, Fall 2026). The design and plan are
 | **Dashboard** | Rewards earned, total spend, effective reward rate, and a rewards-by-card chart, for this month or all time. |
 | **Best card** | Pick a category to see which of your cards earns the most for it (ties shown, points valued at your point value). |
 | **Missed rewards** | Each purchase shows how much more your best card would have earned; the dashboard totals it and tells you the one change that would save the most. |
+| **Cards worth adding** | From **Cards**: cards you don't have that would earn you more on what you actually spend, after their annual fee, with the yearly credits that can offset it. An estimate, not financial advice. |
 
 No card numbers are ever stored. A card is just a name you choose.
 
