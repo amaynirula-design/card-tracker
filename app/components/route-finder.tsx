@@ -7,13 +7,13 @@ import { cardCodes } from "@/lib/card-codes";
 import { formatNumber, formatRate, rateFor, type Card } from "@/lib/cards";
 import { CATEGORIES, CATEGORY_CODES, type Category } from "@/lib/categories";
 import { routeStops } from "@/lib/route-map";
+import { CardArt } from "./card-art";
 import { CardTag, CategoryTag } from "./code-tag";
 import { IconChevronDown } from "./icons";
-import { RouteMap } from "./route-map";
 import { Row, RowContent, Section, rowClasses } from "./rows";
 import { landPanelClasses } from "./screen";
 
-// Best Card (feature 8): pick a category code and the map and the answer change
+// Best Card (feature 8): pick a category code and the card and the answer change
 // right away, with no trip to the server. All the rates are already here. The
 // address updates too, so a link or a refresh lands on the same category.
 export function RouteFinder({
@@ -31,7 +31,7 @@ export function RouteFinder({
   headingLevel?: "h1" | "h2";
   // Above the question, on the ground.
   intro?: React.ReactNode;
-  // Under the map, on the ground.
+  // Under the card, on the ground.
   mapNote?: string;
   // Show a way to log the purchase after the answer.
   canLog?: boolean;
@@ -54,22 +54,19 @@ export function RouteFinder({
   }
 
   return (
-    <main className="flex min-w-0 flex-1 flex-col lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(0,28rem)] lg:items-start">
-      <div className="px-5 pb-4 pt-3 md:px-10 md:pt-10">
-        <div className="lg:mx-auto lg:max-w-xl">
+    <main className="mx-auto flex w-full min-w-0 max-w-6xl flex-1 flex-col lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(0,28rem)] lg:items-start">
+      <div className="px-5 pb-6 pt-6 md:px-10 md:pt-12">
+        <div className="lg:max-w-xl">
           {intro}
-          <Heading
-            className={`wide font-extrabold leading-[1.05] tracking-tight ${
-              headingLevel === "h1" ? "text-headline" : "text-title"
-            }`}
-          >
+          <p className="text-small font-semibold text-action">Best card</p>
+          <Heading className={`display mt-1 leading-[1.08] ${headingLevel === "h1" ? "text-headline" : "text-title"}`}>
             Which card for {category.toLowerCase()}?
           </Heading>
 
           <div
             role="group"
             aria-label="Category"
-            className="mt-4 grid grid-cols-[repeat(auto-fill,minmax(max(3rem,18%),1fr))] gap-1.5 xl:grid-cols-9"
+            className="mt-5 grid grid-cols-[repeat(auto-fill,minmax(max(3rem,18%),1fr))] gap-1.5 xl:grid-cols-9"
           >
             {CATEGORIES.map((option) => {
               const selected = option === category;
@@ -82,8 +79,8 @@ export function RouteFinder({
                   title={option}
                   onClick={() => choose(option)}
                   className={[
-                    "code h-11 rounded-[7px] text-[0.9375rem] transition-colors duration-150",
-                    selected ? "bg-winner text-ink" : "bg-fill text-fg hover:bg-fill-strong",
+                    "code h-11 cursor-pointer rounded-[4px] text-[0.9375rem] transition-colors duration-150",
+                    selected ? "bg-winner text-on-winner" : "bg-fill text-fg hover:bg-fill-strong",
                   ].join(" ")}
                 >
                   {CATEGORY_CODES[option]}
@@ -92,18 +89,26 @@ export function RouteFinder({
             })}
           </div>
 
-          <div className="mt-3 lg:mt-6">
-            <RouteMap cards={cards} category={category} />
-            {mapNote && <p className="text-small text-fg-soft">{mapNote}</p>}
+          {/* The answer at a glance: what the best card earns, and the card itself.
+              The same answer is in words on the panel, for screen readers too. */}
+          <div className="mt-6 flex items-end justify-between gap-4" aria-hidden="true">
+            <p className="min-w-0">
+              <span className="tabular block font-display text-display font-semibold leading-none text-action sm:text-[4.5rem]">
+                {formatNumber(best.percent)}%
+              </span>
+              <span className="mt-2 block text-small text-fg-soft">back on {category.toLowerCase()}</span>
+            </p>
+            <CardArt code={codes.get(best.cards[0].id)} name={best.cards[0].name} />
           </div>
+          {mapNote && <p className="mt-3 text-small text-fg-soft">{mapNote}</p>}
         </div>
       </div>
 
-      {/* Beside the map on wide screens, under it on phones. Either way it ends
+      {/* Beside the hero on wide screens, under it on phones. Either way it ends
           with its content instead of running to the bottom of the window. */}
-      <div className={`${landPanelClasses} md:mx-10 lg:ml-0 lg:mt-10`}>
+      <div className={`${landPanelClasses} md:mx-10 lg:ml-0 lg:mt-12`}>
         <section aria-live="polite">
-          <h2 className="wide text-title font-extrabold leading-[1.1] tracking-tight">
+          <h2 className="display text-title leading-[1.1]">
             Use {best.cards.map((card) => card.name).join(" or ")}
           </h2>
           {best.cards.length > 1 && (
@@ -121,8 +126,8 @@ export function RouteFinder({
         </section>
 
         {others.length > 0 && (
-          <div className="mt-4">
-            <Section>
+          <div className="mt-6">
+            <Section header="Your other cards">
               {others.map(({ card, percent }) => (
                 <Row
                   key={card.id}
@@ -146,7 +151,7 @@ export function RouteFinder({
         {/* Closed at first so the page stays short: the category codes at the
             top already switch the answer. */}
         <details className="group mt-2">
-          <summary className="flex min-h-11 cursor-pointer list-none items-center gap-1.5 font-semibold text-action [&::-webkit-details-marker]:hidden">
+          <summary className="flex min-h-11 cursor-pointer list-none items-center gap-1.5 text-small font-semibold text-action [&::-webkit-details-marker]:hidden">
             <span className="group-open:hidden">Show every category</span>
             <span className="hidden group-open:inline">Hide every category</span>
             <IconChevronDown className="size-5 transition-transform group-open:rotate-180" />
@@ -166,7 +171,7 @@ export function RouteFinder({
                         choose(each);
                         window.scrollTo({ top: 0, behavior: "smooth" });
                       }}
-                      className={`${rowClasses} w-full transition-colors hover:bg-fill aria-pressed:bg-fill`}
+                      className={`${rowClasses} w-full cursor-pointer transition-colors hover:bg-fill aria-pressed:bg-fill`}
                     >
                       <RowContent
                         tag={<CategoryTag category={each} />}

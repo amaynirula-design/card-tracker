@@ -55,7 +55,7 @@ export function PurchaseFiltersBar({
 
   return (
     <div className="mt-4 space-y-3" aria-busy={pending}>
-      <div className="flex h-11 items-center gap-2 rounded-md bg-panel px-3 text-[#3a3f6b] focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-white">
+      <div className="flex h-11 items-center gap-2 rounded-[4px] border border-field-line bg-panel px-3 text-fg-soft focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-action">
         <IconSearch className="size-[18px] shrink-0" />
         <input
           type="search"
@@ -65,14 +65,14 @@ export function PurchaseFiltersBar({
           aria-label="Search purchases by merchant"
           enterKeyHint="search"
           autoComplete="off"
-          className="h-full min-w-0 flex-1 bg-transparent text-body text-ink outline-none placeholder:text-[#3a3f6b] [&::-webkit-search-cancel-button]:hidden"
+          className="h-full min-w-0 flex-1 bg-transparent text-body text-ink outline-none placeholder:text-fg-soft [&::-webkit-search-cancel-button]:hidden"
         />
         {query && (
           <button
             type="button"
             onClick={() => search("")}
             aria-label="Clear search"
-            className="shrink-0 text-[#3a3f6b] hover:text-ink"
+            className="shrink-0 text-fg-soft hover:text-ink"
           >
             <IconClear className="size-[18px]" />
           </button>
@@ -139,7 +139,7 @@ export function PurchaseFiltersBar({
 }
 
 // A pill that opens the phone's own picker (a real dropdown sits on top of it,
-// invisible), solid white when it's narrowing the list.
+// invisible), solid forest green when it's narrowing the list.
 function FilterMenu({
   label,
   display,
@@ -158,8 +158,8 @@ function FilterMenu({
   return (
     <label
       className={[
-        "relative flex h-9 shrink-0 cursor-pointer items-center gap-1 rounded-md pl-3 pr-2 text-small font-semibold transition-colors focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-white",
-        active ? "bg-panel text-ink" : "bg-fill text-fg hover:bg-fill-strong",
+        "relative flex h-9 shrink-0 cursor-pointer items-center gap-1 rounded-[4px] pl-3 pr-2 text-small font-semibold transition-colors focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-action",
+        active ? "bg-action text-on-action" : "bg-fill text-fg hover:bg-fill-strong",
       ].join(" ")}
     >
       <span className="whitespace-nowrap">{display}</span>

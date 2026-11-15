@@ -5,6 +5,7 @@ import type { Card } from "@/lib/cards";
 import { ButtonLink } from "./components/button";
 import { PublicHeader } from "./components/public-header";
 import { RouteFinder } from "./components/route-finder";
+import { SiteFooter } from "./components/site-footer";
 import { Row, Section } from "./components/rows";
 
 export default async function Home() {
@@ -13,7 +14,7 @@ export default async function Home() {
   return <Welcome />;
 }
 
-// Three real presets, so the map on this page works the way it will for you.
+// Three real presets, so the picker on this page works the way it will for you.
 const SAMPLE_PRESETS = ["amex-gold", "chase-sapphire-preferred", "citi-double-cash"];
 
 function sampleCards(): Card[] {
@@ -42,12 +43,14 @@ function Welcome() {
         updateAddress={false}
         mapNote="Sample cards. Pick a category to try it."
         intro={
-          <div className="mb-8">
-            <h1 className="wide text-headline font-extrabold leading-[1.05] tracking-tight">
-              Use the right credit card for every purchase.
+          <div className="mb-10">
+            <h1 className="display text-headline leading-[1.05] sm:text-display">
+              The right credit card for every purchase.
             </h1>
-            <p className="mt-2 text-fg-soft">See what your cards actually earn you, and what the wrong one cost.</p>
-            <ButtonLink href="/signup" size="lg" className="mt-4 w-full sm:w-auto">
+            <p className="mt-3 max-w-md text-fg-soft">
+              See what your cards actually earn you, and what the wrong one cost.
+            </p>
+            <ButtonLink href="/signup" size="lg" className="mt-5 w-full sm:w-auto">
               Create account
             </ButtonLink>
           </div>
@@ -66,6 +69,7 @@ function Welcome() {
           </Section>
         </div>
       </RouteFinder>
+      <SiteFooter />
     </>
   );
 }

@@ -37,7 +37,7 @@ export default async function PurchasePage({ params }: PageProps<"/purchases/[id
       lead={
         <div className="mt-2 flex flex-wrap items-end justify-between gap-x-3 gap-y-2">
           <div>
-            <p className="tabular wide text-display font-extrabold leading-none tracking-tight">
+            <p className="tabular display text-display leading-none">
               {formatMoney(purchase.amount)}
             </p>
             <p className="mt-2 text-small text-fg-soft">{formatDate(purchase.date)}</p>

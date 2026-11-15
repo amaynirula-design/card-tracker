@@ -4,7 +4,7 @@ Know which credit card to use for every purchase, and see what your cards actual
 
 **Live app:** https://card-tracker-swart-five.vercel.app
 
-Card Tracker is a web app for people who carry several credit cards. You add your cards and what they earn in each spending category, log your purchases, and the app works out your rewards. It tells you which card to use for each kind of purchase, and how much you left on the table by using the wrong one. It's built mobile-first, and its design is based on 1960s airline route maps: pick a category and routes fly to your cards, with the winner in yellow.
+Card Tracker is a web app for people who carry several credit cards. You add your cards and what they earn in each spending category, log your purchases, and the app works out your rewards. It tells you which card to use for each kind of purchase, and how much you left on the table by using the wrong one. It's built mobile-first. The look is a calm forest green with a black top bar and thin headings: pick a category and the app shows the card that earns the most on it.
 
 Built for Intro to Coding (UC Berkeley Haas, Fall 2026). The design and plan are in [PLAN.md](PLAN.md); the database is described in [schema.md](schema.md).
 

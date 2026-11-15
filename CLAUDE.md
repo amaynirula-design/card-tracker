@@ -66,6 +66,12 @@ Secrets: never commit keys. The Supabase URL and anon key go in `.env.local` (gi
 - Design: the Apple style above is replaced by **System Map**, a 1960s airline route map world, built with the Impeccable plugin. Ultramarine ground, pale land panels, Archivo with its width axis, three-letter codes. Yellow only means the winning route; orange only means missed rewards. One appearance, no light/dark switch. `DESIGN.md` is the design system; `PRODUCT.md` is the product record. PLAN.md section 6 stays as written; the change is in Plan vs. Reality.
 - Best Card (`/cards/best`) is the first tab and where logging in lands.
 
+## Decisions made (Nov 13, 2026, after the demo)
+
+- Design: System Map is replaced by a calm **forest green** look, built with the ui-ux-pro-max skill from two references I chose (a V.ONE landing page and DeepBook). Pale sage ground, white panels, a black top bar, a dark forest footer, thin Outfit headings with Work Sans text, numbered section tabs, and a tilted card on a pedestal drawn in code. Forest green is every action and the winning card; orange still only means missed rewards. `DESIGN.md` is rewritten to match (Issue #55).
+- Email confirmation is built (Issue #53) and stays switched off in Supabase until my email sender (Resend, my own domain) is set up.
+- Next ideas, in order: card recommendations based on spending, then "best card where I'm standing", then Plaid or Teller.
+
 ## Demo (Wed Nov 4, 5 min hard stop)
 
 Live sign-up of a new account, log in to my real account and show real data, dashboard and stars, let the class pick something (star / search / add), answer one question. The app needs to be fast and reliable for a brand-new account, with no setup friction.

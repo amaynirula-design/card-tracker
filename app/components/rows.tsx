@@ -3,6 +3,7 @@ import { IconChevronRight } from "./icons";
 
 // Lists on land: plain rows between thin rules, with the value in one
 // right-aligned column so amounts and rates line up down the whole screen.
+// A section with a heading gets it as a numbered tab sitting on a forest rule.
 
 export function Section({
   header,
@@ -15,8 +16,8 @@ export function Section({
 }) {
   return (
     <section>
-      {header && <h2 className="mb-2 text-small font-bold">{header}</h2>}
-      <ul className="border-t border-line">{children}</ul>
+      {header && <h2 className="tab">{header}</h2>}
+      <ul className={header ? "border-t-2 border-action" : "border-t border-line"}>{children}</ul>
       {footer && <p className="mt-2 text-small leading-snug text-fg-soft">{footer}</p>}
     </section>
   );

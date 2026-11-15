@@ -1,10 +1,11 @@
 import type { Metadata, Viewport } from "next";
-import { Archivo } from "next/font/google";
+import { Outfit, Work_Sans } from "next/font/google";
 import "./globals.css";
 
-// Self-hosted by Next.js. The width axis gives the app its wide headings and
-// narrow labels from one family.
-const archivo = Archivo({ subsets: ["latin"], axes: ["wdth"], variable: "--font-archivo" });
+// Self-hosted by Next.js. Outfit is for headings and codes (thin and geometric);
+// Work Sans is for everything you read or scan.
+const outfit = Outfit({ subsets: ["latin"], variable: "--font-outfit" });
+const workSans = Work_Sans({ subsets: ["latin"], variable: "--font-work-sans" });
 
 export const metadata: Metadata = {
   title: "Card Tracker",
@@ -12,13 +13,13 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  // Colors the phone's browser bar to match the page.
-  themeColor: "#2230c8",
+  // Colors the phone's browser bar to match the black top bar.
+  themeColor: "#0b0d0c",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={`${archivo.variable} h-full`}>
+    <html lang="en" className={`${outfit.variable} ${workSans.variable} h-full`}>
       <body className="flex min-h-full flex-col">{children}</body>
     </html>
   );

@@ -33,7 +33,7 @@ export default async function NewCardPage({ searchParams }: PageProps<"/cards/ne
   }
 
   return (
-    <main className="flex flex-1 flex-col">
+    <main className="mx-auto flex w-full max-w-3xl flex-1 flex-col">
       <SheetBar title="Add a card" cancelHref="/cards" />
       <div className="pt-2" />
       <Land>

@@ -6,7 +6,7 @@ import { Button } from "@/app/components/button";
 import { Field, inputClasses } from "@/app/components/form";
 import type { AuthFormState } from "./actions";
 
-const panelClasses = "land mb-10 rounded-[1.25rem] px-5 pb-8 pt-6 md:p-8";
+const panelClasses = "land mb-10 rounded-xl px-5 pb-8 pt-6 md:p-8";
 
 // The shared sign-up / log-in form: the heading on the ground, then email and
 // password on a land panel, a friendly error message, and one main button.
@@ -96,7 +96,7 @@ export function AuthFrame({
   return (
     <div className="flex w-full flex-1 flex-col md:max-w-md md:flex-none">
       <div className="px-5 pb-6 md:px-0">
-        <h1 className="wide text-headline font-extrabold leading-[1.05] tracking-tight">{title}</h1>
+        <h1 className="display text-headline leading-[1.05]">{title}</h1>
         <p className="mt-2 text-fg-soft">{subtitle}</p>
       </div>
       <div className={panelClasses}>{children}</div>

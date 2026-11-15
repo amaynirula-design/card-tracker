@@ -1,406 +1,225 @@
 ---
 name: Card Tracker
-description: A 1960s airline system map for your wallet. Pick a category and read which card wins.
+description: A calm, forest-green money tool. A black bar on top, thin headings on pale sage, answers on white panels.
 colors:
-  ultramarine: "#2230c8"
-  ultramarine-deep: "#1a269f"
-  pale-land: "#f1f2fb"
-  ink: "#0e1240"
+  forest: "#1f6b4f"
+  forest-deep: "#18563f"
+  mint: "#6fcf9f"
+  sage: "#eef2ef"
+  deep: "#12261d"
+  night: "#0b0d0c"
+  ink: "#14181a"
   panel: "#ffffff"
-  winner: "#ffd21f"
-  missed: "#ff6b2c"
-  missed-ink: "#a83a08"
+  winner: "#1f6b4f"
+  on-winner: "#ffffff"
+  missed: "#f08a4b"
+  missed-ink: "#a8421a"
   danger: "#b4123c"
-  field-line: "#6b70a0"
-  ground-fg: "#ffffff"
-  ground-fg-soft: "#d4d8ff"
-  ground-line: "rgb(255 255 255 / 0.28)"
-  ground-fill: "rgb(255 255 255 / 0.14)"
-  ground-fill-strong: "rgb(255 255 255 / 0.24)"
-  ground-action-hover: "#e3e6f7"
-  land-fg-soft: "#3a3f6b"
-  land-line: "#c9cdea"
-  land-fill: "#e3e6f7"
-  land-fill-strong: "#d3d7f0"
-  fleet-teal: "#25d6c8"
-  fleet-pink: "#ff8fc4"
-  fleet-lime: "#a8e05f"
-  fleet-lilac: "#c9a8ff"
-  fleet-sky: "#6fc8ff"
-  fleet-mist: "#d9deff"
-  fleet-closed: "#a6a9c4"
+  field-line: "#7d8a84"
+  ground-fg: "#14181a"
+  ground-fg-soft: "#4b5751"
+  ground-line: "rgb(20 24 26 / 0.16)"
+  ground-fill: "rgb(31 107 79 / 0.1)"
+  ground-fill-strong: "rgb(31 107 79 / 0.18)"
+  land-line: "#dce4df"
+  land-fill: "#eef2ef"
+  land-fill-strong: "#dfe8e2"
+  night-fg: "#ffffff"
+  night-fg-soft: "#b9c4be"
+  card-sage: "#c5dccf"
+  card-sand: "#ead9b8"
+  card-lilac: "#d9c9e4"
+  card-clay: "#ebc8b8"
+  card-olive: "#d5dda9"
+  card-rose: "#e8c4cf"
+  card-closed: "#c2c7c4"
 typography:
   display:
-    fontFamily: "Archivo, system-ui, sans-serif"
-    fontSize: "3rem"
-    fontWeight: 800
-    lineHeight: 1
-    letterSpacing: "-0.025em"
-    fontVariation: "'wdth' 112"
-  headline:
-    fontFamily: "Archivo, system-ui, sans-serif"
-    fontSize: "2rem"
-    fontWeight: 800
+    fontFamily: "Outfit, system-ui, sans-serif"
+    fontSize: "3.5rem"
+    fontWeight: 300
     lineHeight: 1.05
-    letterSpacing: "-0.025em"
-    fontVariation: "'wdth' 112"
+    letterSpacing: "-0.015em"
+  headline:
+    fontFamily: "Outfit, system-ui, sans-serif"
+    fontSize: "2.25rem"
+    fontWeight: 300
+    lineHeight: 1.05
+    letterSpacing: "-0.015em"
   title:
-    fontFamily: "Archivo, system-ui, sans-serif"
+    fontFamily: "Outfit, system-ui, sans-serif"
     fontSize: "1.75rem"
-    fontWeight: 800
+    fontWeight: 300
     lineHeight: 1.1
-    letterSpacing: "-0.025em"
-    fontVariation: "'wdth' 112"
+    letterSpacing: "-0.015em"
   lead:
-    fontFamily: "Archivo, system-ui, sans-serif"
+    fontFamily: "Outfit, system-ui, sans-serif"
     fontSize: "1.25rem"
-    fontWeight: 800
+    fontWeight: 300
     lineHeight: 1.25
-    letterSpacing: "-0.025em"
-    fontVariation: "'wdth' 112"
   body:
-    fontFamily: "Archivo, system-ui, sans-serif"
+    fontFamily: "Work Sans, system-ui, sans-serif"
     fontSize: "1rem"
     fontWeight: 400
     lineHeight: 1.5
   small:
-    fontFamily: "Archivo, system-ui, sans-serif"
+    fontFamily: "Work Sans, system-ui, sans-serif"
     fontSize: "0.875rem"
     fontWeight: 400
-    lineHeight: 1.375
-  label:
-    fontFamily: "Archivo, system-ui, sans-serif"
-    fontSize: "0.875rem"
-    fontWeight: 700
-    lineHeight: 1.375
-  code:
-    fontFamily: "Archivo, system-ui, sans-serif"
-    fontSize: "0.875rem"
-    fontWeight: 800
-    lineHeight: 1
-    letterSpacing: "0.06em"
-    fontVariation: "'wdth' 115"
-  code-key:
-    fontFamily: "Archivo, system-ui, sans-serif"
-    fontSize: "0.9375rem"
-    fontWeight: 800
-    lineHeight: 1
-    letterSpacing: "0.06em"
-    fontVariation: "'wdth' 115"
+    lineHeight: 1.4
   caption:
-    fontFamily: "Archivo, system-ui, sans-serif"
+    fontFamily: "Work Sans, system-ui, sans-serif"
     fontSize: "0.6875rem"
     fontWeight: 600
     lineHeight: 1
-    fontVariation: "'wdth' 88"
+  code:
+    fontFamily: "Outfit, system-ui, sans-serif"
+    fontSize: "0.875rem"
+    fontWeight: 600
+    letterSpacing: "0.06em"
+    textTransform: "uppercase"
+  figure:
+    fontFamily: "Outfit, system-ui, sans-serif"
+    fontSize: "4.5rem"
+    fontWeight: 600
+    lineHeight: 1
 rounded:
-  thumb: "4px"
-  tag: "5px"
-  control: "6px"
-  key: "7px"
-  panel: "20px"
-  full: "999px"
+  control: "4px"
+  tab: "8px 8px 0 0"
+  panel: "12px"
+  card-art: "8px"
 spacing:
-  xs: "4px"
-  sm: "8px"
-  md: "12px"
-  base: "16px"
-  gutter: "20px"
-  section: "36px"
+  gutter-phone: "20px"
   gutter-wide: "40px"
-components:
-  button-primary-ground:
-    backgroundColor: "{colors.ground-fg}"
-    textColor: "{colors.ink}"
-    typography: "{typography.label}"
-    rounded: "{rounded.control}"
-    padding: "0 16px"
-    height: "44px"
-  button-primary-ground-hover:
-    backgroundColor: "{colors.ground-action-hover}"
-  button-primary-land:
-    backgroundColor: "{colors.ultramarine}"
-    textColor: "{colors.ground-fg}"
-    typography: "{typography.label}"
-    rounded: "{rounded.control}"
-    padding: "0 16px"
-    height: "44px"
-  button-primary-land-hover:
-    backgroundColor: "{colors.ultramarine-deep}"
-  button-secondary-land:
-    textColor: "{colors.ink}"
-    typography: "{typography.label}"
-    rounded: "{rounded.control}"
-    padding: "0 16px"
-    height: "44px"
-  button-secondary-land-hover:
-    backgroundColor: "{colors.land-fill}"
-  button-danger:
-    backgroundColor: "{colors.danger}"
-    textColor: "{colors.ground-fg}"
-    rounded: "{rounded.control}"
-    height: "48px"
-  category-key:
-    backgroundColor: "{colors.ground-fill}"
-    textColor: "{colors.ground-fg}"
-    typography: "{typography.code-key}"
-    rounded: "{rounded.key}"
-    height: "44px"
-  category-key-hover:
-    backgroundColor: "{colors.ground-fill-strong}"
-  category-key-selected:
-    backgroundColor: "{colors.winner}"
-    textColor: "{colors.ink}"
-    typography: "{typography.code-key}"
-    rounded: "{rounded.key}"
-    height: "44px"
-  card-tag:
-    backgroundColor: "{colors.fleet-lime}"
-    textColor: "{colors.ink}"
-    typography: "{typography.code}"
-    rounded: "{rounded.tag}"
-    padding: "0 6px"
-    height: "28px"
-  card-tag-winner:
-    backgroundColor: "{colors.winner}"
-    textColor: "{colors.ink}"
-    typography: "{typography.code}"
-    rounded: "{rounded.tag}"
-    padding: "0 6px"
-    height: "28px"
-  category-tag:
-    backgroundColor: "{colors.land-fill}"
-    textColor: "{colors.ink}"
-    typography: "{typography.code}"
-    rounded: "{rounded.tag}"
-    padding: "0 6px"
-    height: "28px"
-  missed-amount-tag:
-    backgroundColor: "{colors.missed}"
-    textColor: "{colors.ink}"
-    rounded: "{rounded.tag}"
-    padding: "0 6px"
-  land-panel:
-    backgroundColor: "{colors.pale-land}"
-    textColor: "{colors.ink}"
-    rounded: "{rounded.panel}"
-    padding: "20px"
-  input:
-    backgroundColor: "{colors.panel}"
-    textColor: "{colors.ink}"
-    typography: "{typography.body}"
-    rounded: "{rounded.control}"
-    padding: "0 12px"
-    height: "48px"
-  segmented-option-selected-ground:
-    backgroundColor: "{colors.ground-fg}"
-    textColor: "{colors.ink}"
-    typography: "{typography.label}"
-    rounded: "{rounded.thumb}"
-    padding: "0 12px"
-    height: "36px"
-  tab-bar:
-    backgroundColor: "{colors.panel}"
-    textColor: "{colors.land-fg-soft}"
-    typography: "{typography.caption}"
-  tab-bar-active:
-    textColor: "{colors.ultramarine}"
+  panel-pad-phone: "20px"
+  panel-pad-wide: "32px"
+  row-min: "56px"
+  control: "44px"
 ---
 
 # Design System: Card Tracker
 
 ## Overview
 
-**Creative North Star: "The System Map"**
+Card Tracker answers one question: which card should I use? The look is a calm fintech tool in forest green. It replaced the "System Map" airline look on Nov 13, 2026 (Issue #55).
 
-Choosing a card is reading a route map. A category is the origin, your cards are destinations, and how far along the line a card sits is what a dollar earns there. The world is a 1960s airline system map and its jellybean fleet: a saturated ultramarine ground, pale land rising from below, one thick yellow route, thin dashed routes in fleet colors, and three-letter codes in place of logos.
+It was built from two references the owner chose:
 
-The system has two zones and they do different jobs. The ground carries the question, the map, and the headline numbers; land carries the answer, the lists, and the forms. Every screen is built this way, from Best Card to the add-purchase form. Density is that of a timetable: plain rows between thin rules, one right-aligned column of figures, no cards inside cards.
+- **A V.ONE landing page.** Pale grey-green ground, a thin airy headline, credit cards tilted on pedestals, and a dark forest band closing the page.
+- **DeepBook** (an Awwwards site of the day). A black top bar, flat solid-color blocks, a small colored label above each heading, numbered tabs, and square solid buttons. Its blue was swapped for forest green.
 
-The world refuses its category's default: a balance hero, a card carousel, and soft white tiles. It must not look like a bank, and there is a single appearance, with no dark mode and no theme switch.
+The style and font pairing were checked against the ui-ux-pro-max skill, which matched this product to "Minimalism & Swiss Style" and the "Geometric Modern" pairing (Outfit with Work Sans).
 
-**Key Characteristics:**
-- Two zones, ground and land, set by one class that overrides the color variables
-- One fixed percent scale per wallet, so routes move and the ruler stays put
-- Two colors with exactly one meaning each: yellow wins, orange was missed
-- Three-letter codes as the only identity a card or category has
-- One family, Archivo, spoken at three widths
-- Phone-first, flat, and answer-first
+There is one appearance. There is no light/dark switch.
 
 ## Colors
 
-A loud blue field, a quiet pale panel, and a small set of colors that each mean something specific.
+The app has three zones. Components use zone tokens (`text-fg`, `bg-fill`, `bg-action`), so the same button works in all three.
 
-### Primary
-- **Ultramarine Ground** (#2230c8): The default page, the browser bar, the desktop rail, and the sticky sheet bar. On land it becomes the action color, for primary buttons, links, active stars, chart bars, and focus outlines.
-- **Deep Ultramarine** (#1a269f): Hover state of land's primary action.
+| Zone | Class | Background | What sits on it |
+|---|---|---|---|
+| Ground | (default) | Sage `#eef2ef` | Titles, the category keys, the big percentage, the card art |
+| Land | `.land` | White `#ffffff` | Answers, lists, forms |
+| Night | `.night` | Black `#0b0d0c`, or dark forest `#12261d` for the footer | The top bar and the footer band |
 
-### Secondary
-- **Pale Land** (#f1f2fb): The panels that rise from the ground and hold answers, lists, forms, and dialogs. Land is never white, which keeps inputs and the tab bar distinct from it.
-- **Timetable Ink** (#0e1240): Text on land, inputs, every colored tag, and the selected category key. It is the only text color allowed on a fleet, yellow, or orange fill.
+### One color does the talking
 
-### Tertiary
-- **Winning Yellow** (#ffd21f): The winning route, its stop, its rate, its code, its tag, and the selected origin key.
-- **Missed Orange** (#ff6b2c): Missed rewards, as a fill or a line. The dashed end of the rewards route, its final stop, the amount tag on the ground, and the dot on a purchase's detail row.
-- **Missed Ink** (#a83a08): The same meaning darkened to read as text on land, at 5.7:1.
-- **Fleet** (teal #25d6c8, pink #ff8fc4, lime #a8e05f, lilac #c9a8ff, sky #6fc8ff, mist #d9deff): Each card's livery, assigned from its id so there is nothing to set up and a card keeps its color. Used for its dashed route, its stop, and its tag. All six carry ink text at 8.4:1 or better and stand off the ground at 3:1 or better.
-- **Closed Grey** (#a6a9c4): The livery of a closed card.
+- **Forest `#1f6b4f`** is every action (buttons, links, selected keys, section tabs) and the winning card. White text on it measures 6.4:1.
+- **Mint `#6fcf9f`** is forest for dark backgrounds: the logo on the black bar.
+- **Orange `#f08a4b`** only ever means missed rewards. As text on white it darkens to `#a8421a`.
+- **Red `#b4123c`** is for errors and delete buttons only.
 
-### Neutral
-- **Ground Text** (#ffffff) and **Ground Soft** (#d4d8ff): Primary and secondary text on ultramarine, at 9:1 and 6.5:1.
-- **Ground Line** (white at 28%), **Ground Fill** (white at 14%), and **Ground Fill Strong** (white at 24%): The axis, unselected keys, and their hover, always translucent so the blue stays in them.
-- **Land Soft** (#3a3f6b): Secondary text on land and on the white tab bar, at 8.9:1 or better.
-- **Land Rule** (#c9cdea): The thin rules between rows.
-- **Land Fill** (#e3e6f7) and **Land Fill Strong** (#d3d7f0): Row hover, category tags, segmented tracks.
-- **Field Line** (#6b70a0): Borders of inputs and the switch.
-- **Panel White** (#ffffff): Input backgrounds, the switch track, the phone tab bar, and the active item in the wide rail.
-- **Danger Red** (#b4123c): Delete actions, invalid fields, and error messages. It lives on land only, where it reads at 6:1; it does not clear contrast on ultramarine.
+### Card tints
 
-### Named Rules
+Each card gets one of six soft tints from its id: sage, sand, lilac, clay, olive, rose. Closed cards are grey. Dark ink text passes 4.5:1 on all of them. Forest and orange are left out of the set because they carry meaning.
 
-**The One Yellow Rule.** Yellow means the winning route and its selected origin, and nothing else. In practice that is the winner's route, stop, rate, code, and tag, plus the selected category key. The logo qualifies because it is a drawn winning route. The map's origin dot and code stay white. Never use yellow for a highlight, a badge, a star, or a primary button.
+### Named rules
 
-**The One Orange Rule.** Orange means missed rewards, and nothing else. It is never an alert, a warning, or a call to action; those are Danger Red's job or nobody's.
-
-**The Orange Legibility Rule.** Orange never appears as bare text, because the raw value reads at 2.6:1 on land and 3.2:1 on the ground. On land, orange text is Missed Ink. On the ground, an orange amount sits in an orange tag with ink text.
-
-**The Livery Rule.** Yellow and orange are not in the fleet. Fleet colors identify a card and carry no value judgment, so no fleet color may suggest better or worse.
-
-**The Words Too Rule.** Color never carries meaning alone. Every map has a ranked text list beside it, the winner is also thicker and solid, and missed amounts are always written out.
+- **The One Green Rule.** If something is forest green, you can press it or it's the winner. Don't use green for decoration.
+- **The Orange Means Missed Rule.** Orange never appears for any other reason.
+- **Never color alone.** A winner also says "Use …" in words; missed rewards always show the dollar amount.
 
 ## Typography
 
-**Display Font:** Archivo (with system-ui, sans-serif)
-**Body Font:** Archivo
-**Label/Mono Font:** Archivo, at its width axis
+Two families, both self-hosted through `next/font`:
 
-**Character:** One grotesque stretched wide and heavy for headings and codes, like the lettering on an airline tail, and left at normal width to read plainly in rows. The width axis does the work a second typeface would.
+- **Outfit** for headings, codes and big figures.
+- **Work Sans** for everything you read or scan.
 
-### Hierarchy
-- **Display** (800, wide, 3rem, 1): The purchase amount on its detail screen. Used nowhere else.
-- **Headline** (800, wide, 2rem, 1.05): Every screen title, on the ground.
-- **Title** (800, wide, 1.75rem, 1.1 to 1.15): The answer on land ("Use American Express Gold") and the missed-rewards sentence on the dashboard.
-- **Lead** (800, wide, 1.25rem): Form section headers, dialog titles, empty-state titles, and dashboard stat values, the last at normal width.
-- **Body** (400, 1rem, 1.5): Default reading text. Row titles use weight 600.
-- **Small** (400, 0.875rem, 1.375): Row subtitles, footers, and notes.
-- **Label** (700, 0.875rem, 1.375): Field labels, list headers, and buttons, in sentence case.
-- **Code** (800, extra wide, 0.875rem, 0.06em, uppercase): Tags and the wordmark. Category keys step up to 0.9375rem.
-- **Caption** (600, narrow, 0.6875rem): Phone tab labels only, narrowed so five fit.
+| Role | Family | Size | Weight | Use |
+|---|---|---|---|---|
+| Display | Outfit | 3.5rem | 300 | Home page hero, a purchase's amount |
+| Headline | Outfit | 2.25rem | 300 | Screen titles |
+| Title | Outfit | 1.75rem | 300 | "Use American Express Gold", dashboard headline |
+| Lead | Outfit | 1.25rem | 300 | Form section and dialog headings |
+| Body | Work Sans | 1rem | 400, 600 for row titles | Rows, paragraphs |
+| Small | Work Sans | 0.875rem | 400–600 | Subtitles, helper text, tabs |
+| Caption | Work Sans | 0.6875rem | 600 | Phone tab bar labels |
+| Code | Outfit | 0.875rem | 600, uppercase, +0.06em | Card tags (AMG), category keys (DIN) |
+| Figure | Outfit | 3.5–4.5rem | 600 | The big "4%" on Best Card |
 
-All sizes are rem so text scales to 200%. Tracking on headings is -0.025em.
+Sizes are in rem, so they grow with the reader's text size.
 
-### Named Rules
+### Named rules
 
-**The Width Rule.** Width carries voice: wide for headings, extra wide for codes, narrow only where space is tight. Do not add a second family.
-
-**The Sentence Case Rule.** The only uppercase in the system is a code. Labels and headers stay in sentence case, and no eyebrow sits above a heading.
-
-**The Timetable Rule.** Rates and amounts use tabular figures and sit in one right-aligned column, so they line up down the whole screen.
+- **Thin Words, Bold Numbers.** Headings are weight 300. Numbers that answer the question (4%, $4.79) are 600 or bolder.
+- **The Eyebrow.** A small forest-green label can sit above a title to name the section ("Best card"). Use it only when the title doesn't already say it.
+- Dollar amounts use tabular digits (`.tabular`) so they line up in columns.
 
 ## Layout
 
-On phones the page is a single stack: a 56px top row with the wordmark and Account on the ground, the title block, then a land panel that ends where its content ends, with rounded bottom corners and a strip of ground below it (88px plus the safe area, so it clears the tab bar). You can always see where the page stops. Side gutters are 20px.
+- **The top bar** is black and runs the full width. It holds the wordmark, the five sections (from 48rem up) and a forest-green Account button.
+- **On phones** the five sections move to a white tab bar fixed to the bottom, where a thumb reaches them. Add and edit screens replace both bars with their own Cancel / title / Save bar.
+- **The page** is one centered column, up to 48rem wide. Best Card and the home page go up to 72rem and split into two columns from 64rem: the question on the ground, the answer on a panel beside it.
+- **Panels end with their content.** A white panel stops after its last item, with 12px corners and a strip of ground below it, so you can always see where the page stops.
+- **The footer** is a dark forest band at the very bottom of every page. On phones it leaves room for the tab bar.
+- Side gutters are 20px on phones and 40px from 48rem.
 
-From 48rem the top row and tab bar become one 224px ultramarine rail on the left. Gutters grow to 40px, the title block caps at 48rem, and land caps at 44rem. From 64rem Best Card splits into two columns: the map on the ground, and a land panel of up to 28rem beside it, starting level with the title and ending with its content. On Best Card the full category list is folded behind "Show every category"; the category keys above already switch the answer. The category keys hold one row of nine from 80rem.
+### Named rules
 
-Spacing is a 4px base. Rows get a 56px minimum height with 10px vertical padding and 12px gaps; major blocks are separated by 36px. Every tap target is at least 44px. At large text sizes titles and trailing values wrap rather than truncate.
-
-Add and edit screens replace the phone navigation with a sticky sheet bar, so saving stays within reach of a long form.
-
-### Named Rules
-
-**The Answer Rises Rule.** The question sits on the ground and the answer sits on land. A new screen's title, lead, and map go on ultramarine; its lists and forms go on a land panel.
-
-**The Fixed Scale Rule.** The map's percent axis is set once per wallet and does not change between categories. Motion means a card moved, never that the ruler did.
+- **The Answer Rises Rule.** The question sits on the ground and the answer sits on a white panel.
+- **Numbered Tabs.** A section with a heading shows it as a forest tab on a 2px forest rule, numbered 01, 02, … in order down the panel. Sections without a heading get a plain hairline.
 
 ## Elevation & Depth
 
-Flat. Depth comes from the two zones: land reads as a sheet lying over the ground, with no shadow, no blur, and no gradient. Row separation is a thin rule, not a surface.
-
-### Shadow Vocabulary
-- **Dialog lift** (`box-shadow: 0 12px 32px rgb(14 18 64 / 0.35)`): The one shadow in the system, on confirmation dialogs, over an ink scrim at 60%.
-
-### Named Rules
-
-**The One Shadow Rule.** Only a dialog leaves the map. Anything in the page stays flat and uses zones and rules for hierarchy.
+The interface is flat. White panels on sage are separated by color, not shadow. Only two things cast a shadow: the tilted card art (so it looks like it's resting on its pedestal) and the "are you sure?" dialog.
 
 ## Shapes
 
-Small, firm radii on anything you press, and one large radius for land. Tags are 5px, controls 6px, category keys 7px, and a segmented control's inner thumb 4px. Land panels and dialogs take 20px on all four corners, so every panel shows its end. Stars and switches are fully round.
-
-The recurring geometry is the route: a parabolic arc from a stop to a stop with round caps. It is the logo (one solid arc), the map, the empty state (a dashed arc to a hollow stop), and, flattened into a line, the rewards route on the dashboard. Icons are 24px-grid line drawings at a 2px stroke with round caps, and fill in when their tab is active.
+- Controls, tags and keys: 4px corners. Square enough to feel precise.
+- Section tabs: 8px on the top corners only.
+- Panels and dialogs: 12px.
+- Stars and switches are fully round.
 
 ## Components
 
-Components read their colors from the zone they sit in, so the same button works on both.
-
-### Buttons
-- **Shape:** Firm corners (6px). 44px tall at 0.875rem, or 48px tall at 1rem for a screen's main action.
-- **Primary:** The zone's action color: white with ink text on the ground, ultramarine with white text on land.
-- **Hover / Focus:** A 150ms color shift to the zone's hover value. Focus is a 2px outline offset by 2px in the zone's focus color. Disabled drops to 50%.
-- **Secondary:** A 1px outline in the current text color, filling with the zone's fill on hover.
-- **Text:** Underlined at 1px, thickening to 2px on hover.
-- **Danger:** Solid red with white text for confirming a delete; on the Account screen, a red outline that fills on hover.
-
-### Chips
-- **Category key:** A 44px code on ground fill, in a nine-key grid. Selected is yellow with ink text. It is the screen's primary action, and it changes the map in place with no trip to the server.
-- **Code tags:** 28px tall and at least 56px wide, centered code in ink on the card's fleet color. The winner's tag is yellow. Category tags use the zone's fill. The full name is always beside a tag, so tags are hidden from screen readers.
-
-### Cards / Containers
-- **Land panel:** The one container. 20px corners, 20px padding on phones and 32px from 48rem.
-- **Rows:** Plain rows between thin rules on land, in the order tag, title and subtitle, trailing value, chevron if it links. Never wrap a row in its own tile.
-
-### Inputs / Fields
-- **Style:** White fill, ink text, a 1px field-line border, 6px corners, 48px tall, with a bold label above the box. They stay white in both zones, including search on the ground.
-- **Focus:** The standard 2px offset outline.
-- **Error:** Border and label turn red, and the message is written under its section.
-- **Switch:** 46 by 28px, with a thumb that slides on the shared ease-out.
-
-### Navigation
-- **Phone:** A white five-tab bar pinned to the bottom, with a 1px rule above it. Tabs are a 24px icon over a caption; the active tab is ultramarine with a filled icon. Best Card comes first.
-- **Wide:** The left rail on the ground. Items are 0.875rem at normal width; the active item is a white pill with ultramarine text, and Account sits at the bottom.
-
-### Segmented Control
-A filled track with 4px padding and 36px options. The selected option takes the zone's action color.
-
-### Dialog
-A land panel with the one shadow, rising 12px over 200ms. Centered on wide screens and at the bottom of the screen on phones, so the buttons sit under a thumb. Focus starts on the safe choice.
-
-### Route Map
-The signature. An SVG on the ground, drawn on a 390 by 250 grid, with routes flying from a white origin stop on the left along a percent axis. The winner is a 6px solid yellow arc with a 9px-radius stop, its rate written at 38 units in wide extrabold at the apex. Every other route is a 2.5px dashed arc (3 on, 7 off, round caps) in fleet color, with a 6px-radius stop, drawn beneath the winner. Codes sit below the axis on two rows so close stops do not collide. On a new category, routes swing to their new stops over 420ms on an exponential ease-out, tweened by hand because Safari cannot animate path shapes in CSS. Reduce Motion makes this instant. Each route keeps its identity through the move.
-
-### Rewards Route
-The dashboard's headline. One route to scale, on the ground: solid white for what was earned, dashed orange for what was missed, with an orange final stop only when something was missed. The amounts are written underneath.
-
-### Rewards Chart
-One Recharts bar per row. Each card gets a row with its tag, name, and amount, and its own 8px bar directly underneath, so a long name can wrap and the row just grows. All bars share one scale from zero set by the top earner, in the zone's action color with 2px corners, and do not animate.
-
-### Empty State
-A dashed route with nowhere to go yet, a lead title, one line of text, and the next step as a button.
+- **Buttons.** Primary is solid forest with white text. Secondary is an outline. Text buttons are underlined. Heights are 44px or 48px.
+- **Category keys.** A grid of three-letter codes. The selected key is solid forest; the rest are a pale green fill.
+- **Card tags.** A card's three-letter code on its tint. The winner's tag is solid forest with white text. The full name is always beside it.
+- **Card art.** A forest credit card tilted 12° on a rounded pedestal, drawn with plain shapes in `app/components/card-art.tsx`. It shows the winning card's code and name. It's decoration and hidden from screen readers, because the answer is in words on the panel.
+- **Rows.** Plain rows between hairlines, with the value in one right-aligned column. At least 56px tall.
+- **Fields.** White boxes with a grey-green outline, a bold label above, and the problem named underneath in red.
+- **Filters.** Pills on the ground. A filter that's narrowing the list turns solid forest.
+- **Segmented control.** A pale track with the selected option in solid forest.
+- **Rewards line** (dashboard). One line to scale: solid forest for what you earned, dashed orange for what you missed, with the numbers in text underneath.
+- **Rewards chart** (dashboard). One forest bar per card on a shared scale, under the card's tag, name and amount.
+- **Empty state.** A dashed arc with nowhere to land, a thin heading, one sentence, one button.
+- **Dialog.** A white panel with the one shadow. Focus starts on the safe choice.
 
 ## Do's and Don'ts
 
-### Do:
-- **Do** set a zone with the land class, and read colors from the zone's variables (text, soft text, line, fill, action, focus) so a component works on both ground and land.
-- **Do** put the question on the ground and the answer on land.
-- **Do** take every card code from `cardCodes` in `lib/card-codes.ts`, so presets keep fixed codes and every code is unique in a wallet.
-- **Do** give every card one fleet color through `cardColor` in `lib/card-colors.ts`, and use ink text on it.
-- **Do** write every value in text beside any map, route, or chart.
-- **Do** use Missed Ink for orange text on land, and an orange tag with ink text on the ground.
-- **Do** keep rates and amounts tabular and right-aligned in one column.
-- **Do** keep routes on one fixed scale, with one thick solid winner and thin dashed others.
-- **Do** honor Reduce Motion in anything hand-animated, as the route tween does.
+### Do
 
-### Don't:
-- **Don't** use yellow for anything except the winning route and its selected origin.
-- **Don't** use orange for anything except missed rewards.
-- **Don't** use raw Missed Orange as text in either zone.
-- **Don't** add yellow or orange to the fleet.
-- **Don't** build a balance hero, a card carousel, or soft white tiles.
-- **Don't** make it look like a bank, and don't use issuer logos.
-- **Don't** add a dark mode or a theme switch. There is one appearance.
-- **Don't** add a second typeface. Use Archivo's width axis.
-- **Don't** add page shadows, decorative gradients, or blur. The dialog holds the only shadow.
-- **Don't** set uppercase on anything but a code, or put an eyebrow above a heading.
-- **Don't** let the percent axis rescale between categories.
-- **Don't** put Danger Red on the ground.
+- Keep every text and control at 4.5:1 contrast or better.
+- Keep every tap target at least 44px tall.
+- Show a visible focus outline on everything you can press.
+- Respect the "reduce motion" setting (it turns transitions off).
+- Say the answer in words wherever a color or a picture shows it.
+
+### Don't
+
+- Don't add a second accent color.
+- Don't use heavy weights for headings.
+- Don't put shadows on panels, rows or buttons.
+- Don't use emoji as icons.
+- Don't stretch a panel to the bottom of the window.

@@ -1,62 +1,82 @@
 @import "tailwindcss";
 
 /*
-  Design tokens. The app has two zones, like a route map:
-  the "ground" (ultramarine, the default) and "land" (the pale panels, class
-  .land). Components use the names below (text-fg, bg-action, ...) and get the
-  right value for whichever zone they sit in, so a button works on both.
+  Design tokens. The app has three zones:
+  the "ground" (pale sage, the default), "land" (the white panels, class .land),
+  and "night" (the black top bar and the dark forest footer, class .night).
+  Components use the names below (text-fg, bg-action, ...) and get the right
+  value for whichever zone they sit in, so a button works on all three.
 
-  Two colors each mean one thing, everywhere:
-  yellow is the winning route, orange is missed rewards.
+  One color does the talking: forest green is every action and the winning card.
+  Orange only ever means missed rewards.
 */
 
 :root {
   color-scheme: light;
-  --ultramarine: #2230c8;
-  --ultramarine-deep: #1a269f;
-  --pale: #f1f2fb;
-  --ink: #0e1240;
-  --winner: #ffd21f;
-  --missed: #ff6b2c;
+  --forest: #1f6b4f;
+  --forest-deep: #18563f;
+  /* Forest light enough to read on the black bar and the footer. */
+  --mint: #6fcf9f;
+  --sage: #eef2ef;
+  --deep: #12261d;
+  --night: #0b0d0c;
+  --ink: #14181a;
+  --winner: #1f6b4f;
+  --on-winner: #ffffff;
+  --missed: #f08a4b;
   /* Orange dark enough to read as text on land. */
-  --missed-ink: #a83a08;
+  --missed-ink: #a8421a;
   --danger: #b4123c;
   --panel: #ffffff;
-  --field-line: #6b70a0;
+  --field-line: #7d8a84;
 
   /* The ground zone. */
-  --fg: #ffffff;
-  --fg-soft: #d4d8ff;
-  --line: rgb(255 255 255 / 0.28);
-  --fill: rgb(255 255 255 / 0.14);
-  --fill-strong: rgb(255 255 255 / 0.24);
-  --action: #ffffff;
-  --action-hover: #e3e6f7;
-  --on-action: #0e1240;
-  --focus: #ffffff;
+  --fg: #14181a;
+  --fg-soft: #4b5751;
+  --line: rgb(20 24 26 / 0.16);
+  --fill: rgb(31 107 79 / 0.1);
+  --fill-strong: rgb(31 107 79 / 0.18);
+  --action: #1f6b4f;
+  --action-hover: #18563f;
+  --on-action: #ffffff;
+  --focus: #1f6b4f;
 }
 
 .land {
-  --fg: #0e1240;
-  --fg-soft: #3a3f6b;
-  --line: #c9cdea;
-  --fill: #e3e6f7;
-  --fill-strong: #d3d7f0;
-  --action: #2230c8;
-  --action-hover: #1a269f;
-  --on-action: #ffffff;
-  --focus: #2230c8;
-  background: var(--pale);
+  --line: #dce4df;
+  --fill: #eef2ef;
+  --fill-strong: #dfe8e2;
+  background: var(--panel);
+  color: var(--fg);
+  /* Section tabs on this panel count up from 01. */
+  counter-reset: tab;
+}
+
+.night {
+  --fg: #ffffff;
+  --fg-soft: #b9c4be;
+  --line: rgb(255 255 255 / 0.2);
+  --fill: rgb(255 255 255 / 0.12);
+  --fill-strong: rgb(255 255 255 / 0.2);
+  --focus: #ffffff;
+  background: var(--night);
   color: var(--fg);
 }
 
+/* The footer: the night zone on dark forest instead of black. */
+.night.forest-band {
+  background: var(--deep);
+}
+
 @theme inline {
-  --color-ground: var(--ultramarine);
-  --color-ground-deep: var(--ultramarine-deep);
-  --color-land: var(--pale);
+  --color-ground: var(--sage);
+  --color-deep: var(--deep);
+  --color-night: var(--night);
+  --color-mint: var(--mint);
   --color-ink: var(--ink);
   --color-panel: var(--panel);
   --color-winner: var(--winner);
+  --color-on-winner: var(--on-winner);
   --color-missed: var(--missed);
   --color-missed-ink: var(--missed-ink);
   --color-danger: var(--danger);
@@ -76,19 +96,20 @@
   --text-body: 1rem;
   --text-lead: 1.25rem;
   --text-title: 1.75rem;
-  --text-headline: 2rem;
-  --text-display: 3rem;
+  --text-headline: 2.25rem;
+  --text-display: 3.5rem;
 
-  --font-sans: var(--font-archivo), system-ui, sans-serif;
+  --font-sans: var(--font-work-sans), system-ui, sans-serif;
+  --font-display: var(--font-outfit), system-ui, sans-serif;
 }
 
 html {
-  background: var(--ultramarine);
+  background: var(--sage);
   scrollbar-color: var(--field-line) transparent;
 }
 
 body {
-  background: var(--ultramarine);
+  background: var(--sage);
   color: var(--fg);
   font-family: var(--font-sans);
   caret-color: currentColor;
@@ -112,21 +133,40 @@ body {
   font-variant-numeric: tabular-nums;
 }
 
-/* Archivo's width axis: wide for headings, narrow where space is tight. */
-.wide {
-  font-stretch: 112%;
+/* Headings: Outfit, thin and airy. Bold is kept for numbers. */
+.display {
+  font-family: var(--font-display);
+  font-weight: 300;
+  letter-spacing: -0.015em;
 }
 
-.narrow {
-  font-stretch: 88%;
-}
-
-/* A three-letter code, like an airport's. */
+/* A three-letter code, like the one on a card tag or a category key. */
 .code {
-  font-stretch: 115%;
-  font-weight: 800;
+  font-family: var(--font-display);
+  font-weight: 600;
   letter-spacing: 0.06em;
   text-transform: uppercase;
+}
+
+/* A section's heading, drawn as a numbered tab sitting on its rule: 01, 02, ... */
+.tab {
+  display: inline-block;
+  padding: 0.375rem 0.75rem;
+  border-radius: 0.5rem 0.5rem 0 0;
+  background: var(--action);
+  color: var(--on-action);
+  font-size: var(--text-small);
+  font-weight: 600;
+  line-height: 1.25;
+  counter-increment: tab;
+}
+
+.tab::before {
+  content: counter(tab, decimal-leading-zero);
+  margin-right: 0.5rem;
+  font-family: var(--font-display);
+  font-weight: 400;
+  opacity: 0.8;
 }
 
 .text-link {
@@ -175,13 +215,6 @@ body {
 .switch:checked::before {
   background: var(--on-action);
   transform: translateX(18px);
-}
-
-/* The route lines ease to their new weight and color when a category changes. */
-.route {
-  transition:
-    stroke 0.2s,
-    stroke-width 0.2s;
 }
 
 /* "Are you sure?" dialogs rise a little as they open. */
